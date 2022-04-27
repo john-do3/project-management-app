@@ -7,6 +7,7 @@ import { CoreModule } from './core/core.module';
 import { PageNotFoundComponent } from './core/pages/page-not-found/page-not-found.component';
 import { loginRoute, mainRoute } from './project.constants';
 import { SharedModule } from './shared/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   { path: loginRoute, loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule) },
@@ -24,7 +25,8 @@ const routes: Routes = [
     BrowserModule,
     RouterModule.forRoot(routes),
     CoreModule,
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
