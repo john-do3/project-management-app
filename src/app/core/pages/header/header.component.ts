@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatInput } from '@angular/material/input';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -7,11 +10,27 @@ import { MatInput } from '@angular/material/input';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  isLoggedIn: boolean = false;
   isLangSlideToggled = false;
+  userName!: string | null;
 
-  constructor() { }
+  private subscriptions = new Subscription();
+  constructor(
+    private userService: UserService,
+    private ref: ChangeDetectorRef,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
+    this.isLoggedIn = this.userService.checkIsLoggedIn();
+
+    this.subscriptions.add(
+      this.userService.IsLoggedIn.subscribe((val) => {
+        this.isLoggedIn = val;
+        // todo this.userName = this.userService.getUserName();
+        this.ref.detectChanges();
+      }),
+    );
   }
 
   GetLangName(): string {
@@ -21,4 +40,11 @@ export class HeaderComponent implements OnInit {
     return result;
   }
 
+  onLogin(): void{
+    this.router.navigateByUrl('auth/login');
+  }
+
+  onSignUp():void{
+    this.router.navigateByUrl('auth/signup');
+  }
 }

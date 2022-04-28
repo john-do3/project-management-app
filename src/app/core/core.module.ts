@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { LoggedInGuard } from './guards/logged-in.guard';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,8 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent
-  ]
+  ],
+  providers: [LoggedInGuard]
+
 })
 export class CoreModule { }
