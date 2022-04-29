@@ -11,6 +11,10 @@ import { PageNotFoundComponent } from './core/pages/page-not-found/page-not-foun
 import { loginRoute, mainRoute } from './project.constants';
 import { SharedModule } from './shared/shared.module';
 import { UserService } from './core/services/user.service';
+import { StoreModule } from '@ngrx/store';
+import { boardReducer } from './redux/reducers/board.reducer';
+import { columnReducer } from './redux/reducers/column.reducer';
+import { taskReducer } from './redux/reducers/task.reducer';
 
 const routes: Routes = [
   { path: loginRoute, loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule) },
@@ -31,6 +35,11 @@ const routes: Routes = [
     SharedModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    StoreModule.forRoot({
+      boards: boardReducer,
+      columns: columnReducer,
+      tasks: taskReducer
+    }, {})
   ],
   providers: [UserService],
   bootstrap: [AppComponent],
