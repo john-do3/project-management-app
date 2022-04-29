@@ -1,17 +1,30 @@
 <mat-toolbar color="primary">
-    <span>PM App</span>
-  <div class="hspacer15"></div>  
-  <button
-    mat-icon-button
-    matTooltip="Create new board"
-  >
-    <mat-icon>create_new_folder</mat-icon>
-  </button>  
+  <span>PM App</span>
+  <ng-container *ngIf="isLoggedIn">
+    <div class="hspacer15"></div>
+    <button mat-icon-button matTooltip="Create new board">
+      <mat-icon>create_new_folder</mat-icon>
+    </button>
+  </ng-container>
+
   <span class="example-spacer"></span>
-  <button mat-icon-button matTooltip="Edit profile">
-    <mat-icon>account_circle</mat-icon>
-  </button>
-  <div class="hspacer10"></div>
+  
+  <ng-container *ngIf="!isLoggedIn">
+    <button mat-raised-button (click)="onLogin()">Login</button>
+    <div class="hspacer15"></div>
+    <button mat-raised-button (click)="onSignUp()">Sign up</button>
+    <div class="hspacer15"></div>
+  </ng-container>
+  
+  <ng-container *ngIf="isLoggedIn">
+    <button mat-icon-button matTooltip="Edit profile">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Logout">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+    <div class="hspacer10"></div>
+  </ng-container>
   <mat-slide-toggle
     class="example-margin"
     matTooltip="Switch language"
@@ -19,8 +32,5 @@
   >
     {{ GetLangName() }}
   </mat-slide-toggle>
-  <div class="hspacer15"></div>
-  <button mat-icon-button matTooltip="Logout">
-    <mat-icon>exit_to_app</mat-icon>
-  </button>
+  <div class="hspacer10"></div>
 </mat-toolbar>
