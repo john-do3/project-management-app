@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import {
  catchError, Observable, Subject, throwError,
 } from 'rxjs';
@@ -15,12 +16,13 @@ export class UserService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      // 'Access-Control-Allow-Origin': 'http://localhost:4200/'
-      // Authorization: 'my-auth-token'
     }),
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private toastr: ToastrService,
+) { }
 
   checkIsLoggedIn(): boolean {
     // const token = localStorage.getItem(this.tokenKey);
@@ -40,11 +42,12 @@ export class UserService {
   private handleError(error: HttpErrorResponse): Observable<never> {
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.message);
+      // console.error('An error occurred:', error.message);
+      this.toastr.error(error.message);
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
-      console.error(`Kanban-rest API returned code ${error.status}, body was: `, error.error);
+      this.toastr.error(error.error.message);
     }
 
     return throwError(() => new Error(

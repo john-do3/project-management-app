@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { PageNotFoundComponent } from './core/pages/page-not-found/page-not-found.component';
@@ -29,6 +30,7 @@ const routes: Routes = [
     CoreModule,
     SharedModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [UserService],
   bootstrap: [AppComponent],

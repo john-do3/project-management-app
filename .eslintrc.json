@@ -22,6 +22,7 @@
         "plugin:ngrx/recommended"
       ],
       "rules": {        
+        "linebreak-style": 0,
         "@typescript-eslint/space-before-blocks": "off",
         "@angular-eslint/directive-selector": [
           "error",

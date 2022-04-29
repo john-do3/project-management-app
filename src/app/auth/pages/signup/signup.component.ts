@@ -31,7 +31,12 @@ export class SignupComponent {
         login: this.signUpForm.get('login')?.value,
         password: this.signUpForm.get('password')?.value,
       })
-      .subscribe((newUser) => console.log(newUser.login));
+      .subscribe(
+        (newUser) => console.log(newUser.login),
+        () => {
+          // todo error handling if needed
+        },
+        );
   }
 
   createPasswordStrengthValidator(): ValidatorFn {
