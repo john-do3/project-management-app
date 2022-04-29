@@ -18,7 +18,7 @@ import { LoggedInGuard } from './guards/logged-in.guard';
   declarations: [
     HeaderComponent,
     FooterComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
   imports: [
     CommonModule,
@@ -30,14 +30,14 @@ import { LoggedInGuard } from './guards/logged-in.guard';
     MatCardModule,
     MatGridListModule,
     MatSlideToggleModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
-  exports:[
+  exports: [
     HeaderComponent,
     FooterComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
-  providers: [LoggedInGuard]
+  providers: [LoggedInGuard],
 
 })
 export class CoreModule { }

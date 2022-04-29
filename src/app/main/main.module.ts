@@ -1,21 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BoardsComponent } from './pages/boards/boards.component';
 import { RouterModule, Routes } from '@angular/router';
+import { BoardsComponent } from './pages/boards/boards.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'boards', pathMatch: 'full' },
-  { path: 'boards', component: BoardsComponent }  
+  { path: 'boards', component: BoardsComponent },
 ];
-
 
 @NgModule({
   declarations: [
-    BoardsComponent
+    BoardsComponent,
   ],
   imports: [
-    CommonModule,    
+    CommonModule,
     RouterModule.forChild(routes),
-  ],  
+  ],
 })
 export class MainModule { }

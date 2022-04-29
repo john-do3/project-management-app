@@ -1,12 +1,13 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, Subject, throwError } from 'rxjs';
+import {
+ catchError, Observable, Subject, throwError,
+} from 'rxjs';
 import { kanbanServiceUrl } from 'src/app/project.constants';
 import { CreateUserDto } from 'src/app/shared/models/createUserDto.model';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   IsLoggedIn: Subject<boolean> = new Subject<boolean>();
@@ -14,27 +15,26 @@ export class UserService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //'Access-Control-Allow-Origin': 'http://localhost:4200/'
-      //Authorization: 'my-auth-token'
-    })
+      // 'Access-Control-Allow-Origin': 'http://localhost:4200/'
+      // Authorization: 'my-auth-token'
+    }),
   };
-  
+
   constructor(private http: HttpClient) { }
 
   checkIsLoggedIn(): boolean {
-    //const token = localStorage.getItem(this.tokenKey);
-    //return !!token;
+    // const token = localStorage.getItem(this.tokenKey);
+    // return !!token;
 
     // todo
     return false;
   }
 
   public signUp(newUserDto: CreateUserDto): Observable<CreateUserDto>{
-    
     return this.http.post<CreateUserDto>(`${kanbanServiceUrl}/signup`, newUserDto, this.httpOptions)
-    .pipe(      
-      catchError((error) => this.handleError(error))
-    )
+    .pipe(
+      catchError((error) => this.handleError(error)),
+    );
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
@@ -51,5 +51,4 @@ export class UserService {
       'Something bad happened; please try again later.',
     ));
   }
-
 }

@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import {
+ AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators,
+} from '@angular/forms';
 import { UserService } from 'src/app/core/services/user.service';
-import { CreateUserDto } from 'src/app/shared/models/createUserDto.model';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent {
   name!: string;
+
   login!: string;
+
   password!: string;
 
   signUpForm: FormGroup = new FormGroup({
@@ -21,18 +24,14 @@ export class SignupComponent implements OnInit {
 
   constructor(private userService: UserService) { }
 
-  ngOnInit(): void {
-  }
-
   onSubmit(): void {
     this.userService
       .signUp({
         name: this.signUpForm.get('name')?.value,
         login: this.signUpForm.get('login')?.value,
-        password: this.signUpForm.get('password')?.value
+        password: this.signUpForm.get('password')?.value,
       })
-      .subscribe(newUser => console.log(newUser.login));      
-
+      .subscribe((newUser) => console.log(newUser.login));
   }
 
   createPasswordStrengthValidator(): ValidatorFn {
@@ -58,5 +57,4 @@ export class SignupComponent implements OnInit {
       return !passwordValid ? { passwordStrength: true } : null;
     };
   }
-
 }
