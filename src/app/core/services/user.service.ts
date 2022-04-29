@@ -15,13 +15,14 @@ export class UserService {
 
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     }),
   };
 
   constructor(
     private http: HttpClient,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+) { }
 
   checkIsLoggedIn(): boolean {
     // const token = localStorage.getItem(this.tokenKey);
@@ -41,11 +42,11 @@ export class UserService {
   private handleError(error: HttpErrorResponse): Observable<never> {
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.
-      //console.error('An error occurred:', error.message);
+      // console.error('An error occurred:', error.message);
       this.toastr.error(error.message);
     } else {
       // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.      
+      // The response body may contain clues as to what went wrong.
       this.toastr.error(error.error.message);
     }
 

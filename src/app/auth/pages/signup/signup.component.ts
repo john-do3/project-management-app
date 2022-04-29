@@ -33,9 +33,9 @@ export class SignupComponent {
       })
       .subscribe(
         (newUser) => console.log(newUser.login),
-        (error) => {
+        () => {
           // todo error handling if needed
-        }
+        },
         );
   }
 
