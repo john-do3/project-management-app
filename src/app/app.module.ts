@@ -10,6 +10,7 @@ import { PageNotFoundComponent } from './core/pages/page-not-found/page-not-foun
 import { loginRoute, mainRoute } from './project.constants';
 import { SharedModule } from './shared/shared.module';
 import { UserService } from './core/services/user.service';
+import { ToastrModule } from 'ngx-toastr';
 
 const routes: Routes = [
   { path: loginRoute, loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule) },
@@ -29,6 +30,7 @@ const routes: Routes = [
     CoreModule,
     SharedModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [UserService],
   bootstrap: [AppComponent],
