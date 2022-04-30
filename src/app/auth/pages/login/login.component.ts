@@ -10,10 +10,6 @@ import { mainRoute } from 'src/app/project.constants';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit{
-  login!: string;
-
-  password!: string;
-
   loginForm: FormGroup = new FormGroup({
     login: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),

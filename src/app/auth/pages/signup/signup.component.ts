@@ -12,11 +12,6 @@ import { loginRoute } from 'src/app/project.constants';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent {
-  name!: string;
-
-  login!: string;
-
-  password!: string;
 
   signUpForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
