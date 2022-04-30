@@ -1,9 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AddTaskAction from '../actions/add-task.action';
-import { ITask } from '../state-models';
+import { ITaskState } from '../state-models';
 
 export interface State {
-  tasks: ITask[]
+  tasks: ITaskState[]
 }
 export const InitialState:State = { tasks: [] };
 

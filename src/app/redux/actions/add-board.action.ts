@@ -1,9 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { IBoard } from '../state-models';
+import { IBoardState } from '../state-models';
 
 export const addBoardAction = createAction(
   '[Main Page] AddBoard',
   props<{
-    board: IBoard
+    board: IBoardState
   }>(),
 );

@@ -1,9 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AddColumnAction from '../actions/add-column.action';
-import { IColumn } from '../state-models';
+import { IColumnState } from '../state-models';
 
 export interface State {
-  columns: IColumn[]
+  columns: IColumnState[]
 }
 export const InitialState:State = { columns: [] };
 

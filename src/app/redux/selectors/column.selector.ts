@@ -1,10 +1,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { IColumn } from '../state-models';
+import { IColumnState } from '../state-models';
 
+export const selectColumnsObject = createFeatureSelector <{ columns: IColumnState[] }>('columns');
 
-export const selectColumns = createFeatureSelector <{ columns: IColumn[] }>('columns');
+export const selectBoards = createSelector(
+  selectColumnsObject,
+  (columns) => columns.columns);
 
 export const selectColumnId = createSelector(
-  selectColumns,
+  selectColumnsObject,
   (columns) => columns.columns.map((column) => column.id),
 );

@@ -1,9 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AddBoardAction from '../actions/add-board.action';
-import { IBoard } from '../state-models';
+import { IBoardState } from '../state-models';
 
 export interface State {
-  boards: IBoard[]
+  boards: IBoardState[]
 }
 export const InitialState:State = { boards: [] };
 

@@ -1,10 +1,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ITask } from '../state-models';
+import { ITaskState } from '../state-models';
 
-export const selectTasks = createFeatureSelector <{ tasks: ITask[] }>('tasks');
+export const selectTasksObject = createFeatureSelector <{ tasks: ITaskState[] }>('tasks');
+
+export const selectBoards = createSelector(
+  selectTasksObject,
+  (tasks) => tasks.tasks);
 
 export const selectTasksId = createSelector(
-  selectTasks,
+  selectTasksObject,
   (tasks) => tasks.tasks.map((task) => task.id),
 );
-

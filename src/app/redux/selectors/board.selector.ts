@@ -1,10 +1,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { IBoard } from '../state-models';
+import { IBoardState } from '../state-models';
 
+export const selectBoardsObject = createFeatureSelector <{ boards: IBoardState[] }>('boards');
 
-export const selectBoards = createFeatureSelector <{ boards: IBoard[] }>('boards');
+export const selectBoards = createSelector(
+  selectBoardsObject,
+  (boards) => boards.boards);
 
 export const selectBoardId = createSelector(
-  selectBoards,
+  selectBoardsObject,
   (boards) => boards.boards.map((board) => board.id),
 );
