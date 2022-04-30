@@ -6,11 +6,19 @@ import {
 } from 'rxjs';
 import { kanbanServiceUrl } from 'src/app/project.constants';
 import { CreateUserDto } from 'src/app/shared/models/createUserDto.model';
+import { SigninUserDto } from 'src/app/shared/models/signInUserDto';
+import { LoginResponseDto } from 'src/app/shared/models/loginResponseDto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  token: string | null;
+
+  private userName!: string;
+
+  private tokenKey = 'authToken';
+
   IsLoggedIn: Subject<boolean> = new Subject<boolean>();
 
   httpOptions = {
@@ -22,14 +30,17 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
-) { }
+) {
+    this.token = localStorage.getItem(this.tokenKey);
+    this.IsLoggedIn.next(!!this.token);
+}
 
   checkIsLoggedIn(): boolean {
-    // const token = localStorage.getItem(this.tokenKey);
-    // return !!token;
+    return !!this.token;
+  }
 
-    // todo
-    return false;
+  getUserName(): string{
+    return this.userName;
   }
 
   public signUp(newUserDto: CreateUserDto): Observable<CreateUserDto>{
@@ -37,6 +48,40 @@ export class UserService {
     .pipe(
       catchError((error) => this.handleError(error)),
     );
+  }
+
+  public login(loginUserDto: SigninUserDto): void{
+    this.http.post<LoginResponseDto>(`${kanbanServiceUrl}/signin`, loginUserDto, this.httpOptions)
+      .pipe(
+        catchError((error) => this.handleError(error)),
+      )
+      .subscribe(
+        (response) => {
+          console.log(response.token);
+          localStorage.setItem(this.tokenKey, response.token);
+          this.token = response.token;
+          this.userName = loginUserDto.login;
+          this.IsLoggedIn.next(true);
+        },
+        () => {
+          // todo error handling if needed
+        },
+      );
+  }
+
+  public boardServiceCheck(): void{
+    this.http.post<any>(`${kanbanServiceUrl}/boards`, {}, this.httpOptions)
+      .pipe(
+        catchError((error) => this.handleError(error)),
+      )
+    .subscribe();
+  }
+
+  public logout(): void{
+    this.userName = '';
+    this.token = '';
+    localStorage.removeItem(this.tokenKey);
+    this.IsLoggedIn.next(false);
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {

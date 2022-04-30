@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { loginRoute, mainRoute } from 'src/app/project.constants';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -21,7 +22,7 @@ export class HeaderComponent implements OnInit {
     private userService: UserService,
     private ref: ChangeDetectorRef,
     private router: Router,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.isLoggedIn = this.userService.checkIsLoggedIn();
@@ -29,7 +30,9 @@ export class HeaderComponent implements OnInit {
     this.subscriptions.add(
       this.userService.IsLoggedIn.subscribe((val) => {
         this.isLoggedIn = val;
-        // todo this.userName = this.userService.getUserName();
+        this.userName = this.userService.getUserName();
+        if (this.isLoggedIn) this.router.navigateByUrl(mainRoute);
+          else this.router.navigateByUrl(loginRoute);
         this.ref.detectChanges();
       }),
     );
@@ -41,11 +44,19 @@ export class HeaderComponent implements OnInit {
     return result;
   }
 
-  onLogin(): void{
+  onLogin(): void {
     this.router.navigateByUrl('auth/login');
   }
 
-  onSignUp():void{
+  onSignUp(): void {
     this.router.navigateByUrl('auth/signup');
+  }
+
+  onLogout(): void {
+    this.userService.logout();
+  }
+
+  getBoards(): void {
+    this.userService.boardServiceCheck();
   }
 }

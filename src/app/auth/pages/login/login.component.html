@@ -1,1 +1,54 @@
-<p>login works!</p>
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <h2>Login</h2>
+      <mat-error *ngIf="!loginForm.valid">
+        Please fill all the fields below
+      </mat-error>
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Please enter a login"
+          [(ngModel)]="login"
+          name="login"
+          formControlName="login"
+        />
+        <mat-error *ngIf="loginForm.get('login')?.hasError('required')">
+          The login field is required
+        </mat-error>
+      </mat-form-field>
+
+      <div class="vspacer15"></div>
+
+      <mat-form-field>
+        <input
+          matInput
+          type="password"
+          placeholder="Please enter a password"
+          [(ngModel)]="password"
+          name="password"
+          formControlName="password"
+        />
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          The password is required
+        </mat-error>
+        <mat-error
+          *ngIf="loginForm.get('password')?.hasError('passwordStrength')"
+        >
+          Your password isn't strong enough: at least 8 characters<br />
+          a mixture of both uppercase and lowercase letters<br />
+          a mixture of letters and numbers<br />
+          inclusion of at least one special character, e.g., ! @ # ? ]<br />
+        </mat-error>
+      </mat-form-field>
+
+      <div class="vspacer40"></div>
+
+      <button mat-raised-button color="primary" [disabled]="!loginForm.valid">
+        Login
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>
+
