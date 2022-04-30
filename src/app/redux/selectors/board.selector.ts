@@ -5,7 +5,8 @@ export const selectBoardsObject = createFeatureSelector <{ boards: IBoardState[]
 
 export const selectBoards = createSelector(
   selectBoardsObject,
-  (boards) => boards.boards);
+  (boards) => boards.boards,
+);
 
 export const selectBoardId = createSelector(
   selectBoardsObject,

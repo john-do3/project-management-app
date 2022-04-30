@@ -5,7 +5,8 @@ export const selectColumnsObject = createFeatureSelector <{ columns: IColumnStat
 
 export const selectBoards = createSelector(
   selectColumnsObject,
-  (columns) => columns.columns);
+  (columns) => columns.columns,
+);
 
 export const selectColumnId = createSelector(
   selectColumnsObject,

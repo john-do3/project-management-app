@@ -5,7 +5,8 @@ export const selectTasksObject = createFeatureSelector <{ tasks: ITaskState[] }>
 
 export const selectBoards = createSelector(
   selectTasksObject,
-  (tasks) => tasks.tasks);
+  (tasks) => tasks.tasks,
+);
 
 export const selectTasksId = createSelector(
   selectTasksObject,
