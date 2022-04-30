@@ -5,12 +5,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { PageNotFoundComponent } from './core/pages/page-not-found/page-not-found.component';
 import { loginRoute, mainRoute } from './project.constants';
 import { SharedModule } from './shared/shared.module';
 import { UserService } from './core/services/user.service';
+import { boardReducer } from './redux/reducers/board.reducer';
+import { columnReducer } from './redux/reducers/column.reducer';
+import { taskReducer } from './redux/reducers/task.reducer';
 
 const routes: Routes = [
   { path: loginRoute, loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule) },
@@ -31,6 +35,11 @@ const routes: Routes = [
     SharedModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    StoreModule.forRoot({
+      boards: boardReducer,
+      columns: columnReducer,
+      tasks: taskReducer,
+    }, {}),
   ],
   providers: [UserService],
   bootstrap: [AppComponent],
