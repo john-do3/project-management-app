@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import {
  AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
+import { loginRoute } from 'src/app/project.constants';
 
 @Component({
   selector: 'app-signup',
@@ -10,11 +12,6 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent {
-  name!: string;
-
-  login!: string;
-
-  password!: string;
 
   signUpForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -22,7 +19,7 @@ export class SignupComponent {
     password: new FormControl('', [Validators.required, this.createPasswordStrengthValidator()]),
   });
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   onSubmit(): void {
     this.userService
@@ -32,7 +29,10 @@ export class SignupComponent {
         password: this.signUpForm.get('password')?.value,
       })
       .subscribe(
-        (newUser) => console.log(newUser.login),
+        (newUser) => {
+          console.log(newUser.login);
+          this.router.navigateByUrl(loginRoute);
+        },
         () => {
           // todo error handling if needed
         },
