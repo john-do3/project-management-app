@@ -1,13 +1,13 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import {
- catchError, Observable, Subject, throwError,
+ catchError, Observable, Subject,
 } from 'rxjs';
 import { kanbanServiceUrl } from 'src/app/project.constants';
 import { CreateUserDto } from 'src/app/shared/models/createUserDto.model';
 import { SigninUserDto } from 'src/app/shared/models/signInUserDto';
 import { LoginResponseDto } from 'src/app/shared/models/loginResponseDto';
+import { HttpErrorService } from './httperror.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,7 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    private toastr: ToastrService,
+    private httpErrorService: HttpErrorService,
 ) {
     this.token = localStorage.getItem(this.tokenKey);
     this.IsLoggedIn.next(!!this.token);
@@ -46,14 +46,14 @@ export class UserService {
   public signUp(newUserDto: CreateUserDto): Observable<CreateUserDto>{
     return this.http.post<CreateUserDto>(`${kanbanServiceUrl}/signup`, newUserDto, this.httpOptions)
     .pipe(
-      catchError((error) => this.handleError(error)),
+      catchError((error) => this.httpErrorService.handleError(error)),
     );
   }
 
   public login(loginUserDto: SigninUserDto): void{
     this.http.post<LoginResponseDto>(`${kanbanServiceUrl}/signin`, loginUserDto, this.httpOptions)
       .pipe(
-        catchError((error) => this.handleError(error)),
+        catchError((error) => this.httpErrorService.handleError(error)),
       )
       .subscribe(
         (response) => {
@@ -72,7 +72,7 @@ export class UserService {
   public boardServiceCheck(): void{
     this.http.post<any>(`${kanbanServiceUrl}/boards`, {}, this.httpOptions)
       .pipe(
-        catchError((error) => this.handleError(error)),
+        catchError((error) => this.httpErrorService.handleError(error)),
       )
     .subscribe();
   }
@@ -82,21 +82,5 @@ export class UserService {
     this.token = '';
     localStorage.removeItem(this.tokenKey);
     this.IsLoggedIn.next(false);
-  }
-
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    if (error.status === 0) {
-      // A client-side or network error occurred. Handle it accordingly.
-      // console.error('An error occurred:', error.message);
-      this.toastr.error(error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
-      this.toastr.error(error.error.message);
-    }
-
-    return throwError(() => new Error(
-      'Something bad happened; please try again later.',
-    ));
   }
 }

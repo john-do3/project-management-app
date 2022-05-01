@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { loginRoute, mainRoute } from 'src/app/project.constants';
+import { HeaderService } from '../../services/header.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private headerService: HeaderService,
     private ref: ChangeDetectorRef,
     private router: Router,
   ) { }
@@ -58,5 +60,9 @@ export class HeaderComponent implements OnInit {
 
   getBoards(): void {
     this.userService.boardServiceCheck();
+  }
+
+  onNewBoardClick(): void {
+this.headerService.newBoardClick();
   }
 }
