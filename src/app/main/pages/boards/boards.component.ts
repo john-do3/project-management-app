@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { BoardService } from 'src/app/core/services/board.service';
 import { HeaderService } from 'src/app/core/services/header.service';
 import { CreateBoardComponent } from '../create-board/create-board.component';
 
@@ -16,6 +17,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
 
   constructor(
     private headerService: HeaderService,
+    private boardService: BoardService,
     private dialog: MatDialog,
   ) {
 
@@ -46,7 +48,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
       (data) => {
         this.createBoardInProgress = false;
 
-        if (data) console.log('Dialog output:', data);
+        if (data) this.boardService.CreateBoard({ title: data });
       },
 );
   }

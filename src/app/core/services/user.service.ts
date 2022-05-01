@@ -69,14 +69,6 @@ export class UserService {
       );
   }
 
-  public boardServiceCheck(): void{
-    this.http.post<any>(`${kanbanServiceUrl}/boards`, {}, this.httpOptions)
-      .pipe(
-        catchError((error) => this.httpErrorService.handleError(error)),
-      )
-    .subscribe();
-  }
-
   public logout(): void{
     this.userName = '';
     this.token = '';
