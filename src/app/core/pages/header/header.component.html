@@ -2,7 +2,7 @@
   <span>PM App</span>
   <ng-container *ngIf="isLoggedIn">
     <div class="hspacer15"></div>
-    <button mat-icon-button matTooltip="Create new board">
+    <button mat-icon-button matTooltip="Create new board" (click)="onNewBoardClick()">
       <mat-icon>create_new_folder</mat-icon>
     </button>
   </ng-container>
@@ -17,6 +17,7 @@
   </ng-container>
   
   <ng-container *ngIf="isLoggedIn">
+    <!--button mat-raised-button (click)="getBoards()">Get boards</button-->
     <button mat-icon-button matTooltip="Edit profile">
       <mat-icon>account_circle</mat-icon>
     </button>

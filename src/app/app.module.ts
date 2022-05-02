@@ -15,7 +15,7 @@ import { UserService } from './core/services/user.service';
 import { boardReducer } from './redux/reducers/board.reducer';
 import { columnReducer } from './redux/reducers/column.reducer';
 import { taskReducer } from './redux/reducers/task.reducer';
-import { ApiInterceptor } from './auth/interceptors/api.interceptor';
+import { ApiInterceptor } from './core/interceptors/api.interceptor';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
 
 const routes: Routes = [
