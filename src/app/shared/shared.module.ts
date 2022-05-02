@@ -9,6 +9,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [],
@@ -23,6 +25,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSlideToggleModule,
     MatTooltipModule,
     MatDialogModule,
+    MatListModule,
+    MatSidenavModule,
   ],
   exports: [
     MatToolbarModule,
@@ -34,6 +38,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSlideToggleModule,
     MatTooltipModule,
     MatDialogModule,
+    MatListModule,
+    MatSidenavModule,
   ],
 })
 export class SharedModule { }

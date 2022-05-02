@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
         this.isLoggedIn = val;
         this.userName = this.userService.getUserName();
         if (this.isLoggedIn) this.router.navigateByUrl(mainRoute);
-          else this.router.navigateByUrl(loginRoute);
+        else this.router.navigateByUrl(loginRoute);
         this.ref.detectChanges();
       }),
     );
@@ -58,13 +58,5 @@ export class HeaderComponent implements OnInit {
 
   onLogout(): void {
     this.userService.logout();
-  }
-
-  getBoards(): void {
-    this.boardService.boardServiceCheck();
-  }
-
-  onNewBoardClick(): void {
-this.headerService.newBoardClick();
   }
 }

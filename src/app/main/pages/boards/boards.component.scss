@@ -1,0 +1,23 @@
+.example-container {    
+    height: 80vh;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.example-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.example-sidenav {    
+    min-width: 250px;
+}
+
+.sidebar{
+    padding: 20px;
+}
+
+.main{
+    padding: 20px;
+}
