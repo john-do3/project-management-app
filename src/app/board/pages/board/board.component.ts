@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { IColumnState, ITaskState } from '../../../redux/state-models';
 import { selectColumns } from '../../../redux/selectors/column.selector';
 import { Store } from '@ngrx/store';
-import { board, column1, task1, task2, task3 } from '../../OBJECTS/obj';
+import { board, column1, column2, task1, task2, task3, task4 } from '../../OBJECTS/obj';
 import { addBoardAction } from '../../../redux/actions/add-board.action';
 import { addColumnAction } from '../../../redux/actions/add-column.action';
 import { addTaskAction } from '../../../redux/actions/add-task.action';
@@ -38,11 +38,15 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.store.dispatch(addBoardAction({ board }));
     column = column1;
     this.store.dispatch(addColumnAction({ column }));
+    column = column2;
+    this.store.dispatch(addColumnAction({ column }));
     task = task1;
     this.store.dispatch((addTaskAction({task})))
     task = task2;
     this.store.dispatch((addTaskAction({task})))
     task = task3;
+    this.store.dispatch((addTaskAction({task})))
+    task = task4;
     this.store.dispatch((addTaskAction({task})))
     console.log(this.store)
   }

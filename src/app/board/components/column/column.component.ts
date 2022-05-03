@@ -13,6 +13,7 @@ import { selectColumnId, selectColumns } from '../../../redux/selectors/column.s
 })
 export class ColumnComponent implements OnInit {
 
+
   // private subscription?: Subscription;
   //
   // private tasksIdArray: string[] = [];
@@ -20,6 +21,8 @@ export class ColumnComponent implements OnInit {
   private subscriptionTasksId?: Subscription;
 
   public tasksIdArray: string[] = [];
+  private subscriptionTasks?: Subscription;
+  public tasksArray: ITaskState[] = [];
 
 
 
@@ -35,9 +38,9 @@ export class ColumnComponent implements OnInit {
 
   public tasks$?: Observable<ITaskState[]>;
 
-  public tasksID$: Observable<string[]> = of(['1111']);
+  public tasksID$: Observable<string[]> = of(['']);
 
-  public columnsID$: Observable<string[]> | null = of(['hjk']);
+  public columnsID$: Observable<string[]> | null = of(['']);
 
   public columnsIdArray = ['']
 
@@ -45,7 +48,7 @@ export class ColumnComponent implements OnInit {
 
   drop(event: CdkDragDrop<string[]>): void {
     if (event.previousContainer === event.container) {
-      console.log (event.container, event.previousIndex, event.currentIndex)
+      console.log (event, event.container.data, event.previousIndex, event.currentIndex)
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(
@@ -62,7 +65,15 @@ export class ColumnComponent implements OnInit {
     this.tasksID$ = this.store.select(selectTasksId);
     this.columnsID$ = this.store.select(selectColumnId);
 
-    this.subscriptionTasksId = this.store.select(selectTasksId).subscribe((val) => this.tasksIdArray = val)
+    this.subscriptionTasks = this.store.select(selectTasks)
+      .subscribe((val) => {
+        console.log(this.columnId, val
+          .filter((task) => task.columnId === this.columnId))
+        return this.tasksIdArray = val
+          .filter((task) => task.columnId === this.columnId)
+          .map((val) => val.id);
+      })
+    // this.subscriptionTasksId = this.store.select(selectTasksId).subscribe((val) => this.tasksIdArray = val)
     this.subscriptionColumnsId = this.store.select(selectColumnId).subscribe((val) => this.columnsIdArray = val)
     console.log(5)
   }

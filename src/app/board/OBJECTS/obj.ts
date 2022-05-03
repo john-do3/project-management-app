@@ -30,8 +30,24 @@ export const task3: ITaskState = {
   columnId: '1'
 };
 
+export const task4: ITaskState = {
+  id: '4',
+  title: 'task4',
+  order: 2,
+  description: 'string Some',
+  userId: 'user',
+  boardId: '1',
+  columnId: '2'
+};
+
 export const column1: IColumnState = {
   id: '1',
+  title: 'string',
+  order: 1,
+};
+
+export const column2: IColumnState = {
+  id: '2',
   title: 'string',
   order: 1,
 };
