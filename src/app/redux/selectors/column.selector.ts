@@ -3,7 +3,7 @@ import { IColumnState } from '../state-models';
 
 export const selectColumnsObject = createFeatureSelector <{ columns: IColumnState[] }>('columns');
 
-export const selectBoards = createSelector(
+export const selectColumns = createSelector(
   selectColumnsObject,
   (columns) => columns.columns,
 );

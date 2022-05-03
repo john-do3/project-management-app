@@ -17,11 +17,13 @@ import { columnReducer } from './redux/reducers/column.reducer';
 import { taskReducer } from './redux/reducers/task.reducer';
 import { ApiInterceptor } from './auth/interceptors/api.interceptor';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
+import { TaskComponent } from './board/components/task/task.component';
 
 const routes: Routes = [
   { path: loginRoute, loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule) },
   { path: mainRoute, canActivate: [LoggedInGuard], loadChildren: () => import('./main/main.module').then((m) => m.MainModule) },
   { path: '', redirectTo: loginRoute, pathMatch: 'full' },
+  { path: 'task', component: TaskComponent}, // to delete
   { path: '**', component: PageNotFoundComponent },
 ];
 

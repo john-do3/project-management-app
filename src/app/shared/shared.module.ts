@@ -8,11 +8,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    DragDropModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -23,6 +25,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTooltipModule,
   ],
   exports: [
+    DragDropModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
