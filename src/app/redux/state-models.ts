@@ -12,13 +12,13 @@ export interface IColumnState {
   id: string;
   title: string;
   order: number;
-  tasks?: ITaskState[];
+  // tasks?: ITaskState[];
 }
 
 export interface IBoardState {
   id: string;
   title: string;
-  columns?: IColumnState[]
+  // columns?: IColumnState[]
 }
 
 export interface AppState {
