@@ -9,6 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 const routes: Routes = [
   { path: '', redirectTo: 'boards', pathMatch: 'full' },
   { path: 'boards', component: BoardsComponent },
+  { path: 'boards/:id', component: BoardsComponent },
 ];
 
 @NgModule({

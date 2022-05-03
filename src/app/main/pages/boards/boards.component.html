@@ -1,1 +1,38 @@
-<p>boards works!</p>
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <mat-toolbar>
+      <button
+        mat-icon-button
+        matTooltip="Create new board"
+        (click)="onNewBoardClick()"
+      >
+        <mat-icon>create_new_folder</mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        matTooltip="Delete board"
+        [disabled]="!boardsList.selectedOptions.selected[0]"
+        (click)="onDeleteBoardClick()"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <div class="sidebar">
+      
+      <mat-card-subtitle>Available boards:</mat-card-subtitle>
+      <mat-selection-list #boardsList [multiple]="false" (selectionChange)="onBoardSelected($event)">
+        <mat-list-option *ngFor="let board of boardsData$ |async" [value]="board.id">
+          {{ board.title }}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+  </mat-drawer>
+
+  <div class="main">    
+  Selected board id:<br>{{this.boardId}}<br><br>
+  Board data coming soon
+  </div>
+
+</mat-drawer-container>
