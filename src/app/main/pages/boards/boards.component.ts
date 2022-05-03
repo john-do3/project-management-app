@@ -1,6 +1,4 @@
-import {
- Component, OnDestroy, OnInit, ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,8 +10,12 @@ import { loadBoardsData } from 'src/app/redux/actions/board.actions';
 import { selectBoards } from 'src/app/redux/selectors/board.selector';
 import { IBoardState } from 'src/app/redux/state-models';
 import { boardsRoute } from 'src/app/project.constants';
-import { createBoardData, deleteBoardData } from '../../../redux/actions/board.actions';
+import {
+  createBoardData,
+  deleteBoardData,
+} from '../../../redux/actions/board.actions';
 import { CreateBoardComponent } from '../create-board/create-board.component';
+import { ConfirmModalComponent } from 'src/app/shared/pages/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-boards',
@@ -40,10 +42,8 @@ export class BoardsComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store,
     private router: Router,
-    private activateRoute: ActivatedRoute,
-  ) {
-
-  }
+    private activateRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
@@ -52,13 +52,13 @@ export class BoardsComponent implements OnInit, OnDestroy {
           this.createBoardInProgress = true;
           this.openCreateBoardDialog();
         }
-      }),
+      })
     );
 
     this.subscriptions.add(
       this.headerService.GetBoardsClicked.subscribe((val) => {
         this.boards = val;
-      }),
+      })
     );
 
     this.sidenav.toggle();
@@ -75,26 +75,32 @@ export class BoardsComponent implements OnInit, OnDestroy {
       data: { title: '' },
     });
 
-    dialogRef.afterClosed().subscribe(
-      (data) => {
-        this.createBoardInProgress = false;
+    dialogRef.afterClosed().subscribe((data) => {
+      this.createBoardInProgress = false;
 
-        // if (data) this.boardService.createBoard({ title: data });
-        this.store.dispatch(createBoardData({ title: data }));
-      },
-    );
+      // if (data) this.boardService.createBoard({ title: data });
+      this.store.dispatch(createBoardData({ title: data }));
+    });
   }
 
+  openDeleteBoardDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmModalComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'true') {
+        this.store.dispatch(deleteBoardData({ boardId: this.boardId }));
+        this.router.navigateByUrl(boardsRoute);
+      }
+    });
+  }
   onNewBoardClick(): void {
     this.headerService.newBoardClick();
   }
 
-  onDeleteBoardClick(): void{
-    this.store.dispatch(deleteBoardData({ boardId: this.boardId }));
-    this.router.navigateByUrl(boardsRoute);
+  onDeleteBoardClick(): void {
+    this.openDeleteBoardDialog();
   }
 
-  onBoardSelected(event: any):void{
+  onBoardSelected(event: any): void {
     this.boardId = event.options[0].value;
     this.router.navigateByUrl(`${boardsRoute}/${this.boardId}`);
   }
