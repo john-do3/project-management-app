@@ -9,11 +9,11 @@ import { BoardComponent } from './pages/board/board.component';
   declarations: [
     TaskComponent,
     ColumnComponent,
-    BoardComponent
+    BoardComponent,
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
   ],
 })
 export class BoardModule { }

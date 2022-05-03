@@ -6,8 +6,6 @@
     [cdkDropListData]=tasksIdArray
     [cdkDropListConnectedTo]=columnsIdArray
     (cdkDropListDropped)="drop($event)">
-    <!--      *ngFor="let task of tasks$ | async"-->
-    <!--      [task]="task"-->
     <app-task
       *ngFor="let taskId of tasksIdArray"
       [id] = taskId

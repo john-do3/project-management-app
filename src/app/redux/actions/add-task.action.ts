@@ -7,3 +7,13 @@ export const addTaskAction = createAction(
     task: ITaskState
   }>(),
 );
+
+export const deleteTaskData = createAction(
+  '[Main Page] Delete task data',
+  props<{ taskId: string }>(),
+);
+
+export const updateTaskData = createAction(
+  '[Main Page] Update task data',
+  props<{ taskId: string, columnId: string, order: number }>(),
+);

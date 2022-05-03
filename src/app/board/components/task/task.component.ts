@@ -1,43 +1,50 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import {
+ Component, EventEmitter, Input, OnDestroy, OnInit, Output,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, find, first, Observable, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, Subscription, tap } from 'rxjs';
 import { ITaskState } from '../../../redux/state-models';
 import { selectTasks } from '../../../redux/selectors/task.selector';
+import { addTaskAction, deleteTaskData } from '../../../redux/actions/add-task.action';
 
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
-  styleUrls: ['./task.component.scss']
+  styleUrls: ['./task.component.scss'],
 })
-export class TaskComponent implements OnInit, OnChanges {
+export class TaskComponent implements OnInit, OnDestroy {
   private tasks$?: Observable<ITaskState[]>;
+
   private taskSubscription?: Subscription;
+
   private task?: ITaskState;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {
+  }
 
   @Input() id?: string;
-  // @Input() task?: ITaskState;
-  @Input() taskIdArray?: string;
 
-
-  public get title() {return this.task?.title || ''}
-  public get description() {return this.task?.description || ''}
-
-  // public isExist = true;
-
-  public destroy () {
-    // this.isExist = false;
+  public get title() {
+    return this.task?.title || '';
   }
-  ngOnInit(): void {
+
+  public get description() {
+    return this.task?.description || '';
+  }
+
+  public destroy() {
+    if (this.id){
+      this.store.dispatch(deleteTaskData({ taskId: this.id }));
+    }
+  }
+
+  public ngOnInit(): void {
     this.tasks$ = this.store.select(selectTasks);
     this.taskSubscription = this.tasks$
-      .subscribe((tasksArray) => this.task = tasksArray.find((task)=>task.id === this.id))
+      .subscribe((tasksArray) => this.task = tasksArray.find((task) => task.id === this.id));
   }
 
-  ngOnChanges() {
-    console.log(this.task, this.title, this.taskIdArray)
+  public ngOnDestroy() {
+    this.taskSubscription?.unsubscribe();
   }
-
 }
