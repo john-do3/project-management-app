@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { loginRoute, mainRoute } from 'src/app/project.constants';
+import { BoardService } from '../../services/board.service';
+import { HeaderService } from '../../services/header.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -20,6 +22,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private headerService: HeaderService,
+    private boardService: BoardService,
     private ref: ChangeDetectorRef,
     private router: Router,
   ) { }
@@ -32,7 +36,7 @@ export class HeaderComponent implements OnInit {
         this.isLoggedIn = val;
         this.userName = this.userService.getUserName();
         if (this.isLoggedIn) this.router.navigateByUrl(mainRoute);
-          else this.router.navigateByUrl(loginRoute);
+        else this.router.navigateByUrl(loginRoute);
         this.ref.detectChanges();
       }),
     );
@@ -54,9 +58,5 @@ export class HeaderComponent implements OnInit {
 
   onLogout(): void {
     this.userService.logout();
-  }
-
-  getBoards(): void {
-    this.userService.boardServiceCheck();
   }
 }

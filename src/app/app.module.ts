@@ -6,6 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { PageNotFoundComponent } from './core/pages/page-not-found/page-not-found.component';
@@ -15,10 +17,12 @@ import { UserService } from './core/services/user.service';
 import { boardReducer } from './redux/reducers/board.reducer';
 import { columnReducer } from './redux/reducers/column.reducer';
 import { taskReducer } from './redux/reducers/task.reducer';
-import { ApiInterceptor } from './auth/interceptors/api.interceptor';
+import { ApiInterceptor } from './core/interceptors/api.interceptor';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
 import { TaskComponent } from './board/components/task/task.component';
 import { BoardComponent } from './board/pages/board/board.component';
+import { environment } from '../environments/environment';
+import { BoardEffects } from './redux/effects/board.effects';
 
 const routes: Routes = [
   { path: loginRoute, loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule) },
@@ -45,6 +49,9 @@ const routes: Routes = [
       columns: columnReducer,
       tasks: taskReducer,
     }, {}),
+    EffectsModule.forRoot([]),
+    EffectsModule.forFeature([BoardEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [UserService,
     {

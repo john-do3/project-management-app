@@ -9,6 +9,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DragDropModule} from '@angular/cdk/drag-drop';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [],
@@ -23,6 +26,9 @@ import { DragDropModule} from '@angular/cdk/drag-drop';
     MatGridListModule,
     MatSlideToggleModule,
     MatTooltipModule,
+    MatDialogModule,
+    MatListModule,
+    MatSidenavModule,
   ],
   exports: [
     DragDropModule,
@@ -34,6 +40,9 @@ import { DragDropModule} from '@angular/cdk/drag-drop';
     MatGridListModule,
     MatSlideToggleModule,
     MatTooltipModule,
+    MatDialogModule,
+    MatListModule,
+    MatSidenavModule,
   ],
 })
 export class SharedModule { }

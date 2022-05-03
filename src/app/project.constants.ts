@@ -1,6 +1,7 @@
 export const loginRoute = 'auth';
 export const signupRoute = 'auth/signup';
 export const mainRoute = 'main';
+export const boardsRoute = 'main/boards';
 
 export const kanbanServiceUrl = 'http://localhost:4200/api';
 
