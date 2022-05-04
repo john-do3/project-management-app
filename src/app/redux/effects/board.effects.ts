@@ -13,15 +13,15 @@ export class BoardEffects {
         private boardService: BoardService,
     ) { }
 
-    loadBoards$ = createEffect(() => { return this.actions$.pipe(
+    loadBoards$ = createEffect(() => this.actions$.pipe(
         ofType(BoardActions.loadBoardsData),
         switchMap(() => this.boardService
           .loadBoards()
           .pipe(
-            map((loadBoardsResponse) => BoardActions.boardsDataLoaded({boards: loadBoardsResponse})),
+            map((loadBoardsResponse) => BoardActions.boardsDataLoaded({ boards: loadBoardsResponse })),
             catchError(async (error) => BoardActions.apiCallFailed(error)),
           )),
-      ) });
+      ));
 
     createBoard = createEffect(() => this.actions$.pipe(
         ofType(BoardActions.createBoardData),

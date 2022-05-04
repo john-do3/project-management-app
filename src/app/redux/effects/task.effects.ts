@@ -6,18 +6,16 @@ import { TasksService } from '../../board/services/tasks.service';
 
 @Injectable()
 export class MovieEffects {
-  loadMovies$ = createEffect(() => { return this.actions$.pipe(
+  loadMovies$ = createEffect(() => this.actions$.pipe(
         ofType('[Column Component] Load Tasks'),
         mergeMap(() => this.tasksService.getTasks()
           .pipe(
-            map(tasks => (
+            map((tasks) => (
               { type: '[Tasks API] Tasks Loaded Success', payload: tasks }
             )),
-            catchError(() => of({ type: '[Tasks API] Tasks Loaded Error' }))
-          ),
-        ),
-  ) }
-  );
+            catchError(() => of({ type: '[Tasks API] Tasks Loaded Error' })),
+          )),
+    ));
 
   constructor(
     private actions$: Actions,

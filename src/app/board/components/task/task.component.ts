@@ -1,11 +1,11 @@
 import {
- Component, EventEmitter, Input, OnDestroy, OnInit, Output,
+ Component, Input, OnDestroy, OnInit,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, tap } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ITaskState } from '../../../redux/state-models';
 import { selectTasks } from '../../../redux/selectors/task.selector';
-import { addTaskAction, deleteTaskData } from '../../../redux/actions/add-task.action';
+import { deleteTaskData } from '../../../redux/actions/add-task.action';
 
 @Component({
   selector: 'app-task',
@@ -41,7 +41,7 @@ export class TaskComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.tasks$ = this.store.select(selectTasks);
     this.taskSubscription = this.tasks$
-      .subscribe((tasksArray) => this.task = tasksArray.find((task) => task.id === this.id));
+      .subscribe((tasksArray) => { this.task = tasksArray.find((task) => task.id === this.id); });
   }
 
   public ngOnDestroy() {
