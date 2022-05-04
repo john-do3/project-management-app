@@ -1,4 +1,6 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+ Component, OnDestroy, OnInit, ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,12 +12,12 @@ import { loadBoardsData } from 'src/app/redux/actions/board.actions';
 import { selectBoards } from 'src/app/redux/selectors/board.selector';
 import { IBoardState } from 'src/app/redux/state-models';
 import { boardsRoute } from 'src/app/project.constants';
+import { ConfirmModalComponent } from 'src/app/shared/pages/confirm-modal/confirm-modal.component';
 import {
   createBoardData,
   deleteBoardData,
 } from '../../../redux/actions/board.actions';
 import { CreateBoardComponent } from '../create-board/create-board.component';
-import { ConfirmModalComponent } from 'src/app/shared/pages/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-boards',
@@ -42,7 +44,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store,
     private router: Router,
-    private activateRoute: ActivatedRoute
+    private activateRoute: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -52,13 +54,13 @@ export class BoardsComponent implements OnInit, OnDestroy {
           this.createBoardInProgress = true;
           this.openCreateBoardDialog();
         }
-      })
+      }),
     );
 
     this.subscriptions.add(
       this.headerService.GetBoardsClicked.subscribe((val) => {
         this.boards = val;
-      })
+      }),
     );
 
     this.sidenav.toggle();
@@ -92,6 +94,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   onNewBoardClick(): void {
     this.headerService.newBoardClick();
   }
