@@ -8,6 +8,7 @@ import { CreateUserDto } from 'src/app/shared/models/createUserDto.model';
 import { SigninUserDto } from 'src/app/shared/models/signInUserDto';
 import { LoginResponseDto } from 'src/app/shared/models/loginResponseDto';
 import { HttpErrorService } from './httperror.service';
+import { IUserState } from '../../redux/state-models';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +16,11 @@ import { HttpErrorService } from './httperror.service';
 export class UserService {
   token: string | null;
 
-  private userName!: string;
+  private userLogin: string;
 
   private tokenKey = 'authToken';
+
+  private loginKey = 'userLogin';
 
   IsLoggedIn: Subject<boolean> = new Subject<boolean>();
 
@@ -32,6 +35,7 @@ export class UserService {
     private httpErrorService: HttpErrorService,
 ) {
     this.token = localStorage.getItem(this.tokenKey);
+    this.userLogin = localStorage.getItem(this.loginKey) ?? '';
     this.IsLoggedIn.next(!!this.token);
 }
 
@@ -39,8 +43,8 @@ export class UserService {
     return !!this.token;
   }
 
-  getUserName(): string{
-    return this.userName;
+  getUserLogin(): string{
+    return this.userLogin;
   }
 
   public signUp(newUserDto: CreateUserDto): Observable<CreateUserDto>{
@@ -59,8 +63,10 @@ export class UserService {
         (response) => {
           console.log(response.token);
           localStorage.setItem(this.tokenKey, response.token);
+          localStorage.setItem(this.loginKey, loginUserDto.login);
+
           this.token = response.token;
-          this.userName = loginUserDto.login;
+          this.userLogin = loginUserDto.login;
           this.IsLoggedIn.next(true);
         },
         () => {
@@ -69,10 +75,30 @@ export class UserService {
       );
   }
 
+  public delete(userId: string) {
+    return this.http.delete(`${kanbanServiceUrl}/users/${userId}`)
+      .pipe(
+        catchError((error) => this.httpErrorService.handleError(error)),
+      )
+      .subscribe(
+        () => {
+          this.logout();
+        },
+      );
+  }
+
   public logout(): void{
-    this.userName = '';
+    this.userLogin = '';
     this.token = '';
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.loginKey);
     this.IsLoggedIn.next(false);
+  }
+
+  public loadUsers(): Observable<ReadonlyArray<IUserState>> {
+    return this.http.get<IUserState[]>(`${kanbanServiceUrl}/users`, {})
+      .pipe(
+        catchError((error) => this.httpErrorService.handleError(error)),
+      );
   }
 }
