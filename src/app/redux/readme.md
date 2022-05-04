@@ -10,6 +10,6 @@ this.store.dispatch(addBoardAction({ observable$ }));
 }
 
 public ngOnInit() {
-this.observable = this.store.select(selectBoards);
+this.observable$ = this.store.select(selectBoards);
 }
 }

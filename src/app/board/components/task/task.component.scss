@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  width: 250px;
+
+  .task__button {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+.cdk-drag-placeholder {
+  opacity: 0;
+}

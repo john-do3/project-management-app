@@ -3,7 +3,7 @@ import { ITaskState } from '../state-models';
 
 export const selectTasksObject = createFeatureSelector <{ tasks: ITaskState[] }>('tasks');
 
-export const selectBoards = createSelector(
+export const selectTasks = createSelector(
   selectTasksObject,
   (tasks) => tasks.tasks,
 );

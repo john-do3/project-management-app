@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -17,6 +18,7 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
   declarations: [ConfirmModalComponent],
   imports: [
     CommonModule,
+    DragDropModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -30,6 +32,7 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
     MatSidenavModule,
   ],
   exports: [
+    DragDropModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
