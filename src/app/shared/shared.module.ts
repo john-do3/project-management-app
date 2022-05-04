@@ -12,9 +12,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [ConfirmModalComponent],
   imports: [
     CommonModule,
     DragDropModule,
@@ -43,6 +44,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatDialogModule,
     MatListModule,
     MatSidenavModule,
+    ConfirmModalComponent,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}
