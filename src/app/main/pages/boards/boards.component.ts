@@ -1,14 +1,15 @@
 import {
- Component, OnDestroy, OnInit, ViewChild,
+  Component, OnDestroy, OnInit, ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
+import { MatList } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { BoardService } from 'src/app/core/services/board.service';
 import { HeaderService } from 'src/app/core/services/header.service';
 import { loadBoardsData } from 'src/app/redux/actions/board.actions';
+import { loadUsersData } from 'src/app/redux/actions/user.actions';
 import { selectBoards } from 'src/app/redux/selectors/board.selector';
 import { IBoardState } from 'src/app/redux/state-models';
 import { boardsRoute } from 'src/app/project.constants';
@@ -34,20 +35,26 @@ export class BoardsComponent implements OnInit, OnDestroy {
   @ViewChild('drawer', { static: true })
   sidenav!: MatSidenav;
 
+  @ViewChild('boardsList', { static: true })
+  boardsList!: MatList;
+
   boardsData$ = this.store.select(selectBoards);
 
   private subscriptions = new Subscription();
 
   constructor(
     private headerService: HeaderService,
-    private boardService: BoardService,
     private dialog: MatDialog,
     private store: Store,
     private router: Router,
     private activateRoute: ActivatedRoute,
-  ) {}
+  ) {
+    this.boardId = activateRoute.snapshot.params['id'];
+    // this.boardsList. = this.boardId;
+  }
 
   ngOnInit(): void {
+    this.store.dispatch(loadUsersData());
     this.subscriptions.add(
       this.headerService.NewBoardClicked.subscribe(() => {
         if (!this.createBoardInProgress) {
@@ -80,16 +87,16 @@ export class BoardsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((data) => {
       this.createBoardInProgress = false;
 
-      // if (data) this.boardService.createBoard({ title: data });
-      this.store.dispatch(createBoardData({ title: data }));
+      if (data) this.store.dispatch(createBoardData({ title: data }));
     });
   }
 
   openDeleteBoardDialog(): void {
     const dialogRef = this.dialog.open(ConfirmModalComponent);
-    dialogRef.afterClosed().subscribe((result) => {
+    const $ = dialogRef.afterClosed().subscribe((result) => {
       if (result === 'true') {
         this.store.dispatch(deleteBoardData({ boardId: this.boardId }));
+        $.unsubscribe();
         this.router.navigateByUrl(boardsRoute);
       }
     });

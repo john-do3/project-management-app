@@ -17,21 +17,14 @@ export const boardReducer = createReducer(
     error: null,
   })),
 
-  on(BoardActions.boardsDataLoaded, (state, { boards }) => {
-    const union: IBoardState[] = [];
-    boards.forEach((element) => {
-      if (!state.boards.find((s) => s.id === element.id)) { union.push(element); }
-    });
-
-    return {
+  on(BoardActions.boardsDataLoaded, (state, { boards }) : State => ({
       ...state,
-      boards: [...state.boards, ...union],
+      boards: [...boards],
       error: null,
-    };
-  }),
+    })),
 
   on(BoardActions.boardDeleted, (state, { boardId }) => ({
-      // ...state,
+      ...state,
       boards: [...state.boards.filter((b) => b.id !== boardId)],
       error: null,
   })),
