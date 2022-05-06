@@ -22,6 +22,8 @@ import { LoggedInGuard } from './core/guards/logged-in.guard';
 import { BoardComponent } from './board/pages/board/board.component';
 import { environment } from '../environments/environment';
 import { BoardEffects } from './redux/effects/board.effects';
+import { UserEffects } from './redux/effects/user.effects';
+import { userReducer } from './redux/reducers/user.reducer';
 
 const routes: Routes = [
   { path: loginRoute, loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule) },
@@ -47,9 +49,10 @@ const routes: Routes = [
       boards: boardReducer,
       columns: columnReducer,
       tasks: taskReducer,
+      users: userReducer,
     }, {}),
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([BoardEffects]),
+    EffectsModule.forFeature([BoardEffects, UserEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [UserService,

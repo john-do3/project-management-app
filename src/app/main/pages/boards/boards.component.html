@@ -23,7 +23,7 @@
       
       <mat-card-subtitle>Available boards:</mat-card-subtitle>
       <mat-selection-list #boardsList [multiple]="false" (selectionChange)="onBoardSelected($event)">
-        <mat-list-option *ngFor="let board of boardsData$ |async" [value]="board.id">
+        <mat-list-option *ngFor="let board of boardsData$ |async" [value]="board.id" [selected]="board.id === boardId">
           {{ board.title }}
         </mat-list-option>
       </mat-selection-list>

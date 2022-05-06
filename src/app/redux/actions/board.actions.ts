@@ -41,6 +41,6 @@ export const boardCreated = createAction(
 );
 
 export const apiCallFailed = createAction(
-  '[Main Page] Load data fail',
+  '[Main Page] Boards api call failed',
   props<{ error: any }>(),
 );

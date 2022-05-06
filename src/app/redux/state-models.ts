@@ -21,8 +21,15 @@ export interface IBoardState {
   // columns?: IColumnState[]
 }
 
+export interface IUserState {
+  id: string;
+  login: string;
+  name: string;
+}
+
 export interface AppState {
   boards: IBoardState[];
   columns: IColumnState[];
   tasks: ITaskState[];
+  users: IUserState[];
 }
