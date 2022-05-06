@@ -6,6 +6,7 @@ import { selectTasks, selectTasksId } from '../../../redux/selectors/task.select
 import { IColumnState, ITaskState } from '../../../redux/state-models';
 import { selectColumnId } from '../../../redux/selectors/column.selector';
 import { map } from 'rxjs/operators';
+import { HeaderService } from 'src/app/core/services/header.service';
 
 @Component({
   selector: 'app-column',
@@ -27,7 +28,7 @@ export class ColumnComponent implements OnInit {
   public tasksArray: ITaskState[] = [];
   public tasksIdArray$?: Observable<string[]>;
 
-  constructor(private store: Store) {
+  constructor(private headerService: HeaderService, private store: Store) {
   }
 
   @Input() column?: IColumnState;
@@ -97,4 +98,5 @@ export class ColumnComponent implements OnInit {
       );
     }
   }
+
 }

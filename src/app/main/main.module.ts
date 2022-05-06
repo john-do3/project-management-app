@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BoardsComponent } from './pages/boards/boards.component';
 import { CreateBoardComponent } from './pages/create-board/create-board.component';
 import { SharedModule } from '../shared/shared.module';
+import { BoardModule } from '../board/board.module';
+import { CreateColumnComponent } from './pages/create-column/create-column.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'boards', pathMatch: 'full' },
@@ -16,11 +18,13 @@ const routes: Routes = [
   declarations: [
     BoardsComponent,
     CreateBoardComponent,
+    CreateColumnComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
     FormsModule,
+    BoardModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
   ],

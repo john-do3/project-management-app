@@ -24,6 +24,7 @@ import { environment } from '../environments/environment';
 import { BoardEffects } from './redux/effects/board.effects';
 import { UserEffects } from './redux/effects/user.effects';
 import { userReducer } from './redux/reducers/user.reducer';
+import { ColumnEffects } from './redux/effects/column.effects';
 
 const routes: Routes = [
   { path: loginRoute, loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule) },
@@ -52,7 +53,7 @@ const routes: Routes = [
       users: userReducer,
     }, {}),
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([BoardEffects, UserEffects]),
+    EffectsModule.forFeature([BoardEffects, UserEffects, ColumnEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [UserService,

@@ -7,9 +7,6 @@ import { selectColumns } from '../../../redux/selectors/column.selector';
 import {
  column1, column2, task1, task2, task3, task4,
 } from '../../OBJECTS/obj';
-// import { addBoardAction } from '../../../redux/actions/add-board.action';
-import { addColumnAction } from '../../../redux/actions/add-column.action';
-import { addTaskAction } from '../../../redux/actions/add-task.action';
 
 @Component({
   selector: 'app-board',
@@ -35,7 +32,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   onClick() {
-    let column: IColumnState;
+    /*let column: IColumnState;
     let task: ITaskState;
     // this.store.dispatch(addBoardAction({ board }));
     column = column1;
@@ -50,7 +47,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.store.dispatch((addTaskAction({ task })));
     task = task4;
     this.store.dispatch((addTaskAction({ task })));
-    console.log(this.store);
+    console.log(this.store);*/
   }
 
   ngOnInit(): void {
