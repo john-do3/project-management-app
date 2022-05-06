@@ -48,8 +48,11 @@ export class ColumnComponent implements OnInit {
     this.columnsID$ = this.store.select(selectColumnId);
 
 
-    this.tasksIdArray$ = this.tasks$.pipe(
-      // filter((taskArray, i) => taskArray[i].columnId === this.columnId),
+    this.tasksIdArray$ = this.store.select(selectTasks).pipe(
+      filter(([{columnId}]) => {
+        console.log(columnId, this.columnId, this.columnsIdArray)
+        return columnId === this.columnId;
+      }),
       map(([{ id }])=> [id])
 
     // map((array: ITaskState[])=> array. )
@@ -71,7 +74,7 @@ export class ColumnComponent implements OnInit {
 
   public columnsIdArray = [''];
 
-  drop(event: CdkDragDrop<string[]>): void {
+  drop(event: CdkDragDrop<any>): void {
     if (event.previousContainer === event.container) {
       console.log(event, event.container.data, event.previousIndex, event.currentIndex, this.tasksIdArray);
       // this.store.dispatch(updateTaskData({
