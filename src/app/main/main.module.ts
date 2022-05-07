@@ -6,6 +6,8 @@ import { BoardsComponent } from './pages/boards/boards.component';
 import { CreateBoardComponent } from './pages/create-board/create-board.component';
 import { SharedModule } from '../shared/shared.module';
 
+import { BoardModule } from '../board/board.module';
+
 const routes: Routes = [
   { path: '', redirectTo: 'boards', pathMatch: 'full' },
   { path: 'boards', component: BoardsComponent },

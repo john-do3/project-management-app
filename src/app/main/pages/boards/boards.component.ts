@@ -19,6 +19,9 @@ import {
   deleteBoardData,
 } from '../../../redux/actions/board.actions';
 import { CreateBoardComponent } from '../create-board/create-board.component';
+import { TasksService } from '../../../board/services/tasks.service';
+import { CreateTaskComponent } from '../../../board/components/create-task/create-task.component';
+import { addTaskAction } from '../../../redux/actions/add-task.action';
 
 @Component({
   selector: 'app-boards',
@@ -48,6 +51,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
     private store: Store,
     private router: Router,
     private activateRoute: ActivatedRoute,
+    private taskService: TasksService,
   ) {
     this.boardId = activateRoute.snapshot.params['id'];
     // this.boardsList. = this.boardId;
@@ -69,6 +73,11 @@ export class BoardsComponent implements OnInit, OnDestroy {
         this.boards = val;
       }),
     );
+
+    // my
+    this.taskService.NewTaskClicked.subscribe(() => {
+        this.openCreateTaskDialog();
+    });
 
     this.sidenav.toggle();
     this.store.dispatch(loadBoardsData());
@@ -113,5 +122,21 @@ export class BoardsComponent implements OnInit, OnDestroy {
   onBoardSelected(event: any): void {
     this.boardId = event.options[0].value;
     this.router.navigateByUrl(`${boardsRoute}/${this.boardId}`);
+  }
+
+// my
+  onNewTaskClick(): void {
+    this.taskService.newTaskClick();
+  }
+
+  openCreateTaskDialog(): void {
+    const dialogRef = this.dialog.open(CreateTaskComponent, {
+      width: '250px',
+      data: { title: '', description: '' },
+    });
+
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) this.store.dispatch(addTaskAction({ task: data }));
+    });
   }
 }

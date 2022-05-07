@@ -19,7 +19,6 @@ import { columnReducer } from './redux/reducers/column.reducer';
 import { taskReducer } from './redux/reducers/task.reducer';
 import { ApiInterceptor } from './core/interceptors/api.interceptor';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
-// import { BoardComponent } from './board/pages/board/board.component';
 import { environment } from '../environments/environment';
 import { BoardEffects } from './redux/effects/board.effects';
 import { UserEffects } from './redux/effects/user.effects';
@@ -29,7 +28,6 @@ const routes: Routes = [
   { path: loginRoute, loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule) },
   { path: mainRoute, canActivate: [LoggedInGuard], loadChildren: () => import('./main/main.module').then((m) => m.MainModule) },
   { path: '', redirectTo: loginRoute, pathMatch: 'full' },
-  // { path: 'task', component: BoardComponent }, // to delete
   { path: '**', component: PageNotFoundComponent },
 ];
 
