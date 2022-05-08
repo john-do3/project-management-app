@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -14,7 +14,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss'],
 })
-export class EditProfileComponent implements OnInit {
+export class EditProfileComponent {
   editForm: FormGroup = new FormGroup({
     name: new FormControl(this.data.name, [Validators.required]),
     login: new FormControl(this.data.login, [Validators.required]),
@@ -23,23 +23,27 @@ export class EditProfileComponent implements OnInit {
       this.createPasswordStrengthValidator(),
     ]),
   });
+
   constructor(
     public dialogRef: MatDialogRef<EditProfileComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { name: string; login: string; password: string }
+    public data: { name: string; login: string; password: string },
   ) {}
 
   onSubmit() {
-    //TODO DELETE
+    // TODO DELETE
     console.log('submit');
   }
+
   onEdit() {
     this.data = this.editForm.getRawValue();
     this.dialogRef.close(this.data);
   }
+
   closeDialog() {
     this.dialogRef.close();
   }
+
   createPasswordStrengthValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const { value } = control;
@@ -58,16 +62,13 @@ export class EditProfileComponent implements OnInit {
 
       const hasSpecial = /[*@!#%&()^~{}]+/.test(value);
 
-      const passwordValid =
-        isEnoughtLength &&
-        hasUpperCase &&
-        hasLowerCase &&
-        hasNumeric &&
-        hasSpecial;
+      const passwordValid = isEnoughtLength
+        && hasUpperCase
+        && hasLowerCase
+        && hasNumeric
+        && hasSpecial;
 
       return !passwordValid ? { passwordStrength: true } : null;
     };
   }
-
-  ngOnInit(): void {}
 }

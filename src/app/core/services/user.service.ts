@@ -5,10 +5,10 @@ import { kanbanServiceUrl } from 'src/app/project.constants';
 import { CreateUserDto } from 'src/app/shared/models/createUserDto.model';
 import { SigninUserDto } from 'src/app/shared/models/signInUserDto';
 import { LoginResponseDto } from 'src/app/shared/models/loginResponseDto';
-import { HttpErrorService } from './httperror.service';
-import { IUserState } from '../../redux/state-models';
 import { Store } from '@ngrx/store';
 import { loadUsersData } from 'src/app/redux/actions/user.actions';
+import { HttpErrorService } from './httperror.service';
+import { IUserState } from '../../redux/state-models';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +35,7 @@ export class UserService {
   constructor(
     private store: Store,
     private http: HttpClient,
-    private httpErrorService: HttpErrorService
+    private httpErrorService: HttpErrorService,
   ) {
     this.token = localStorage.getItem(this.tokenKey);
     this.userLogin = localStorage.getItem(this.loginKey) ?? '';
@@ -56,7 +56,7 @@ export class UserService {
       .post<CreateUserDto>(
         `${kanbanServiceUrl}/signup`,
         newUserDto,
-        this.httpOptions
+        this.httpOptions,
       )
       .pipe(catchError((error) => this.httpErrorService.handleError(error)));
   }
@@ -66,7 +66,7 @@ export class UserService {
       .post<LoginResponseDto>(
         `${kanbanServiceUrl}/signin`,
         loginUserDto,
-        this.httpOptions
+        this.httpOptions,
       )
       .pipe(catchError((error) => this.httpErrorService.handleError(error)))
       .subscribe(
@@ -81,7 +81,7 @@ export class UserService {
         },
         () => {
           // todo error handling if needed
-        }
+        },
       );
   }
 
