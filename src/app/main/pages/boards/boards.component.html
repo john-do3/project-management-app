@@ -17,6 +17,7 @@
       >
         <mat-icon>delete</mat-icon>
       </button>
+      
     </mat-toolbar>
 
     <div class="sidebar">
@@ -30,9 +31,24 @@
     </div>
   </mat-drawer>
 
-  <div class="main">    
-  Selected board id:<br>{{this.boardId}}<br><br>
-  Board data coming soon
+  <div>  
+    <mat-toolbar>
+      <button
+        mat-icon-button
+        matTooltip="Add column"
+        [disabled]="!boardsList.selectedOptions.selected[0]"
+        (click)="onAddColumnClick()"
+      >
+        <mat-icon>add_to_queue</mat-icon>
+      </button>
+      
+      <span class="spacer"></span>
+      Selected board id:{{this.boardId}}      
+      
+
+    </mat-toolbar>  
+  
+  <app-board></app-board>
   </div>
 
 </mat-drawer-container>
