@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { IColumnState, ITaskState } from '../state-models';
 
-export const addTaskAction = createAction(
+export const taskActions = createAction(
   '[Main Page] AddTask',
   props<{
     task: ITaskState
@@ -54,5 +54,9 @@ export const taskCreatedAction = createAction(
   props<{ task: ITaskState }>(),
 );
 
+export const apiCallFailed = createAction(
+  '[Board] Tasks api call failed',
+  props<{ error: Error }>(),
+);
 
 

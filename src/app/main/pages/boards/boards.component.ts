@@ -28,7 +28,7 @@ import {
 import { CreateBoardComponent } from '../create-board/create-board.component';
 import { TasksService } from '../../../board/services/tasks.service';
 import { CreateTaskComponent } from '../../../board/components/create-task/create-task.component';
-import { addTaskAction } from '../../../redux/actions/add-task.action';
+import { taskActions } from '../../../redux/actions/task.actions';
 import { CreateColumnComponent } from '../create-column/create-column.component';
 
 @Component({

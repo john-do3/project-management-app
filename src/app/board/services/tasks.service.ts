@@ -8,7 +8,7 @@ import { ITaskState } from '../../redux/state-models';
 import { kanbanServiceUrl } from '../../project.constants';
 import { ICreateTaskDto } from '../../shared/models/createTaskDto';
 import { CreateTaskComponent } from '../components/create-task/create-task.component';
-import { addTaskAction } from '../../redux/actions/add-task.action';
+import { taskActions } from '../../redux/actions/task.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -27,22 +27,22 @@ export class TasksService {
     private store: Store,
   ) {}
 
-  public createTask(newTask: ICreateTaskDto): Observable<ITaskState> {
-    return this.http.post<ITaskState>(`${kanbanServiceUrl}/tasks`, newTask, this.httpOptions)
+  public createTask(boardId: string, columnId: string, order: number, newTask: ICreateTaskDto): Observable<ITaskState> {
+    return this.http.post<ITaskState>(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks`, newTask, this.httpOptions)
       .pipe(
         catchError((error) => this.httpErrorService.handleError(error)),
       );
   }
 
-  public deleteTask(taskId: string) {
-    return this.http.delete(`${kanbanServiceUrl}/tasks/${taskId}`)
+  public deleteTask(boardId: string, columnId: string, taskId: string) {
+    return this.http.delete(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`)
       .pipe(
         catchError((error) => this.httpErrorService.handleError(error)),
       );
   }
 
-  public loadTasks(): Observable<ReadonlyArray<ITaskState>> {
-    return this.http.get<ITaskState[]>(`${kanbanServiceUrl}/tasks`, {})
+  public loadTasks(boardId: string, columnId: string): Observable<ReadonlyArray<ITaskState>> {
+    return this.http.get<ITaskState[]>(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks`, {})
       .pipe(
         catchError((error) => this.httpErrorService.handleError(error)),
       );
@@ -63,7 +63,7 @@ export class TasksService {
     });
 
     dialogRef.afterClosed().subscribe((data) => {
-      if (data) this.store.dispatch(addTaskAction({ task: data }));
+      if (data) this.store.dispatch(taskActions({ task: data }));
     });
   }
 }

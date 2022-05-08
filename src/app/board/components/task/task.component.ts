@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { ITaskState } from '../../../redux/state-models';
 import { selectTasks } from '../../../redux/selectors/task.selector';
-import { deleteTaskData } from '../../../redux/actions/add-task.action';
+import { deleteTaskData } from '../../../redux/actions/task.actions';
 
 @Component({
   selector: 'app-task',
