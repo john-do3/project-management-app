@@ -160,6 +160,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((data) => {
+      this.createColumnInProgress = false;
       
       if (data) {
         const $ = this.columnsData$.pipe(
@@ -170,8 +171,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
             if (columns.length > 0)
               maxOrder = Math.max(...columns.map(c => c.order));
 
-            this.store.dispatch(createColumnData({ boardId: this.boardId, title: data, order: maxOrder + 1 }))
-            this.createColumnInProgress = false;
+            this.store.dispatch(createColumnData({ boardId: this.boardId, title: data, order: maxOrder + 1 }))            
             $.unsubscribe();
           }
           )
