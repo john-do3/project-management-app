@@ -63,7 +63,10 @@ export class TasksService {
     });
 
     dialogRef.afterClosed().subscribe((data) => {
-      if (data) this.store.dispatch(taskActions({ task: data }));
+      if (data) {
+        console.log(data,'tttt')
+        this.store.dispatch(taskActions({task: data}));
+      }
     });
   }
 }

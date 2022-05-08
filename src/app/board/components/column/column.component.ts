@@ -23,7 +23,8 @@ export class ColumnComponent implements OnInit {
 
   private subscriptions = new Subscription();
 
-
+  public tasksData$ = this.store.select(selectTasks);
+  public tasksIdData$ = this.store.select(selectTasksId);
 
 
 
