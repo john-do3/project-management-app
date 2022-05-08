@@ -1,0 +1,24 @@
+<mat-card>
+  <div class="columnMain">
+    <mat-card-title>{{ column?.title }}</mat-card-title>
+    <div class="spacer"></div>    
+    <button mat-button [matMenuTriggerFor]="menu">...</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Create task</button>
+      <button mat-menu-item>Delete column</button>
+    </mat-menu>
+  </div>
+  <mat-card-content
+    cdkDropList
+    [id]="columnId"
+    [cdkDropListData]="tasksIdArray"
+    [cdkDropListConnectedTo]="columnsIdArray"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <app-task *ngFor="let taskId of tasksIdArray" [id]="taskId" cdkDrag>
+    </app-task>
+  </mat-card-content>
+</mat-card>
+
+<!--[cdkDropListData]="tasksIdArray$ | async"-->
+<!--*ngFor="let taskId of tasksIdArray$ | async"-->

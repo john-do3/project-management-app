@@ -13,6 +13,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.component';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
     MatSidenavModule,
     FormsModule,
     ReactiveFormsModule,
+    MatMenuModule,
   ],
   exports: [
     DragDropModule,
@@ -47,6 +49,7 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
     MatDialogModule,
     MatListModule,
     MatSidenavModule,
+    MatMenuModule,
     ConfirmModalComponent,
     FormsModule,
     ReactiveFormsModule,
