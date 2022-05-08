@@ -1,3 +1,9 @@
+@import "../../../common.scss";
+
+.columnMain {
+    display: flex;
+}
+
 mat-card {
     min-width: 250px;
     margin: 2em auto;

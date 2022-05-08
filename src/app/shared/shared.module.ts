@@ -12,6 +12,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.component';
 
 @NgModule({
@@ -30,6 +31,7 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
     MatDialogModule,
     MatListModule,
     MatSidenavModule,
+    MatMenuModule,
   ],
   exports: [
     DragDropModule,
@@ -44,6 +46,7 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
     MatDialogModule,
     MatListModule,
     MatSidenavModule,
+    MatMenuModule,
     ConfirmModalComponent,
   ],
 })
