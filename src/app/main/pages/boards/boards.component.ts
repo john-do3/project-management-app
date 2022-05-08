@@ -14,14 +14,21 @@ import { selectBoards } from 'src/app/redux/selectors/board.selector';
 import { IBoardState, IColumnState } from 'src/app/redux/state-models';
 import { boardsRoute } from 'src/app/project.constants';
 import { ConfirmModalComponent } from 'src/app/shared/pages/confirm-modal/confirm-modal.component';
+import { BoardService } from 'src/app/core/services/board.service';
+import { selectColumns } from 'src/app/redux/selectors/column.selector';
+import {
+  createColumnData,
+  deleteColumnData,
+  loadColumnsData,
+} from 'src/app/redux/actions/column.actions';
 import {
   createBoardData,
   deleteBoardData,
 } from '../../../redux/actions/board.actions';
 import { CreateBoardComponent } from '../create-board/create-board.component';
-import { BoardService } from 'src/app/core/services/board.service';
-import { selectColumns } from 'src/app/redux/selectors/column.selector';
-import { createColumnData, deleteColumnData, loadColumnsData } from 'src/app/redux/actions/column.actions';
+import { TasksService } from '../../../board/services/tasks.service';
+import { CreateTaskComponent } from '../../../board/components/create-task/create-task.component';
+import { addTaskAction } from '../../../redux/actions/add-task.action';
 import { CreateColumnComponent } from '../create-column/create-column.component';
 
 @Component({
@@ -33,6 +40,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
   boardId!: string;
 
   createBoardInProgress = false;
+
   createColumnInProgress = false;
 
   boards!: IBoardState[];
@@ -44,6 +52,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
   boardsList!: MatList;
 
   boardsData$ = this.store.select(selectBoards);
+
   columnsData$ = this.store.select(selectColumns);
 
   private subscriptions = new Subscription();
@@ -55,10 +64,10 @@ export class BoardsComponent implements OnInit, OnDestroy {
     private store: Store,
     private router: Router,
     private activateRoute: ActivatedRoute,
+    private taskService: TasksService,
   ) {
     this.boardId = activateRoute.snapshot.params['id'];
-    if (this.boardId)
-      this.store.dispatch(loadColumnsData({ boardId: this.boardId }));
+    if (this.boardId) this.store.dispatch(loadColumnsData({ boardId: this.boardId }));
   }
 
   ngOnInit(): void {
@@ -128,7 +137,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(boardsRoute);
       }
     });
-  }*/
+  } */
 
   onNewBoardClick(): void {
     this.headerService.newBoardClick();
@@ -138,8 +147,8 @@ export class BoardsComponent implements OnInit, OnDestroy {
     this.headerService.newColumnClick();
   }
 
-  onDeleteColumnClick(): void{
-    //this.openDeleteColumnDialog();
+  onDeleteColumnClick(): void {
+    // this.openDeleteColumnDialog();
   }
 
   onDeleteBoardClick(): void {
@@ -161,24 +170,23 @@ export class BoardsComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((data) => {
       this.createColumnInProgress = false;
-      
+
       if (data) {
         const $ = this.columnsData$.pipe(
           map((columns: IColumnState[]) => {
+              let maxOrder = 0;
+              // find max column order for given boardId
+              if (columns.length > 0) maxOrder = Math.max(...columns.map((c) => c.order));
 
-            let maxOrder = 0;
-            // find max column order for given boardId
-            if (columns.length > 0)
-              maxOrder = Math.max(...columns.map(c => c.order));
-
-            this.store.dispatch(createColumnData({ boardId: this.boardId, title: data, order: maxOrder + 1 }))            
-            $.unsubscribe();
-          }
-          )
+              this.store.dispatch(createColumnData({
+                boardId: this.boardId,
+                title: data,
+                order: maxOrder + 1,
+              }));
+              $.unsubscribe();
+            }),
         ).subscribe();
-
-
-  }
-});
+      }
+    });
   }
 }

@@ -23,11 +23,11 @@ export const columnReducer = createReducer(
     error: null,
   })),
 
-  /*on(ColumnActions.columnDeleted, (state, { boardId }) => ({
+  /* on(ColumnActions.columnDeleted, (state, { boardId }) => ({
     ...state,
     boards: [...state.columns.filter((b) => b.id !== boardId)],
     error: null,
-  })),*/
+  })), */
 
   on(ColumnActions.apiCallFailed, (state, { error }): State => ({
     ...state,

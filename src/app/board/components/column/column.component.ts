@@ -1,12 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, Observable, of, Subscription, switchMap, tap } from 'rxjs';
+import {
+ filter, Observable, of, Subscription, switchMap, tap,
+} from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { map } from 'rxjs/operators';
+import { HeaderService } from 'src/app/core/services/header.service';
 import { selectTasks, selectTasksId } from '../../../redux/selectors/task.selector';
 import { IColumnState, ITaskState } from '../../../redux/state-models';
 import { selectColumnId } from '../../../redux/selectors/column.selector';
-import { map } from 'rxjs/operators';
-import { HeaderService } from 'src/app/core/services/header.service';
+import { TasksService } from '../../services/tasks.service';
 
 @Component({
   selector: 'app-column',
@@ -17,6 +20,9 @@ export class ColumnComponent implements OnInit {
   // private subscription?: Subscription;
   //
   // private tasksIdArray: string[] = [];
+
+  private subscriptions = new Subscription();
+
   private subscriptionColumnsId?: Subscription;
 
   private subscriptionTasksId?: Subscription;
@@ -26,9 +32,14 @@ export class ColumnComponent implements OnInit {
   private subscriptionTasks?: Subscription;
 
   public tasksArray: ITaskState[] = [];
+
   public tasksIdArray$?: Observable<string[]>;
 
-  constructor(private headerService: HeaderService, private store: Store) {
+  constructor(
+private headerService: HeaderService,
+              private store: Store,
+              private tasksService: TasksService,
+) {
   }
 
   @Input() column?: IColumnState;
@@ -43,21 +54,31 @@ export class ColumnComponent implements OnInit {
 
   public columnsID$: Observable<string[]> | null = of(['']);
 
+  onNewTaskClick(): void {
+    this.tasksService.newTaskClick();
+  }
+
   ngOnInit(): void {
+    this.subscriptions.add(
+
+    this.tasksService.NewTaskClicked.subscribe(() => {
+      this.tasksService.openCreateTaskDialog();
+    }),
+    );
+
     this.tasks$ = this.store.select(selectTasks);
     this.tasksID$ = this.store.select(selectTasksId);
     this.columnsID$ = this.store.select(selectColumnId);
 
-
     this.tasksIdArray$ = this.store.select(selectTasks).pipe(
-      filter(([{columnId}]) => {
-        console.log(columnId, this.columnId, this.columnsIdArray)
+      filter(([{ columnId }]) => {
+        console.log(columnId, this.columnId, this.columnsIdArray);
         return columnId === this.columnId;
       }),
-      map(([{ id }])=> [id])
+      map(([{ id }]) => [id]),
 
     // map((array: ITaskState[])=> array. )
-  )
+  );
     // this.tasksIdArray$?.subscribe((v)=> console.log(v))
 
     this.subscriptionTasks = this.store.select(selectTasks)
@@ -98,5 +119,4 @@ export class ColumnComponent implements OnInit {
       );
     }
   }
-
 }

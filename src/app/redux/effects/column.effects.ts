@@ -42,5 +42,5 @@ export class ColumnEffects {
                 map(() => ColumnActions.columnDeleted({ columnId: action.columnId })),
                 catchError(async (error) => ColumnActions.apiCallFailed(error)),
             )),
-    )); 
+    ));
 }

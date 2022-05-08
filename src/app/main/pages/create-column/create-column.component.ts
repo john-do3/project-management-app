@@ -6,7 +6,7 @@ import { CreateColumnDto } from 'src/app/shared/models/createColumnDto';
 @Component({
   selector: 'app-create-column',
   templateUrl: './create-column.component.html',
-  styleUrls: ['./create-column.component.scss']
+  styleUrls: ['./create-column.component.scss'],
 })
 export class CreateColumnComponent implements OnInit {
   createDialog: FormGroup = new FormGroup({
@@ -15,7 +15,8 @@ export class CreateColumnComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<CreateColumnComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: CreateColumnDto) { }
+    @Inject(MAT_DIALOG_DATA) public data: CreateColumnDto,
+) { }
 
   ngOnInit(): void {
     this.createDialog.get('columnTitle')?.setValue(this.data.title);
@@ -24,7 +25,7 @@ export class CreateColumnComponent implements OnInit {
   onCancel(): void {
     this.dialogRef.close();
   }
-  
+
   onCreate(): void {
     this.createDialog.get('columnTitle')?.markAsTouched();
 

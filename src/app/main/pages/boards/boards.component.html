@@ -17,11 +17,11 @@
       >
         <mat-icon>delete</mat-icon>
       </button>
-      
+
     </mat-toolbar>
 
     <div class="sidebar">
-      
+
       <mat-card-subtitle>Available boards:</mat-card-subtitle>
       <mat-selection-list #boardsList [multiple]="false" (selectionChange)="onBoardSelected($event)">
         <mat-list-option *ngFor="let board of boardsData$ |async" [value]="board.id" [selected]="board.id === boardId">
@@ -31,7 +31,7 @@
     </div>
   </mat-drawer>
 
-  <div>  
+  <div>
     <mat-toolbar>
       <button
         mat-icon-button
@@ -41,13 +41,13 @@
       >
         <mat-icon>add_to_queue</mat-icon>
       </button>
-      
-      <span class="spacer"></span>
-      Selected board id:{{this.boardId}}      
-      
 
-    </mat-toolbar>  
-  
+      <span class="spacer"></span>
+      Selected board id:{{this.boardId}}
+
+
+    </mat-toolbar>
+
   <app-board></app-board>
   </div>
 

@@ -8,6 +8,7 @@ import { IBoardState } from 'src/app/redux/state-models';
 
 export class HeaderService {
     public NewBoardClicked: Subject<boolean> = new Subject<boolean>();
+
     public NewColumnClicked: Subject<boolean> = new Subject<boolean>();
 
     public GetBoardsClicked: Subject<IBoardState[]> = new Subject<IBoardState[]>();

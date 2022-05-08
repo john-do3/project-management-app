@@ -12,6 +12,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.component';
 
@@ -31,6 +32,8 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
     MatDialogModule,
     MatListModule,
     MatSidenavModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatMenuModule,
   ],
   exports: [
@@ -48,6 +51,8 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
     MatSidenavModule,
     MatMenuModule,
     ConfirmModalComponent,
+    FormsModule,
+    ReactiveFormsModule,
   ],
 })
 export class SharedModule {}
