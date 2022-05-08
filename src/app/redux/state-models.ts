@@ -3,8 +3,8 @@ export interface ITaskState {
   title: string;
   order: number;
   description: string;
-  userId: string; // object?
-  boardId: string; // object?
+  userId: string;
+  boardId: string;
   columnId: string;
 }
 

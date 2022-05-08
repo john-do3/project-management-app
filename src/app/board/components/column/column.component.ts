@@ -23,6 +23,14 @@ export class ColumnComponent implements OnInit {
 
   private subscriptions = new Subscription();
 
+
+
+
+
+
+
+
+
   private subscriptionColumnsId?: Subscription;
 
   private subscriptionTasksId?: Subscription;
