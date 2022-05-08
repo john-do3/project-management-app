@@ -32,7 +32,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   onClick() {
-    /*let column: IColumnState;
+    /* let column: IColumnState;
     let task: ITaskState;
     // this.store.dispatch(addBoardAction({ board }));
     column = column1;
@@ -47,7 +47,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.store.dispatch((addTaskAction({ task })));
     task = task4;
     this.store.dispatch((addTaskAction({ task })));
-    console.log(this.store);*/
+    console.log(this.store); */
   }
 
   ngOnInit(): void {

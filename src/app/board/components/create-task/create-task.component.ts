@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
- FormBuilder, FormControl, FormGroup, Validators,
+  FormBuilder, FormControl, FormGroup, Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { FormConfig, ICreateTaskDto, TaskFormInput } from '../../../shared/models/createTaskDto';
@@ -57,7 +57,7 @@ export class CreateTaskComponent {
       title: this.title.value,
       description: this.description.value,
     };
-    if (this.formGroup.status === 'VALID'){
+    if (this.formGroup.status === 'VALID') {
       this.dialogRef.close(taskData);
     }
   }

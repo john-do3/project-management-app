@@ -17,8 +17,8 @@ import { BoardComponent } from './pages/board/board.component';
     CommonModule,
     SharedModule,
   ],
-  exports:[
-    BoardComponent
-  ]
+  exports: [
+    BoardComponent,
+  ],
 })
 export class BoardModule { }

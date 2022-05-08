@@ -11,14 +11,6 @@
 
       <button
         mat-icon-button
-        matTooltip="Create new task"
-        (click)="onNewTaskClick()"
-      >
-        <mat-icon>create_new_folder</mat-icon>
-      </button>
-
-      <button
-        mat-icon-button
         matTooltip="Delete board"
         [disabled]="!boardsList.selectedOptions.selected[0]"
         (click)="onDeleteBoardClick()"

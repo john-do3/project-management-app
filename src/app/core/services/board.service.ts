@@ -12,7 +12,7 @@ import { HttpErrorService } from './httperror.service';
 })
 export class BoardService {
     CreateColumnClicked: Subject<boolean> = new Subject<boolean>();
-    
+
     httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
