@@ -60,7 +60,7 @@ const routes: Routes = [
         tasks: taskReducer,
         users: userReducer,
       },
-      {}
+      {},
     ),
     EffectsModule.forRoot([]),
     EffectsModule.forFeature([BoardEffects, UserEffects, ColumnEffects]),

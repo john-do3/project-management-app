@@ -20,6 +20,7 @@ export class WelcomePageComponent implements OnInit {
   onSignUp(): void {
     this.router.navigateByUrl('auth/signup');
   }
+
   ngOnInit(): void {
     this.isLoggedIn = this.userSrv.checkIsLoggedIn();
     if (this.isLoggedIn) this.router.navigateByUrl(mainRoute);
