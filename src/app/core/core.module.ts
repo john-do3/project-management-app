@@ -7,9 +7,10 @@ import { FooterComponent } from './pages/footer/footer.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { LoggedInGuard } from './guards/logged-in.guard';
 import { SharedModule } from '../shared/shared.module';
+import { WelcomePageComponent } from './pages/welcome-page/welcome-page.component';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent],
+  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, WelcomePageComponent],
   imports: [CommonModule, FormsModule, SharedModule, RouterModule],
   exports: [HeaderComponent, FooterComponent, PageNotFoundComponent],
   providers: [LoggedInGuard],
