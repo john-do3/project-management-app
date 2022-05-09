@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
     private dialog: MatDialog,
     private ref: ChangeDetectorRef,
     private router: Router,
-    private store: Store
+    private store: Store,
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class HeaderComponent implements OnInit {
         if (this.isLoggedIn) this.router.navigateByUrl(mainRoute);
         else this.router.navigateByUrl(loginRoute);
         this.ref.detectChanges();
-      })
+      }),
     );
   }
 
@@ -90,7 +90,7 @@ export class HeaderComponent implements OnInit {
                 this.onLogout();
                 $.unsubscribe();
               }
-            })
+            }),
           )
           .subscribe();
       }
@@ -114,7 +114,7 @@ export class HeaderComponent implements OnInit {
               }
             });
           }
-        })
+        }),
       )
       .subscribe();
     userData.unsubscribe();
