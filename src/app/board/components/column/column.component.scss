@@ -1,7 +1,16 @@
 @import "../../../common.scss";
 
-.columnMain {
+.column {
+    margin:10px;
+}
+
+.columnHeader {
     display: flex;
+    margin: 10px;
+}
+
+.titleInput {
+    width: 100px;
 }
 
 mat-card {

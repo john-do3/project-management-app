@@ -1,11 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component, ElementRef, Input, OnInit, ViewChild,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
- filter, Observable, of, Subscription, switchMap, tap,
+  filter, Observable, of, Subscription,
 } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { map } from 'rxjs/operators';
 import { HeaderService } from 'src/app/core/services/header.service';
+import { BoardService } from 'src/app/core/services/board.service';
+import {
+  updateColumn,
+} from 'src/app/redux/actions/column.actions';
 import { selectTasks, selectTasksId } from '../../../redux/selectors/task.selector';
 import { IColumnState, ITaskState } from '../../../redux/state-models';
 import { selectColumnId } from '../../../redux/selectors/column.selector';
@@ -20,6 +26,14 @@ export class ColumnComponent implements OnInit {
   // private subscription?: Subscription;
   //
   // private tasksIdArray: string[] = [];
+  isTitleEditing = false;
+
+  @Input() boardId!: string;
+
+  @Input() column?: IColumnState;
+
+  @ViewChild('columnTitle')
+  inputTitle!: ElementRef;
 
   private subscriptions = new Subscription();
 
@@ -36,15 +50,14 @@ export class ColumnComponent implements OnInit {
   public tasksIdArray$?: Observable<string[]>;
 
   constructor(
-private headerService: HeaderService,
-              private store: Store,
-              private tasksService: TasksService,
-) {
+    private headerService: HeaderService,
+    private store: Store,
+    private tasksService: TasksService,
+    private boardService: BoardService,
+  ) {
   }
 
-  @Input() column?: IColumnState;
-
-  public get columnId(){
+  public get columnId() {
     return this.column ? this.column.id : '';
   }
 
@@ -58,12 +71,16 @@ private headerService: HeaderService,
     this.tasksService.newTaskClick();
   }
 
+  onDeleteColumnClick(columnId?: string): void {
+    if (columnId) this.boardService.DeleteColumnClicked.next(columnId);
+  }
+
   ngOnInit(): void {
     this.subscriptions.add(
 
-    this.tasksService.NewTaskClicked.subscribe(() => {
-      this.tasksService.openCreateTaskDialog();
-    }),
+      this.tasksService.NewTaskClicked.subscribe(() => {
+        this.tasksService.openCreateTaskDialog();
+      }),
     );
 
     this.tasks$ = this.store.select(selectTasks);
@@ -77,9 +94,9 @@ private headerService: HeaderService,
       }),
       map(([{ id }]) => [id]),
 
-    // map((array: ITaskState[])=> array. )
-  );
-    // this.tasksIdArray$?.subscribe((v)=> console.log(v))
+      // map((array: ITaskState[])=> array. )
+    );
+    /* this.tasksIdArray$?.subscribe((v)=> console.log(v))
 
     this.subscriptionTasks = this.store.select(selectTasks)
       .subscribe((val) => {
@@ -89,9 +106,9 @@ private headerService: HeaderService,
           .filter((task) => task.columnId === this.columnId)
           .map((taskObj) => taskObj.id);
       });
-    // // this.subscriptionTasksId = this.store.select(selectTasksId).subscribe((val) => this.tasksIdArray = val)
+     this.subscriptionTasksId = this.store.select(selectTasksId).subscribe((val) => this.tasksIdArray = val)
     this.subscriptionColumnsId = this.store.select(selectColumnId).subscribe((val) => this.columnsIdArray = val);
-    console.log(5);
+    */
   }
 
   public columnsIdArray = [''];
@@ -118,5 +135,25 @@ private headerService: HeaderService,
         event.currentIndex,
       );
     }
+  }
+
+  onTitleClick(): void {
+    this.isTitleEditing = true;
+  }
+
+  saveTitle(): void {
+    if (this.column) {
+      this.store.dispatch(updateColumn({
+        boardId: this.boardId,
+        columnId: this.column.id,
+        updateColumn: { title: this.inputTitle.nativeElement.value, order: this.column.order },
+      }));
+    }
+
+    this.isTitleEditing = false;
+  }
+
+  cancelTitle(): void {
+    this.isTitleEditing = false;
   }
 }

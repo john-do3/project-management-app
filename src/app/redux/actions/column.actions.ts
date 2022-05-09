@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { UpdateColumnDto } from 'src/app/shared/models/updateColumnDto';
 import { IColumnState } from '../state-models';
 
 export const loadColumnData = createAction(
@@ -29,6 +30,16 @@ export const deleteColumnData = createAction(
 export const columnDeleted = createAction(
   '[Main Page] Column data deleted',
   props<{ columnId: string }>(),
+);
+
+export const updateColumn = createAction(
+  '[Main Page] Update column data',
+  props<{ boardId: string, columnId: string, updateColumn: UpdateColumnDto }>(),
+);
+
+export const columnUpdated = createAction(
+  '[Main Page] Column data updated',
+  props<{ column: IColumnState }>(),
 );
 
 export const createColumnData = createAction(

@@ -5,6 +5,7 @@ import { kanbanServiceUrl } from 'src/app/project.constants';
 import { IBoardState, IColumnState } from 'src/app/redux/state-models';
 import { CreateBoardDto } from 'src/app/shared/models/createBoardDto';
 import { CreateColumnDto } from 'src/app/shared/models/createColumnDto';
+import { UpdateColumnDto } from 'src/app/shared/models/updateColumnDto';
 import { HttpErrorService } from './httperror.service';
 
 @Injectable({
@@ -12,6 +13,10 @@ import { HttpErrorService } from './httperror.service';
 })
 export class BoardService {
     CreateColumnClicked: Subject<boolean> = new Subject<boolean>();
+
+    DeleteColumnClicked: Subject<string> = new Subject<string>();
+
+    UpdateColumnTitleClicked: Subject<string> = new Subject<string>();
 
     httpOptions = {
         headers: new HttpHeaders({
@@ -22,7 +27,7 @@ export class BoardService {
     constructor(
         private http: HttpClient,
         private httpErrorService: HttpErrorService,
-    ) {}
+    ) { }
 
     public createBoard(newBoard: CreateBoardDto): Observable<IBoardState> {
         return this.http.post<IBoardState>(`${kanbanServiceUrl}/boards`, newBoard, this.httpOptions)
@@ -52,7 +57,7 @@ export class BoardService {
             );
     }
 
-    public createColumn(boardId: string, newColumn: CreateColumnDto): Observable<IColumnState>{
+    public createColumn(boardId: string, newColumn: CreateColumnDto): Observable<IColumnState> {
         return this.http.post<IColumnState>(`${kanbanServiceUrl}/boards/${boardId}/columns`, newColumn, this.httpOptions)
             .pipe(
                 catchError((error) => this.httpErrorService.handleError(error)),
@@ -64,5 +69,16 @@ export class BoardService {
             .pipe(
                 catchError((error) => this.httpErrorService.handleError(error)),
             );
+    }
+
+    public updateColumn(boardId: string, columnId: string, updateColumn: UpdateColumnDto): Observable<IColumnState> {
+        return this.http.put<IColumnState>(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}`, updateColumn, this.httpOptions)
+            .pipe(
+                catchError((error) => this.httpErrorService.handleError(error)),
+            );
+    }
+
+    public DeleteColumnClick(columnId: string): void {
+        this.DeleteColumnClicked.next(columnId);
     }
 }

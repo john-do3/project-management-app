@@ -6,7 +6,9 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatList } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { map, Observable, Subscription } from 'rxjs';
+import {
+ map, Subscription, take,
+} from 'rxjs';
 import { HeaderService } from 'src/app/core/services/header.service';
 import { loadBoardsData } from 'src/app/redux/actions/board.actions';
 import { loadUsersData } from 'src/app/redux/actions/user.actions';
@@ -27,8 +29,6 @@ import {
 } from '../../../redux/actions/board.actions';
 import { CreateBoardComponent } from '../create-board/create-board.component';
 import { TasksService } from '../../../board/services/tasks.service';
-import { CreateTaskComponent } from '../../../board/components/create-task/create-task.component';
-import { addTaskAction } from '../../../redux/actions/add-task.action';
 import { CreateColumnComponent } from '../create-column/create-column.component';
 
 @Component({
@@ -96,6 +96,12 @@ export class BoardsComponent implements OnInit, OnDestroy {
       }),
     );
 
+    this.subscriptions.add(
+      this.boardService.DeleteColumnClicked.subscribe((columnId) => {
+          this.openDeleteColumnDialog(columnId);
+      }),
+    );
+
     this.sidenav.toggle();
     this.store.dispatch(loadBoardsData());
   }
@@ -122,22 +128,24 @@ export class BoardsComponent implements OnInit, OnDestroy {
     const $ = dialogRef.afterClosed().subscribe((result) => {
       if (result === 'true') {
         this.store.dispatch(deleteBoardData({ boardId: this.boardId }));
-        $.unsubscribe();
         this.router.navigateByUrl(boardsRoute);
       }
+
+      $.unsubscribe();
     });
   }
 
-  /* todo openDeleteColumnDialog(): void {
+  openDeleteColumnDialog(columnId: string): void {
     const dialogRef = this.dialog.open(ConfirmModalComponent);
     const $ = dialogRef.afterClosed().subscribe((result) => {
       if (result === 'true') {
-        this.store.dispatch(deleteColumnData({ boardId: this.boardId, columnId: }));
-        $.unsubscribe();
-        this.router.navigateByUrl(boardsRoute);
+        this.store.dispatch(deleteColumnData({ boardId: this.boardId, columnId }));
+        this.router.navigateByUrl(`${boardsRoute}/${this.boardId}`);
       }
+
+      $.unsubscribe();
     });
-  } */
+  }
 
   onNewBoardClick(): void {
     this.headerService.newBoardClick();
@@ -145,10 +153,6 @@ export class BoardsComponent implements OnInit, OnDestroy {
 
   onAddColumnClick(): void {
     this.headerService.newColumnClick();
-  }
-
-  onDeleteColumnClick(): void {
-    // this.openDeleteColumnDialog();
   }
 
   onDeleteBoardClick(): void {
@@ -172,7 +176,8 @@ export class BoardsComponent implements OnInit, OnDestroy {
       this.createColumnInProgress = false;
 
       if (data) {
-        const $ = this.columnsData$.pipe(
+        this.columnsData$.pipe(
+          take(1),
           map((columns: IColumnState[]) => {
               let maxOrder = 0;
               // find max column order for given boardId
@@ -183,7 +188,6 @@ export class BoardsComponent implements OnInit, OnDestroy {
                 title: data,
                 order: maxOrder + 1,
               }));
-              $.unsubscribe();
             }),
         ).subscribe();
       }
