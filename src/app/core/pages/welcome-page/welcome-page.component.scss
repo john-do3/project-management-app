@@ -5,6 +5,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
 }
 .auth-controls {
   display: flex;
@@ -16,12 +18,7 @@
   align-self: center;
   display: flex;
   flex-direction: column;
-  .course {
-    align-self: end;
-  }
-  .task {
-    align-self: center;
-  }
+  align-items: center;
   .authors-list {
     margin: 0;
     padding: 0;
