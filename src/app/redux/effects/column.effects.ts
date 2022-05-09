@@ -1,10 +1,11 @@
-import { ApplicationModule, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
     Actions, ofType, createEffect,
 } from '@ngrx/effects';
 import { map, switchMap, catchError } from 'rxjs/operators';
 import { BoardService } from '../../core/services/board.service';
 import * as ColumnActions from '../actions/column.actions';
+import { IColumnState } from '../state-models';
 
 @Injectable()
 export class ColumnEffects {
@@ -26,7 +27,7 @@ export class ColumnEffects {
     createColumn = createEffect(() => this.actions$.pipe(
         ofType(ColumnActions.createColumnData),
         switchMap((action) => this.boardService
-            .createColumn( action.boardId, { title: action.title, order: action.order })
+            .createColumn(action.boardId, { title: action.title, order: action.order })
             .pipe(
                 map((createColumnResponse) => ColumnActions.columnCreated({ column: createColumnResponse })),
                 catchError(async (error) => ColumnActions.apiCallFailed(error)),
@@ -40,6 +41,16 @@ export class ColumnEffects {
             .deleteColumn(action.boardId, action.columnId)
             .pipe(
                 map(() => ColumnActions.columnDeleted({ columnId: action.columnId })),
+                catchError(async (error) => ColumnActions.apiCallFailed(error)),
+            )),
+    ));
+
+    updateColumn = createEffect(() => this.actions$.pipe(
+        ofType(ColumnActions.updateColumn),
+        switchMap((action) => this.boardService
+            .updateColumn(action.boardId, action.columnId, action.updateColumn)
+            .pipe(
+                map((updateColumnResponse: IColumnState) => ColumnActions.columnUpdated({ column: updateColumnResponse })),
                 catchError(async (error) => ColumnActions.apiCallFailed(error)),
             )),
     ));

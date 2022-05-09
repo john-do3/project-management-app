@@ -12,7 +12,6 @@
       <button
         mat-icon-button
         matTooltip="Delete board"
-        [disabled]="!boardsList.selectedOptions.selected[0]"
         (click)="onDeleteBoardClick()"
       >
         <mat-icon>delete</mat-icon>
@@ -35,8 +34,7 @@
     <mat-toolbar>
       <button
         mat-icon-button
-        matTooltip="Add column"
-        [disabled]="!boardsList.selectedOptions.selected[0]"
+        matTooltip="Add column"        
         (click)="onAddColumnClick()"
       >
         <mat-icon>add_to_queue</mat-icon>
@@ -48,7 +46,7 @@
 
     </mat-toolbar>
 
-  <app-board></app-board>
+  <app-board [boardId]="boardId"></app-board>
   </div>
 
 </mat-drawer-container>
