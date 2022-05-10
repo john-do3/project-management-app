@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Subscription } from 'rxjs';
-import { loginRoute, mainRoute } from 'src/app/project.constants';
+import { loginRoute, mainRoute, welcomeRoute } from 'src/app/project.constants';
 import { selectUsers } from 'src/app/redux/selectors/user.selector';
 import { IUserState } from 'src/app/redux/state-models';
 import { CreateUserDto } from 'src/app/shared/models/createUserDto.model';
@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit {
         this.isLoggedIn = val;
         this.userLogin = this.userService.getUserLogin();
         if (this.isLoggedIn) this.router.navigateByUrl(mainRoute);
-        else this.router.navigateByUrl(loginRoute);
+        else this.router.navigateByUrl(welcomeRoute);
         this.ref.detectChanges();
       }),
     );
@@ -63,14 +63,6 @@ export class HeaderComponent implements OnInit {
       result = 'RU';
     }
     return result;
-  }
-
-  onLogin(): void {
-    this.router.navigateByUrl('auth/login');
-  }
-
-  onSignUp(): void {
-    this.router.navigateByUrl('auth/signup');
   }
 
   onLogout(): void {

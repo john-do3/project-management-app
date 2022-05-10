@@ -1,0 +1,21 @@
+@import "../../../common.scss";
+
+.column {
+    margin:10px;
+}
+
+.columnHeader {
+    display: flex;
+    margin: 10px;
+}
+
+.titleInput {
+    width: 100px;
+}
+
+mat-card {
+    min-width: 250px;
+    margin: 2em auto;
+    text-align: center;
+    background-color: #F2F2F2;
+}

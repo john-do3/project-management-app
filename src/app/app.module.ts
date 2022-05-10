@@ -11,7 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { PageNotFoundComponent } from './core/pages/page-not-found/page-not-found.component';
-import { loginRoute, mainRoute } from './project.constants';
+import { loginRoute, mainRoute, welcomeRoute } from './project.constants';
 import { SharedModule } from './shared/shared.module';
 import { UserService } from './core/services/user.service';
 import { boardReducer } from './redux/reducers/board.reducer';
@@ -19,24 +19,32 @@ import { columnReducer } from './redux/reducers/column.reducer';
 import { taskReducer } from './redux/reducers/task.reducer';
 import { ApiInterceptor } from './core/interceptors/api.interceptor';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
-// import { BoardComponent } from './board/pages/board/board.component';
+import { BoardComponent } from './board/pages/board/board.component';
 import { environment } from '../environments/environment';
 import { BoardEffects } from './redux/effects/board.effects';
 import { UserEffects } from './redux/effects/user.effects';
 import { userReducer } from './redux/reducers/user.reducer';
+import { ColumnEffects } from './redux/effects/column.effects';
+import { WelcomePageComponent } from './core/pages/welcome-page/welcome-page.component';
 
 const routes: Routes = [
-  { path: loginRoute, loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule) },
-  { path: mainRoute, canActivate: [LoggedInGuard], loadChildren: () => import('./main/main.module').then((m) => m.MainModule) },
-  { path: '', redirectTo: loginRoute, pathMatch: 'full' },
-  // { path: 'task', component: BoardComponent }, // to delete
+  {
+    path: loginRoute,
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
+    path: mainRoute,
+    canActivate: [LoggedInGuard],
+    loadChildren: () => import('./main/main.module').then((m) => m.MainModule),
+  },
+  { path: 'welcome', component: WelcomePageComponent },
+  { path: '', redirectTo: welcomeRoute, pathMatch: 'full' },
+  { path: 'task', component: BoardComponent }, // to delete
   { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -45,17 +53,24 @@ const routes: Routes = [
     SharedModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    StoreModule.forRoot({
-      boards: boardReducer,
-      columns: columnReducer,
-      tasks: taskReducer,
-      users: userReducer,
-    }, {}),
+    StoreModule.forRoot(
+      {
+        boards: boardReducer,
+        columns: columnReducer,
+        tasks: taskReducer,
+        users: userReducer,
+      },
+      {},
+    ),
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([BoardEffects, UserEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forFeature([BoardEffects, UserEffects, ColumnEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
   ],
-  providers: [UserService,
+  providers: [
+    UserService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
@@ -64,4 +79,4 @@ const routes: Routes = [
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

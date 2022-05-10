@@ -7,8 +7,8 @@ import { FooterComponent } from './pages/footer/footer.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { LoggedInGuard } from './guards/logged-in.guard';
 import { SharedModule } from '../shared/shared.module';
+import { WelcomePageComponent } from './pages/welcome-page/welcome-page.component';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
-// import { BoardModule } from '../board/board.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +16,7 @@ import { EditProfileComponent } from './pages/edit-profile/edit-profile.componen
     FooterComponent,
     PageNotFoundComponent,
     EditProfileComponent,
+    WelcomePageComponent,
   ],
   imports: [
     CommonModule,
