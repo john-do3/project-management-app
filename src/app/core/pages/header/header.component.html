@@ -3,11 +3,9 @@
   <ng-container *ngIf="isLoggedIn">
     <div class="hspacer15"></div>
   </ng-container>
-
   <span class="spacer"></span>
-
   <ng-container *ngIf="isLoggedIn">
-    <button mat-icon-button matTooltip="Edit profile for [{{ userLogin }}]">
+    <button mat-icon-button (click)="onEditProfile()" matTooltip="Edit profile for [{{ userLogin }}]">
       <mat-icon>account_circle</mat-icon>
     </button>
     <button
