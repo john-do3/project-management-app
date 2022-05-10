@@ -2,6 +2,7 @@
 <div
   class="columns"
   cdkDropList
+  cdkDropListOrientation="horizontal"
   (cdkDropListDropped)="dropColumn($event)">
-  <app-column *ngFor="let column of columns$ | async" [column]="column" cdkDrag></app-column>
+  <app-column *ngFor="let column of columns$ | async" [boardId]="boardId" [column]="column" cdkDrag></app-column>
 </div>

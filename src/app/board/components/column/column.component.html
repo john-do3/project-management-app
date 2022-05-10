@@ -1,24 +1,55 @@
-<mat-card>
-  <div class="columnMain">
-    <mat-card-title>{{ column?.title }}</mat-card-title>
-    <div class="spacer"></div>
-    <button mat-button [matMenuTriggerFor]="menu">...</button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="onNewTaskClick()">Create task</button>
-      <button mat-menu-item>Delete column</button>
-    </mat-menu>
-  </div>
-  <mat-card-content
-    cdkDropList
-    [id]="columnId"
-    [cdkDropListData]="tasksIdArray"
-    [cdkDropListConnectedTo]="columnsIdArray"
-    (cdkDropListDropped)="drop($event)"
-  >
-    <app-task *ngFor="let taskId of tasksIdArray" [id]="taskId" cdkDrag>
-    </app-task>
-  </mat-card-content>
-</mat-card>
+<div class="column">
+  <mat-card>
+    <div class="columnHeader">
+      <mat-card-title *ngIf="!isTitleEditing" (click)="onTitleClick()">{{
+        column?.title
+      }}</mat-card-title>
+
+      <div *ngIf="isTitleEditing" class="editor">
+        <input #columnTitle
+          class="titleInput"
+          type="text"
+          name="value"                    
+          value="{{ column?.title }}"          
+          (keydown.Enter)="saveTitle()"
+          (keydown.Meta.Enter)="saveTitle()"
+          (keydown.Escape)="cancelTitle()"
+        />
+        {{ columnTitle.focus() }}
+        <button (click)="saveTitle()">Submit</button>
+        <button
+          (click)="cancelTitle()"
+          (keydown.Enter)="cancelTitle()"
+          tabindex="0"
+        >
+          Cancel
+        </button>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div *ngIf="!isTitleEditing">        
+        <button mat-button [matMenuTriggerFor]="menu">...</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onNewTaskClick()">Create task</button>
+          <button mat-menu-item (click)="onDeleteColumnClick(column?.id)">
+            Delete column
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+    <mat-card-content
+      cdkDropList
+      [id]="columnId"
+      [cdkDropListData]="tasksIdArray"
+      [cdkDropListConnectedTo]="columnsIdArray"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <app-task *ngFor="let taskId of tasksIdArray" [id]="taskId" cdkDrag>
+      </app-task>
+    </mat-card-content>
+  </mat-card>
+</div>
 
 <!--[cdkDropListData]="tasksIdArray$ | async"-->
 <!--*ngFor="let taskId of tasksIdArray$ | async"-->

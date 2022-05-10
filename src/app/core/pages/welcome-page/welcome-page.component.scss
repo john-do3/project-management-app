@@ -1,0 +1,30 @@
+@import "../../../common.scss";
+
+:host {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
+}
+.auth-controls {
+  display: flex;
+  justify-content: space-between;
+  align-self: flex-end;
+  min-width: 200px;
+}
+.info {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .authors-list {
+    margin: 0;
+    padding: 0;
+  }
+}
+.author {
+  list-style: none;
+  text-align: center;
+}
