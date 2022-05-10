@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Subscription } from 'rxjs';
-import { loginRoute, mainRoute } from 'src/app/project.constants';
+import { loginRoute, mainRoute, welcomeRoute } from 'src/app/project.constants';
 import { selectUsers } from 'src/app/redux/selectors/user.selector';
 import { IUserState } from 'src/app/redux/state-models';
 import { ConfirmModalComponent } from 'src/app/shared/pages/confirm-modal/confirm-modal.component';
@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private router: Router,
     private store: Store,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.isLoggedIn = this.userService.checkIsLoggedIn();
@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
         this.isLoggedIn = val;
         this.userLogin = this.userService.getUserLogin();
         if (this.isLoggedIn) this.router.navigateByUrl(mainRoute);
-        else this.router.navigateByUrl(loginRoute);
+        else this.router.navigateByUrl(welcomeRoute);
         this.ref.detectChanges();
       }),
     );
@@ -54,16 +54,10 @@ export class HeaderComponent implements OnInit {
 
   GetLangName(): string {
     let result = 'EN';
-    if (this.isLangSlideToggled) { result = 'RU'; }
+    if (this.isLangSlideToggled) {
+      result = 'RU';
+    }
     return result;
-  }
-
-  onLogin(): void {
-    this.router.navigateByUrl('auth/login');
-  }
-
-  onSignUp(): void {
-    this.router.navigateByUrl('auth/signup');
   }
 
   onLogout(): void {
@@ -74,16 +68,18 @@ export class HeaderComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmModalComponent);
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'true') {
-        const $ = this.usersData$.pipe(
-          map((val: IUserState[]) => {
-            const user = val.find((x) => x.login === this.userLogin);
-            if (user) {
-              this.userService.delete(user.id);
-              this.onLogout();
-              $.unsubscribe();
-            }
-          }),
-        ).subscribe();
+        const $ = this.usersData$
+          .pipe(
+            map((val: IUserState[]) => {
+              const user = val.find((x) => x.login === this.userLogin);
+              if (user) {
+                this.userService.delete(user.id);
+                this.onLogout();
+                $.unsubscribe();
+              }
+            }),
+          )
+          .subscribe();
       }
     });
   }
