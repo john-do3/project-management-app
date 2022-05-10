@@ -1,13 +1,15 @@
 :host {
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
 }
 .wrap-404 {
   font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
   letter-spacing: normal;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   max-width: 500px;
   margin: 0 auto;
