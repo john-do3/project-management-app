@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IColumnState, ITaskState } from '../state-models';
+import { ITaskState } from '../state-models';
 
 export const taskActions = createAction(
   '[Main Page] AddTask',
@@ -19,6 +19,11 @@ export const updateTaskData = createAction(
 );
 
 
+
+
+export const loadTasksData = createAction(
+  '[Boards] Load all tasks data',
+);
 
 
 

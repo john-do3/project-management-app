@@ -10,6 +10,8 @@ import { selectTasks, selectTasksId } from '../../../redux/selectors/task.select
 import { IColumnState, ITaskState } from '../../../redux/state-models';
 import { selectColumnId } from '../../../redux/selectors/column.selector';
 import { TasksService } from '../../services/tasks.service';
+import { loadBoardsData } from '../../../redux/actions/board.actions';
+import { loadTasksAction } from '../../../redux/actions/task.actions';
 
 @Component({
   selector: 'app-column',
@@ -17,14 +19,16 @@ import { TasksService } from '../../services/tasks.service';
   styleUrls: ['./column.component.scss'],
 })
 export class ColumnComponent implements OnInit {
-  // private subscription?: Subscription;
-  //
-  // private tasksIdArray: string[] = [];
 
   private subscriptions = new Subscription();
 
-  public tasksData$ = this.store.select(selectTasks);
-  public tasksIdData$ = this.store.select(selectTasksId);
+  public tasksData$ = this.store.select(selectTasks)
+    .pipe(
+      filter(([{columnId}])=> columnId === this.columnId),
+      map(([task])=>[task.id])
+    );
+  public tasksIdData$ = this.store.select(selectTasksId)
+
 
 
 
@@ -68,6 +72,12 @@ private headerService: HeaderService,
   }
 
   ngOnInit(): void {
+    this.store.dispatch(loadTasksAction({boardId: '823cb8a6-7e24-42bb-aa1c-a092829221e4', columnId: '16cf362b-3e4f-4945-9711-7fbde2682414'}));
+
+
+
+
+
     this.subscriptions.add(
 
     this.tasksService.NewTaskClicked.subscribe(() => {
