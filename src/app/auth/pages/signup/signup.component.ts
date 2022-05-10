@@ -42,7 +42,7 @@ export class SignupComponent {
         },
         () => {
           // todo error handling if needed
-        }
+        },
       );
   }
 
@@ -64,12 +64,11 @@ export class SignupComponent {
 
       const hasSpecial = /[*@!#%&()^~{}]+/.test(value);
 
-      const passwordValid =
-        isEnoughtLength &&
-        hasUpperCase &&
-        hasLowerCase &&
-        hasNumeric &&
-        hasSpecial;
+      const passwordValid = isEnoughtLength
+        && hasUpperCase
+        && hasLowerCase
+        && hasNumeric
+        && hasSpecial;
 
       return !passwordValid ? { passwordStrength: true } : null;
     };
