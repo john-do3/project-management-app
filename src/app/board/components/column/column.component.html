@@ -9,8 +9,8 @@
         <input #columnTitle
           class="titleInput"
           type="text"
-          name="value"                    
-          value="{{ column?.title }}"          
+          name="value"
+          value="{{ column?.title }}"
           (keydown.Enter)="saveTitle()"
           (keydown.Meta.Enter)="saveTitle()"
           (keydown.Escape)="cancelTitle()"
@@ -28,7 +28,7 @@
 
       <div class="spacer"></div>
 
-      <div *ngIf="!isTitleEditing">        
+      <div *ngIf="!isTitleEditing">
         <button mat-button [matMenuTriggerFor]="menu">...</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="onNewTaskClick()">Create task</button>
@@ -41,11 +41,11 @@
     <mat-card-content
       cdkDropList
       [id]="columnId"
-      [cdkDropListData]="tasksIdArray"
+      [cdkDropListData]="tasksID$ | async"
       [cdkDropListConnectedTo]="columnsIdArray"
       (cdkDropListDropped)="drop($event)"
     >
-      <app-task *ngFor="let taskId of tasksIdArray" [id]="taskId" cdkDrag>
+      <app-task *ngFor="let taskId of tasksID$ | async" [id]="taskId" cdkDrag>
       </app-task>
     </mat-card-content>
   </mat-card>

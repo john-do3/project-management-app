@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { ITaskState } from '../../../redux/state-models';
 import { selectTasks } from '../../../redux/selectors/task.selector';
 import { deleteTaskData } from '../../../redux/actions/task.actions';
+import { TasksService } from '../../services/tasks.service';
 
 @Component({
   selector: 'app-task',
@@ -19,7 +20,10 @@ export class TaskComponent implements OnInit, OnDestroy {
 
   private task?: ITaskState;
 
-  constructor(private store: Store) {
+  constructor(
+    private store: Store,
+    private tasksService: TasksService,
+              ) {
   }
 
   @Input() id?: string;
@@ -34,7 +38,8 @@ export class TaskComponent implements OnInit, OnDestroy {
 
   public destroy() {
     if (this.id){
-      this.store.dispatch(deleteTaskData({ taskId: this.id }));
+      this.tasksService.openDeleteTaskDialog(this.id)
+      // this.store.dispatch(deleteTaskData({ taskId: this.id }));
     }
   }
 

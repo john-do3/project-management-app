@@ -21,8 +21,8 @@ export class CreateTaskComponent {
     private readonly store: Store,
   ) {
     this.formGroup = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-      description: ['', Validators.maxLength(255)],
+      title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
+      description: ['', [Validators.required, Validators.maxLength(255)]],
     });
   }
 
@@ -45,6 +45,10 @@ export class CreateTaskComponent {
   }
 
   public get getDescriptionErrorMessage() {
+    if (this.description.hasError(FormConfig.required)) {
+      return 'Please enter a description';
+    }
+
     return this.description.hasError(FormConfig.maxLength) ? 'The description is too long' : '';
   }
 

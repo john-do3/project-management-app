@@ -49,7 +49,7 @@ export const deleteTaskAction = createAction(
 
 export const createTaskAction = createAction(
   '[Board] Create task',
-  props<{ boardId: string, columnId: string, title: string,
+  props<{ boardId: string, columnId: string, title: string, done: boolean,
     order: number, description: string, userId: string }>(),
 );
 

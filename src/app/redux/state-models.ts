@@ -1,6 +1,7 @@
 export interface ITaskState {
   id: string;
   title: string;
+  done: boolean;
   order: number;
   description: string;
   userId: string;
@@ -18,6 +19,7 @@ export interface IColumnState {
 export interface IBoardState {
   id: string;
   title: string;
+  description: string;
   // columns?: IColumnState[]
 }
 

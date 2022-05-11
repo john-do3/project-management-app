@@ -5,10 +5,18 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { HttpErrorService } from '../../core/services/httperror.service';
 import { ITaskState } from '../../redux/state-models';
-import { kanbanServiceUrl } from '../../project.constants';
+import { boardsRoute, kanbanServiceUrl } from '../../project.constants';
 import { ICreateTaskDto } from '../../shared/models/createTaskDto';
 import { CreateTaskComponent } from '../components/create-task/create-task.component';
-import { createTaskAction, taskActions } from '../../redux/actions/task.actions';
+import {
+  createTaskAction,
+  deleteTaskAction,
+  deleteTaskData,
+  taskActions
+} from '../../redux/actions/task.actions';
+import { ConfirmModalComponent } from '../../shared/pages/confirm-modal/confirm-modal.component';
+import { deleteColumnData } from '../../redux/actions/column.actions';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +33,12 @@ export class TasksService {
     private httpErrorService: HttpErrorService,
     private dialog: MatDialog,
     private store: Store,
+    private router: Router,
   ) {
   }
+
+  public currentBoardId: string = '';
+  public currentColumnId: string = '';
 
   public createTask(boardId: string, columnId: string, newTask: ICreateTaskDto): Observable<ITaskState> {
     console.log(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks`, newTask, this.httpOptions);
@@ -45,6 +57,7 @@ export class TasksService {
   }
 
   public loadTasks(boardId: string, columnId: string): Observable<ReadonlyArray<ITaskState>> {
+    console.log (boardId, columnId, this.currentColumnId)
     return this.http.get<ITaskState[]>(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks`, {})
       .pipe(
         catchError((error) => this.httpErrorService.handleError(error)),
@@ -68,14 +81,28 @@ export class TasksService {
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         this.store.dispatch(createTaskAction({
-          boardId: '823cb8a6-7e24-42bb-aa1c-a092829221e4',
-          columnId: '16cf362b-3e4f-4945-9711-7fbde2682414',
+          boardId: this.currentBoardId,
+          columnId: this.currentColumnId,
           description: data.description,
           order: 0,
+          done: false,
           title: data.title,
-          userId: '8de1297f-3d53-433b-b5af-3bfa0397dde3'
+          userId: '520a336d-21d9-4dee-a3fd-1c27e363943c'
         }));
       }
+    });
+  }
+
+  openDeleteTaskDialog(taskId: string): void {
+    const dialogRef = this.dialog.open(ConfirmModalComponent);
+    const $ = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'true') {
+        this.store.dispatch(deleteTaskAction({ boardId: this.currentBoardId, columnId: this.currentColumnId, taskId: taskId }));
+        // this.store.dispatch(deleteTaskData({ taskId: taskId }))
+        this.router.navigateByUrl(`${boardsRoute}/${this.currentBoardId}`);
+      }
+
+      $.unsubscribe();
     });
   }
 }

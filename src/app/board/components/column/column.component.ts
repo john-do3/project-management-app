@@ -1,12 +1,12 @@
 import {
-  Component, ElementRef, Input, OnInit, ViewChild,
+  Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
- filter, Observable, of, Subscription, switchMap, tap,
+  filter, Observable, of, Subscription, switchMap, tap,
 } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { HeaderService } from 'src/app/core/services/header.service';
 import { selectTasks, selectTasksId } from '../../../redux/selectors/task.selector';
 import { IColumnState, ITaskState } from '../../../redux/state-models';
@@ -14,13 +14,15 @@ import { selectColumnId } from '../../../redux/selectors/column.selector';
 import { TasksService } from '../../services/tasks.service';
 import { loadBoardsData } from '../../../redux/actions/board.actions';
 import { loadTasksAction } from '../../../redux/actions/task.actions';
+import { BoardService } from '../../../core/services/board.service';
+import { updateColumn } from '../../../redux/actions/column.actions';
 
 @Component({
   selector: 'app-column',
   templateUrl: './column.component.html',
   styleUrls: ['./column.component.scss'],
 })
-export class ColumnComponent implements OnInit {
+export class ColumnComponent implements OnInit, OnDestroy {
   // private subscription?: Subscription;
   //
   // private tasksIdArray: string[] = [];
@@ -30,6 +32,8 @@ export class ColumnComponent implements OnInit {
 
   @Input() column?: IColumnState;
 
+  @Input() columnId!: string;
+
   @ViewChild('columnTitle')
   inputTitle!: ElementRef;
 
@@ -37,16 +41,10 @@ export class ColumnComponent implements OnInit {
 
   public tasksData$ = this.store.select(selectTasks)
     .pipe(
-      filter(([{columnId}])=> columnId === this.columnId),
-      map(([task])=>[task.id])
+      filter(([{columnId}]) => columnId === this.columnId),
+      map(([task]) => [task.id])
     );
-  public tasksIdData$ = this.store.select(selectTasksId)
-
-
-
-
-
-
+  public tasksIdData$ = this.store.select(selectTasksId);
 
 
   private subscriptionColumnsId?: Subscription;
@@ -63,21 +61,29 @@ export class ColumnComponent implements OnInit {
 
   constructor(
     private headerService: HeaderService,
-    private store: Store,
+    private readonly store: Store,
     private tasksService: TasksService,
     private boardService: BoardService,
   ) {
   }
 
-  public get columnId() {
-    return this.column ? this.column.id : '';
-  }
+  ngOnChanges(): void {
+        // throw new Error('Method not implemented.');
+    // this.tasksService.currentColumnId = this.columnId;
+    }
+
+  // public get columnId() {
+  //   return this.column ? this.column.id : '';
+  // }
+
+
+
 
   public tasks$?: Observable<ITaskState[]>;
 
   public tasksID$: Observable<string[]> = of(['']);
 
-  public columnsID$: Observable<string[]> | null = of(['']);
+  public columnsID$: Observable<string[]> = of(['']);
 
   onNewTaskClick(): void {
     this.tasksService.newTaskClick();
@@ -88,45 +94,30 @@ export class ColumnComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(loadTasksAction({boardId: '823cb8a6-7e24-42bb-aa1c-a092829221e4', columnId: '16cf362b-3e4f-4945-9711-7fbde2682414'}));
+    this.tasksService.currentColumnId = this.columnId;
+    this.tasksService.currentBoardId = this.boardId;
+    console.log(this.boardId, this.columnId, '!!!!')
+    this.store.dispatch(loadTasksAction({boardId: this.boardId, columnId: this.columnId}));
 
 
 
 
+    this.tasks$ = this.store.select(selectTasks);
 
     this.subscriptions.add(
 
       this.tasksService.NewTaskClicked.subscribe(() => {
         this.tasksService.openCreateTaskDialog();
       }),
-    );
 
-    this.tasks$ = this.store.select(selectTasks);
-    this.tasksID$ = this.store.select(selectTasksId);
+    );
+    this.tasksID$ = this.store.select(selectTasksId)
     this.columnsID$ = this.store.select(selectColumnId);
 
-    this.tasksIdArray$ = this.store.select(selectTasks).pipe(
-      filter(([{ columnId }]) => {
-        console.log(columnId, this.columnId, this.columnsIdArray);
-        return columnId === this.columnId;
-      }),
-      map(([{ id }]) => [id]),
 
-      // map((array: ITaskState[])=> array. )
-    );
-    /* this.tasksIdArray$?.subscribe((v)=> console.log(v))
 
-    this.subscriptionTasks = this.store.select(selectTasks)
-      .subscribe((val) => {
-        console.log(this.columnId, val
-          .filter((task) => task.columnId === this.columnId));
-        return this.tasksIdArray = val
-          .filter((task) => task.columnId === this.columnId)
-          .map((taskObj) => taskObj.id);
-      });
-     this.subscriptionTasksId = this.store.select(selectTasksId).subscribe((val) => this.tasksIdArray = val)
-    this.subscriptionColumnsId = this.store.select(selectColumnId).subscribe((val) => this.columnsIdArray = val);
-    */
+
+
   }
 
   public columnsIdArray = [''];
@@ -173,5 +164,9 @@ export class ColumnComponent implements OnInit {
 
   cancelTitle(): void {
     this.isTitleEditing = false;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe()
   }
 }

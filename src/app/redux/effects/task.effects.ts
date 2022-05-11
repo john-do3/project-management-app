@@ -4,6 +4,7 @@ import { of, tap } from 'rxjs';
 import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 import { TasksService } from '../../board/services/tasks.service';
 import * as TaskActions from '../actions/task.actions';
+import * as ColumnActions from '../actions/column.actions';
 
 @Injectable()
 export class TaskEffects {
@@ -31,6 +32,7 @@ export class TaskEffects {
       action.columnId,
       {
         title: action.title,
+        done: action.done,
         description: action.description,
         order: action.order,
         userId: action.userId,
@@ -41,6 +43,16 @@ export class TaskEffects {
         }),
         map((createTaskResponse) => TaskActions.taskCreatedAction({task: createTaskResponse})),
         catchError(async (error) => TaskActions.apiCallFailed(error)),
+      )),
+  ));
+
+  deleteTask = createEffect(() => this.actions$.pipe(
+    ofType(TaskActions.deleteTaskAction),
+    switchMap((action) => this.tasksService
+      .deleteTask(action.boardId, action.columnId,action.taskId)
+      .pipe(
+        map(() => TaskActions.deleteTaskData({ taskId: action.taskId })),
+        catchError(async (error) => ColumnActions.apiCallFailed(error)),
       )),
   ));
 }

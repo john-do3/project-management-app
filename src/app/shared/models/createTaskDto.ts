@@ -1,8 +1,9 @@
 export interface ICreateTaskDto {
   title: string;
-  order: number
+  order: number;
+  done: boolean;
   description: string;
-  userId: string,
+  userId: string;
 }
 
 export type TaskFormInput = keyof ICreateTaskDto;
