@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import {
- AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators,
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
@@ -15,10 +20,13 @@ export class SignupComponent {
   signUpForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     login: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required, this.createPasswordStrengthValidator()]),
+    password: new FormControl('', [
+      Validators.required,
+      this.createPasswordStrengthValidator(),
+    ]),
   });
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router) {}
 
   onSubmit(): void {
     this.userService
@@ -35,7 +43,7 @@ export class SignupComponent {
         () => {
           // todo error handling if needed
         },
-        );
+      );
   }
 
   createPasswordStrengthValidator(): ValidatorFn {
@@ -56,9 +64,17 @@ export class SignupComponent {
 
       const hasSpecial = /[*@!#%&()^~{}]+/.test(value);
 
-      const passwordValid = isEnoughtLength && hasUpperCase && hasLowerCase && hasNumeric && hasSpecial;
+      const passwordValid = isEnoughtLength
+        && hasUpperCase
+        && hasLowerCase
+        && hasNumeric
+        && hasSpecial;
 
       return !passwordValid ? { passwordStrength: true } : null;
     };
+  }
+
+  onLogin(): void {
+    this.router.navigateByUrl('auth/login');
   }
 }

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Subscription } from 'rxjs';
-import { loginRoute, mainRoute, welcomeRoute } from 'src/app/project.constants';
+import { mainRoute, welcomeRoute } from 'src/app/project.constants';
 import { selectUsers } from 'src/app/redux/selectors/user.selector';
 import { IUserState } from 'src/app/redux/state-models';
 import { CreateUserDto } from 'src/app/shared/models/createUserDto.model';
