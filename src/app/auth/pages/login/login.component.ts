@@ -9,23 +9,26 @@ import { mainRoute } from 'src/app/project.constants';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({
     login: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     if (this.userService.checkIsLoggedIn()) this.router.navigateByUrl(mainRoute);
   }
 
   onSubmit(): void {
-    this.userService
-      .login({
-        login: this.loginForm.get('login')?.value,
-        password: this.loginForm.get('password')?.value,
-      });
+    this.userService.login({
+      login: this.loginForm.get('login')?.value,
+      password: this.loginForm.get('password')?.value,
+    });
+  }
+
+  onSignUp(): void {
+    this.router.navigateByUrl('auth/signup');
   }
 }
