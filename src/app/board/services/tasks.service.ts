@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, Subject, tap } from 'rxjs';
+import { async, catchError, Observable, Subject, take, tap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { HttpErrorService } from '../../core/services/httperror.service';
@@ -11,12 +11,11 @@ import { CreateTaskComponent } from '../components/create-task/create-task.compo
 import {
   createTaskAction,
   deleteTaskAction,
-  deleteTaskData,
-  taskActions
 } from '../../redux/actions/task.actions';
 import { ConfirmModalComponent } from '../../shared/pages/confirm-modal/confirm-modal.component';
 import { deleteColumnData } from '../../redux/actions/column.actions';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +40,6 @@ export class TasksService {
   public currentColumnId: string = '';
 
   public createTask(boardId: string, columnId: string, newTask: ICreateTaskDto): Observable<ITaskState> {
-    console.log(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks`, newTask, this.httpOptions);
     return this.http.post<ITaskState>(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks`, newTask, this.httpOptions)
       .pipe(
         tap((v) => console.log(v)),
@@ -72,25 +70,53 @@ export class TasksService {
     this.NewTaskClicked.next(true);
   }
 
-  openCreateTaskDialog(): void {
-    const dialogRef = this.dialog.open(CreateTaskComponent, {
-      width: '250px',
-      data: {title: '', description: ''},
-    });
+  openCreateTaskDialog(tasks$?: Observable<ITaskState[]>): void {
+    const subs = tasks$?.pipe(
+      take(1),
+      map((taskArray: ITaskState[])=>{
+        const length = taskArray.length
+        const dialogRef = this.dialog.open(CreateTaskComponent, {
+          width: '250px',
+          data: {title: '', description: ''},
+        });
 
-    dialogRef.afterClosed().subscribe((data) => {
-      if (data) {
-        this.store.dispatch(createTaskAction({
-          boardId: this.currentBoardId,
-          columnId: this.currentColumnId,
-          description: data.description,
-          order: 0,
-          done: false,
-          title: data.title,
-          userId: '520a336d-21d9-4dee-a3fd-1c27e363943c'
-        }));
-      }
-    });
+        dialogRef.afterClosed().subscribe((data) => {
+          if (data) {
+            this.store.dispatch(createTaskAction({
+              boardId: this.currentBoardId,
+              columnId: this.currentColumnId,
+              description: data.description,
+              order: length,
+              done: false,
+              title: data.title,
+              userId: '520a336d-21d9-4dee-a3fd-1c27e363943c'
+            }));
+          }
+        });
+      })
+    ).subscribe()
+
+    subs?.unsubscribe()
+
+
+    // const dialogRef = this.dialog.open(CreateTaskComponent, {
+    //   width: '250px',
+    //   data: {title: '', description: ''},
+    // });
+    //
+    // dialogRef.afterClosed().subscribe((data) => {
+    //   if (data) {
+    //     this.store.dispatch(createTaskAction({
+    //       boardId: this.currentBoardId,
+    //       columnId: this.currentColumnId,
+    //       description: data.description,
+    //       order: 0,
+    //       done: false,
+    //       title: data.title,
+    //       userId: '520a336d-21d9-4dee-a3fd-1c27e363943c'
+    //     }));
+    //   }
+    // });
   }
 
   openDeleteTaskDialog(taskId: string): void {
@@ -98,7 +124,6 @@ export class TasksService {
     const $ = dialogRef.afterClosed().subscribe((result) => {
       if (result === 'true') {
         this.store.dispatch(deleteTaskAction({ boardId: this.currentBoardId, columnId: this.currentColumnId, taskId: taskId }));
-        // this.store.dispatch(deleteTaskData({ taskId: taskId }))
         this.router.navigateByUrl(`${boardsRoute}/${this.currentBoardId}`);
       }
 

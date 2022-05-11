@@ -107,7 +107,7 @@ export class ColumnComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
 
       this.tasksService.NewTaskClicked.subscribe(() => {
-        this.tasksService.openCreateTaskDialog();
+        this.tasksService.openCreateTaskDialog(this.tasks$);
       }),
 
     );
@@ -125,6 +125,7 @@ export class ColumnComponent implements OnInit, OnDestroy {
   drop(event: CdkDragDrop<any>): void {
     if (event.previousContainer === event.container) {
       console.log(event, event.container.data, event.previousIndex, event.currentIndex, this.tasksIdArray);
+
       // this.store.dispatch(updateTaskData({
       //   taskId: event.container.data[event.previousIndex],
       //   columnId: event.container.id,

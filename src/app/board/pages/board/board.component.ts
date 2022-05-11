@@ -67,22 +67,4 @@ export class BoardComponent {
       .subscribe();
   }
 
-  onClick() {
-    /* let column: IColumnState;
-    let task: ITaskState;
-    // this.store.dispatch(addBoardAction({ board }));
-    column = column1;
-    this.store.dispatch(addColumnAction({ column }));
-    column = column2;
-    this.store.dispatch(addColumnAction({ column }));
-    task = task1;
-    this.store.dispatch((addTaskAction({ task })));
-    task = task2;
-    this.store.dispatch((addTaskAction({ task })));
-    task = task3;
-    this.store.dispatch((addTaskAction({ task })));
-    task = task4;
-    this.store.dispatch((addTaskAction({ task })));
-    console.log(this.store); */
-  }
 }
