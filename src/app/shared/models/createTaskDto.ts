@@ -6,6 +6,11 @@ export interface ICreateTaskDto {
   userId: string;
 }
 
+export interface IUpdateTaskDto extends ICreateTaskDto{
+  boardId: string;
+  columnId: string;
+}
+
 export type TaskFormInput = keyof ICreateTaskDto;
 
 export enum FormConfig {

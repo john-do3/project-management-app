@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { HttpErrorService } from '../../core/services/httperror.service';
 import { ITaskState } from '../../redux/state-models';
 import { boardsRoute, kanbanServiceUrl } from '../../project.constants';
-import { ICreateTaskDto } from '../../shared/models/createTaskDto';
+import { ICreateTaskDto, IUpdateTaskDto } from '../../shared/models/createTaskDto';
 import { CreateTaskComponent } from '../components/create-task/create-task.component';
 import {
   createTaskAction,
@@ -49,6 +49,14 @@ export class TasksService {
 
   public deleteTask(boardId: string, columnId: string, taskId: string) {
     return this.http.delete(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`)
+      .pipe(
+        catchError((error) => this.httpErrorService.handleError(error)),
+      );
+  }
+
+  public updateTask(boardId: string, columnId: string, taskId: string, task: IUpdateTaskDto): Observable<ITaskState> {
+    console.log(task)
+    return this.http.put<ITaskState>(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`, task, this.httpOptions)
       .pipe(
         catchError((error) => this.httpErrorService.handleError(error)),
       );
@@ -98,25 +106,6 @@ export class TasksService {
 
     subs?.unsubscribe()
 
-
-    // const dialogRef = this.dialog.open(CreateTaskComponent, {
-    //   width: '250px',
-    //   data: {title: '', description: ''},
-    // });
-    //
-    // dialogRef.afterClosed().subscribe((data) => {
-    //   if (data) {
-    //     this.store.dispatch(createTaskAction({
-    //       boardId: this.currentBoardId,
-    //       columnId: this.currentColumnId,
-    //       description: data.description,
-    //       order: 0,
-    //       done: false,
-    //       title: data.title,
-    //       userId: '520a336d-21d9-4dee-a3fd-1c27e363943c'
-    //     }));
-    //   }
-    // });
   }
 
   openDeleteTaskDialog(taskId: string): void {

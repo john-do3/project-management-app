@@ -29,12 +29,19 @@ export const taskReducer = createReducer(
     error: null,
   })),
 
-  on(TaskActions.tasksDataReceivedAction, (state, {tasks}): State => ({
+  on(TaskActions.tasksDataReceivedAction, (state, {tasks}): State => {
+    const array = [...tasks].sort((n1, n2) => (n1.order - n2.order));
+    return {
     ...state,
-    tasks: [...tasks],
+    tasks: array,
+    error: null,
+  }}),
+
+  on(TaskActions.taskUpdated, (state, {task}): State => ({
+    ...state,
+    tasks: [...state.tasks.filter((t)=>t.id!==task.id),task],
     error: null,
   })),
-
 
   on(TaskActions.apiCallFailed, (state, {error}): State => ({
     ...state,

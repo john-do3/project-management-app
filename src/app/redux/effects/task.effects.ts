@@ -5,6 +5,7 @@ import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 import { TasksService } from '../../board/services/tasks.service';
 import * as TaskActions from '../actions/task.actions';
 import * as ColumnActions from '../actions/column.actions';
+import { taskUpdated } from '../actions/task.actions';
 
 @Injectable()
 export class TaskEffects {
@@ -55,4 +56,24 @@ export class TaskEffects {
         catchError(async (error) => ColumnActions.apiCallFailed(error)),
       )),
   ));
+
+  updateTask = createEffect(() => this.actions$.pipe(
+    ofType(TaskActions.updateTaskData),
+    switchMap((action) => this.tasksService
+      .updateTask(action.task.boardId, action.task.columnId, action.task.id,{
+        columnId: action.task.columnId,
+        boardId: action.task.boardId,
+        title: action.task.title,
+        order: action.task.order,
+        done: action.task.done,
+        description: action.task.description,
+        userId: action.task.userId,
+      })
+      .pipe(
+        map((task) => TaskActions.taskUpdated({task})),
+        catchError(async (error) => TaskActions.apiCallFailed(error)),
+      )),
+  ));
+
+
 }

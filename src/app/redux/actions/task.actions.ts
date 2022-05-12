@@ -14,11 +14,14 @@ export const deleteTaskData = createAction(
 );
 
 export const updateTaskData = createAction(
-  '[Main Page] Update task data',
-  props<{ taskId: string, columnId: string, order: number }>(),
+  '[Boards] Update task data',
+  props<{ task: ITaskState }>(),
 );
 
-
+export const taskUpdated = createAction(
+  '[Boards] Task data updated',
+  props<{ task: ITaskState }>(),
+);
 
 
 export const loadTasksData = createAction(
