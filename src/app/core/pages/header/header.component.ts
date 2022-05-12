@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { map, Subscription } from 'rxjs';
 import { mainRoute, welcomeRoute } from 'src/app/project.constants';
 import { selectUsers } from 'src/app/redux/selectors/user.selector';
@@ -37,6 +38,7 @@ export class HeaderComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private router: Router,
     private store: Store,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +55,7 @@ export class HeaderComponent implements OnInit {
         if (this.isLoggedIn) this.router.navigateByUrl(mainRoute);
         else this.router.navigateByUrl(welcomeRoute);
         this.ref.detectChanges();
-      }),
+      })
     );
   }
 
@@ -62,6 +64,7 @@ export class HeaderComponent implements OnInit {
     if (this.isLangSlideToggled) {
       result = 'RU';
     }
+    this.translate.use(result.toLocaleLowerCase());
     return result;
   }
 
@@ -82,7 +85,7 @@ export class HeaderComponent implements OnInit {
                 this.onLogout();
                 $.unsubscribe();
               }
-            }),
+            })
           )
           .subscribe();
       }
@@ -106,7 +109,7 @@ export class HeaderComponent implements OnInit {
               }
             });
           }
-        }),
+        })
       )
       .subscribe();
     userData.unsubscribe();

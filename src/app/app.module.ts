@@ -3,7 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -26,6 +30,12 @@ import { UserEffects } from './redux/effects/user.effects';
 import { userReducer } from './redux/reducers/user.reducer';
 import { ColumnEffects } from './redux/effects/column.effects';
 import { WelcomePageComponent } from './core/pages/welcome-page/welcome-page.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 const routes: Routes = [
   {
@@ -53,6 +63,14 @@ const routes: Routes = [
     SharedModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      defaultLanguage: 'en',
+    }),
     StoreModule.forRoot(
       {
         boards: boardReducer,
@@ -60,7 +78,7 @@ const routes: Routes = [
         tasks: taskReducer,
         users: userReducer,
       },
-      {},
+      {}
     ),
     EffectsModule.forRoot([]),
     EffectsModule.forFeature([BoardEffects, UserEffects, ColumnEffects]),

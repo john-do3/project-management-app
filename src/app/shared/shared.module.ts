@@ -15,6 +15,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [ConfirmModalComponent],
@@ -53,6 +54,7 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
     ConfirmModalComponent,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
   ],
 })
 export class SharedModule {}
