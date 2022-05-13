@@ -27,7 +27,6 @@ import { userReducer } from './redux/reducers/user.reducer';
 import { ColumnEffects } from './redux/effects/column.effects';
 import { TaskEffects } from './redux/effects/task.effects';
 import { WelcomePageComponent } from './core/pages/welcome-page/welcome-page.component';
-import { SortPipe } from './board/pipes/sort.pipe';
 
 const routes: Routes = [
   {
@@ -46,7 +45,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, SortPipe],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

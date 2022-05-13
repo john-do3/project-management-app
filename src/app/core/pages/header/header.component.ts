@@ -12,6 +12,7 @@ import { BoardService } from '../../services/board.service';
 import { HeaderService } from '../../services/header.service';
 import { UserService } from '../../services/user.service';
 import { EditProfileComponent } from '../edit-profile/edit-profile.component';
+import { TasksService } from '../../../board/services/tasks.service';
 
 @Component({
   selector: 'app-header',
@@ -33,6 +34,7 @@ export class HeaderComponent implements OnInit {
     private userService: UserService,
     private headerService: HeaderService,
     private boardService: BoardService,
+    private tasksService: TasksService,
     private dialog: MatDialog,
     private ref: ChangeDetectorRef,
     private router: Router,
@@ -44,6 +46,7 @@ export class HeaderComponent implements OnInit {
     this.userLogin = this.userService.getUserLogin();
     this.userService.userLogin$.subscribe((res) => {
       this.userLogin = res;
+      this.tasksService.userLogin = this.userLogin
       console.log(this.userLogin);
     });
     this.subscriptions.add(

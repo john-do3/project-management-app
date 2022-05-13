@@ -36,10 +36,17 @@ export class TaskComponent implements OnInit, OnDestroy {
     return this.task?.description || '';
   }
 
+
   public destroy() {
     if (this.id){
-      this.tasksService.openDeleteTaskDialog(this.id)
+      this.tasksService.openDeleteTaskDialog(this.id);
       // this.store.dispatch(deleteTaskData({ taskId: this.id }));
+    }
+  }
+
+  public edit() {
+    if (this.task){
+      this.tasksService.openEditTaskDialog(this.task);
     }
   }
 
@@ -47,7 +54,15 @@ export class TaskComponent implements OnInit, OnDestroy {
     this.tasks$ = this.store.select(selectTasks);
     this.taskSubscription = this.tasks$
       .subscribe((tasksArray) => { this.task = tasksArray.find((task) => task.id === this.id); });
+    this.taskSubscription.add(this.tasksService.EditTaskClicked.subscribe(() => {
+      if (this.task){
+        this.tasksService.openEditTaskDialog(this.task);
+      }
+      }),
+    );
+
   }
+
 
   public ngOnDestroy() {
     this.taskSubscription?.unsubscribe();

@@ -5,6 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 import { CreateTaskComponent } from './components/create-task/create-task.component';
 import { ColumnComponent } from './components/column/column.component';
 import { BoardComponent } from './pages/board/board.component';
+import { EditTaskComponent } from './components/edit-task/edit-task.component';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { BoardComponent } from './pages/board/board.component';
     ColumnComponent,
     BoardComponent,
     CreateTaskComponent,
+    EditTaskComponent,
   ],
   imports: [
     CommonModule,

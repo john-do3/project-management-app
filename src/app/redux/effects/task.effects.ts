@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, tap } from 'rxjs';
-import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
+import {
+ map, catchError, switchMap,
+} from 'rxjs/operators';
 import { TasksService } from '../../board/services/tasks.service';
 import * as TaskActions from '../actions/task.actions';
 import * as ColumnActions from '../actions/column.actions';
@@ -74,6 +76,4 @@ export class TaskEffects {
         catchError(async (error) => TaskActions.apiCallFailed(error)),
       )),
   ));
-
-
 }

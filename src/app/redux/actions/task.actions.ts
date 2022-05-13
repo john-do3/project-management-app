@@ -23,12 +23,9 @@ export const taskUpdated = createAction(
   props<{ task: ITaskState }>(),
 );
 
-
 export const loadTasksData = createAction(
   '[Boards] Load all tasks data',
 );
-
-
 
 export const loadTasksAction = createAction(
   '[Board] Get all tasks',
@@ -56,7 +53,6 @@ export const createTaskAction = createAction(
     order: number, description: string, userId: string }>(),
 );
 
-
 export const taskCreatedAction = createAction(
   '[Board] Task created',
   props<{ task: ITaskState }>(),
@@ -66,5 +62,3 @@ export const apiCallFailed = createAction(
   '[Board] Tasks api call failed',
   props<{ error: Error }>(),
 );
-
-

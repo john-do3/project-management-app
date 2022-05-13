@@ -1,6 +1,10 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, } from '@angular/core';
+import {
+ Component, ElementRef, Input, OnDestroy, OnInit, ViewChild,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, Observable, of, Subscription, take, tap, } from 'rxjs';
+import {
+ filter, Observable, of, Subscription, take,
+} from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { map } from 'rxjs/operators';
 import { HeaderService } from 'src/app/core/services/header.service';
@@ -11,7 +15,7 @@ import { TasksService } from '../../services/tasks.service';
 import {
   loadTasksAction,
   tasksDataReceivedAction,
-  updateTaskData
+  updateTaskData,
 } from '../../../redux/actions/task.actions';
 import { BoardService } from '../../../core/services/board.service';
 import { updateColumn } from '../../../redux/actions/column.actions';
@@ -42,11 +46,11 @@ export class ColumnComponent implements OnInit, OnDestroy {
 
   public tasksData$ = this.store.select(selectTasks)
     .pipe(
-      filter(([{columnId}]) => columnId === this.columnId),
-      map(([task]) => [task.id])
+      filter(([{ columnId }]) => columnId === this.columnId),
+      map(([task]) => [task.id]),
     );
-  public tasksIdData$ = this.store.select(selectTasksId);
 
+  public tasksIdData$ = this.store.select(selectTasksId);
 
   private subscriptionColumnsId?: Subscription;
 
@@ -68,17 +72,10 @@ export class ColumnComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnChanges(): void {
-        // throw new Error('Method not implemented.');
-    // this.tasksService.currentColumnId = this.columnId;
-    }
 
   // public get columnId() {
   //   return this.column ? this.column.id : '';
   // }
-
-
-
 
   public tasks$?: Observable<ITaskState[]>;
 
@@ -97,10 +94,7 @@ export class ColumnComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.tasksService.currentColumnId = this.columnId;
     this.tasksService.currentBoardId = this.boardId;
-    this.store.dispatch(loadTasksAction({boardId: this.boardId, columnId: this.columnId}));
-
-
-
+    this.store.dispatch(loadTasksAction({ boardId: this.boardId, columnId: this.columnId }));
 
     this.tasks$ = this.store.select(selectTasks);
 
@@ -112,16 +106,10 @@ export class ColumnComponent implements OnInit, OnDestroy {
 
     );
 
-    this.subscriptions.add(
-      this.tasksID$.subscribe((idArray)=>{this.tasksIdArray = idArray})
-    )
-    this.tasksID$ = this.store.select(selectTasksId)
+
+
+    this.tasksID$ = this.store.select(selectTasksId);
     this.columnsID$ = this.store.select(selectColumnId);
-
-
-
-
-
   }
 
   public columnsIdArray = [''];
@@ -132,8 +120,8 @@ export class ColumnComponent implements OnInit, OnDestroy {
 
       const subscribe = this.tasksArray$.pipe(
         take(1),
-        map(([...tasks]:ITaskState[])=>{
-          const array = tasks.map((task)=>{
+        map(([...tasks]:ITaskState[]) => {
+          const array = tasks.map((task) => {
             const taskObject: ITaskState = {
               boardId: task.boardId,
               columnId: task.columnId,
@@ -142,27 +130,23 @@ export class ColumnComponent implements OnInit, OnDestroy {
               order: task.order,
               title: task.title,
               userId: task.userId,
-              id: task.id
-            }
+              id: task.id,
+            };
             if (task.order === event.previousIndex) {
-              taskObject.order = event.currentIndex
-            }else if (task.order === event.currentIndex) {
-              taskObject.order = event.previousIndex
+              taskObject.order = event.currentIndex;
+            } else if (task.order === event.currentIndex) {
+              taskObject.order = event.previousIndex;
             }
-            return taskObject
-          })
-          console.log(array)
+            return taskObject;
+          });
+          console.log(array);
           moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-          this.store.dispatch(tasksDataReceivedAction({tasks:array}))
+          this.store.dispatch(tasksDataReceivedAction({ tasks: array }));
           // array.forEach((a)=>this.store.dispatch(updateTaskData({task:a})))
-
-
         }),
       ).subscribe();
 
       subscribe?.unsubscribe();
-
-
 
       // this.store.dispatch(updateTaskData( {
       //   description: '', title: '', userId: '',
@@ -212,6 +196,6 @@ export class ColumnComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe()
+    this.subscriptions.unsubscribe();
   }
 }
