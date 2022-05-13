@@ -26,5 +26,13 @@
   "WELCOME": {
     "TASK": "Final Task",
     "AUTHORS": "Authors: Team 28"
+  },
+  "HEADER": {
+    "TOOLTIPS": {
+      "EDIT": "Edit profile for",
+      "DELETE": "Delete",
+      "LOGOUT": "Logout",
+      "LANG": "Switch language"
+    }
   }
 }
