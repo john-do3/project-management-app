@@ -22,5 +22,9 @@
       "SIGNUP_BTN": "Sign up",
       "LOGIN_LINK": "Already have an account"
     }
+  },
+  "WELCOME": {
+    "TASK": "Final Task",
+    "AUTHORS": "Authors: Team 28"
   }
 }
