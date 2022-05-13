@@ -20,6 +20,7 @@ import { ConfirmModalComponent } from '../../shared/pages/confirm-modal/confirm-
 import { deleteColumnData } from '../../redux/actions/column.actions';
 import { EditTaskComponent } from '../components/edit-task/edit-task.component';
 import { selectUsers } from '../../redux/selectors/user.selector';
+import { UserService } from '../../core/services/user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,7 @@ export class TasksService {
     }),
   };
   private userId: string = '';
-  userLogin: string = '';
+
 
   constructor(
     private http: HttpClient,
@@ -39,7 +40,12 @@ export class TasksService {
     private dialog: MatDialog,
     private store: Store,
     private router: Router,
+    private userService: UserService
   ) {
+  }
+
+  private get userLogin() {
+    return this.userService.getUserLogin();
   }
 
   public currentBoardId: string = '';
@@ -49,6 +55,7 @@ export class TasksService {
   private usersData$ = this.store.select(selectUsers)
 
   public createTask(boardId: string, columnId: string, newTask: ICreateTaskDto): Observable<ITaskState> {
+    console.log(newTask)
     return this.http.post<ITaskState>(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks`, newTask, this.httpOptions)
       .pipe(
         tap((v) => console.log(v)),
@@ -94,7 +101,6 @@ export class TasksService {
   }
 
   openCreateTaskDialog(tasks$?: Observable<ITaskState[]>): void {
-/////!!!!!!!!!!!!!!!
     const $ = this.usersData$
       .pipe(
         map((val: IUserState[]) => {
@@ -102,8 +108,8 @@ export class TasksService {
           if (user) {
             this.userId = user.id
 
-            $.unsubscribe();
           }
+          $.unsubscribe();
         }),
       )
       .subscribe();

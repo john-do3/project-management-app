@@ -46,13 +46,14 @@ export class HeaderComponent implements OnInit {
     this.userLogin = this.userService.getUserLogin();
     this.userService.userLogin$.subscribe((res) => {
       this.userLogin = res;
-      this.tasksService.userLogin = this.userLogin
-      console.log(this.userLogin);
+      // this.tasksService.userLogin = this.userLogin
+      // console.log(this.userLogin);
     });
     this.subscriptions.add(
       this.userService.IsLoggedIn.subscribe((val) => {
         this.isLoggedIn = val;
         this.userLogin = this.userService.getUserLogin();
+        // this.tasksService.userLogin = this.userService.getUserLogin();
         if (this.isLoggedIn) this.router.navigateByUrl(mainRoute);
         else this.router.navigateByUrl(welcomeRoute);
         this.ref.detectChanges();
