@@ -45,7 +45,7 @@
       [cdkDropListConnectedTo]="columnsIdArray"
       (cdkDropListDropped)="drop($event)"
     >
-      <app-task *ngFor="let taskId of tasksID$ | async" [id]="taskId" cdkDrag>
+      <app-task *ngFor="let task of tasks$ | async" [task]="task" cdkDrag>
       </app-task>
     </mat-card-content>
   </mat-card>

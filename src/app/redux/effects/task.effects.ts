@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, tap } from 'rxjs';
 import {
- map, catchError, switchMap,
+ map, catchError, switchMap, mergeMap,
 } from 'rxjs/operators';
 import { TasksService } from '../../board/services/tasks.service';
 import * as TaskActions from '../actions/task.actions';
@@ -19,7 +19,7 @@ export class TaskEffects {
 
   loadTasks$ = createEffect(() => this.actions$.pipe(
     ofType(TaskActions.loadTasksAction),
-    switchMap((action) => this.tasksService.loadTasks(action.boardId, action.columnId)
+    mergeMap((action) => this.tasksService.loadTasks(action.boardId, action.columnId)
       .pipe(
         map((tasks) => (
           TaskActions.tasksDataReceivedAction({tasks: tasks})

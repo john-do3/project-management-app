@@ -14,11 +14,10 @@ import { TasksService } from '../../services/tasks.service';
   styleUrls: ['./task.component.scss'],
 })
 export class TaskComponent implements OnInit, OnDestroy {
-  private tasks$?: Observable<ITaskState[]>;
-
+  //private tasks$?: Observable<ITaskState[]>;
   private taskSubscription?: Subscription;
 
-  private task?: ITaskState;
+  @Input() task?: ITaskState;
 
   constructor(
     private store: Store,
@@ -51,16 +50,18 @@ export class TaskComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.tasks$ = this.store.select(selectTasks);
-    this.taskSubscription = this.tasks$
-      .subscribe((tasksArray) => { this.task = tasksArray.find((task) => task.id === this.id); });
+    //this.tasks$ = this.store.select(selectTasks);
+    //this.taskSubscription = this.tasks$
+    //  .subscribe((tasksArray) => { this.task = tasksArray.find((task) => task.id === this.id); });
+    
+    /* todo
     this.taskSubscription.add(this.tasksService.EditTaskClicked.subscribe(() => {
       if (this.task){
         this.tasksService.openEditTaskDialog(this.task);
       }
       }),
     );
-
+*/
   }
 
 

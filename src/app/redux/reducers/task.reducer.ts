@@ -16,6 +16,7 @@ export const taskReducer = createReducer(
     ...state,
     tasks: [...state.tasks, task],
   })),
+
   on(TaskActions.deleteTaskData, (state, { taskId }) => ({
     tasks: [...state.tasks.filter((task) => task.id !== taskId)],
     error: null,
@@ -27,14 +28,19 @@ export const taskReducer = createReducer(
     error: null,
   })),
 
-  on(TaskActions.tasksDataReceivedAction, (state, { tasks }): State => {
-    const array = [...tasks].sort((n1, n2) => (n1.order - n2.order));
+  on(TaskActions.tasksDataReceivedAction, (state, { tasks }): State => {    
+    const union: ITaskState[] = [];
+
+    tasks.forEach((element) => {
+      if (!state.tasks.find(x => x.id === element.id)) { union.push(element) };
+    });
+
     return {
-    ...state,
-    tasks: array,
-    error: null,
-  };
-}),
+      ...state,
+      tasks: [...state.tasks, ...union],
+      error: null,
+    };
+  }),
 
   on(TaskActions.taskUpdated, (state, { task }): State => ({
     ...state,

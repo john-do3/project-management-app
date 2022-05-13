@@ -119,7 +119,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((data) => {
       this.createBoardInProgress = false;
 
-      if (data) this.store.dispatch(createBoardData({ title: data }));
+      if (data) this.store.dispatch(createBoardData({ title: data, description: 'desc' }));
     });
   }
 
