@@ -73,5 +73,11 @@
     "DELETE_TOOLTIP": "Удалить выбранную доску",
     "AVAILABLE": "Доступные доски:",
     "ADD_COLUMN": "Добавить колонку"
+  },
+  "COLUMNS": {
+    "DELETE_TOOLTIP": "Удалить колонку",
+    "CREATE_TASK": "Добавить задачу",
+    "SUBMIT": "Подтвердить",
+    "CANCEL": "Отмена"
   }
 }

@@ -6,34 +6,39 @@
       }}</mat-card-title>
 
       <div *ngIf="isTitleEditing" class="editor">
-        <input #columnTitle
+        <input
+          #columnTitle
           class="titleInput"
           type="text"
-          name="value"                    
-          value="{{ column?.title }}"          
+          name="value"
+          value="{{ column?.title }}"
           (keydown.Enter)="saveTitle()"
           (keydown.Meta.Enter)="saveTitle()"
           (keydown.Escape)="cancelTitle()"
         />
         {{ columnTitle.focus() }}
-        <button (click)="saveTitle()">Submit</button>
+        <button (click)="saveTitle()">
+          {{ "COLUMNS.SUBMIT" | translate }}
+        </button>
         <button
           (click)="cancelTitle()"
           (keydown.Enter)="cancelTitle()"
           tabindex="0"
         >
-          Cancel
+          {{ "COLUMNS.CANCEL" | translate }}
         </button>
       </div>
 
       <div class="spacer"></div>
 
-      <div *ngIf="!isTitleEditing">        
+      <div *ngIf="!isTitleEditing">
         <button mat-button [matMenuTriggerFor]="menu">...</button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="onNewTaskClick()">Create task</button>
+          <button mat-menu-item (click)="onNewTaskClick()">
+            {{ "COLUMNS.CREATE_TASK" | translate }}
+          </button>
           <button mat-menu-item (click)="onDeleteColumnClick(column?.id)">
-            Delete column
+            {{ "COLUMNS.DELETE_TOOLTIP" | translate }}
           </button>
         </mat-menu>
       </div>
