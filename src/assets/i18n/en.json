@@ -72,7 +72,8 @@
     "CREATE_TOOLTIP": "Create new board",
     "DELETE_TOOLTIP": "Delete board",
     "AVAILABLE": "Available boards:",
-    "ADD_COLUMN": "Add column"
+    "ADD_COLUMN": "Add column",
+    "SELECTED_BOARD": "Selected board id:"
   },
   "COLUMNS": {
     "DELETE_TOOLTIP": "Delete column",
