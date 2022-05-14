@@ -1,10 +1,18 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
-  FormBuilder, FormControl, FormGroup, Validators,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { FormConfig, ICreateTaskDto, TaskFormInput } from '../../../shared/models/createTaskDto';
+import {
+  FormConfig,
+  ICreateTaskDto,
+  TaskFormInput,
+} from '../../../shared/models/createTaskDto';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-task',
@@ -15,37 +23,79 @@ export class CreateTaskComponent {
   public formGroup: FormGroup;
 
   constructor(
+    private translate: TranslateService,
     public dialogRef: MatDialogRef<CreateTaskComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ICreateTaskDto,
     private formBuilder: FormBuilder,
-    private readonly store: Store,
+    private readonly store: Store
   ) {
     this.formGroup = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+      title: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(20),
+        ],
+      ],
       description: ['', Validators.maxLength(255)],
     });
   }
 
   public get title(): FormControl {
-    return <FormControl> this.formGroup.get(<TaskFormInput>'title');
+    return <FormControl>this.formGroup.get(<TaskFormInput>'title');
   }
 
   public get description(): FormControl {
-    return <FormControl> this.formGroup.get(<TaskFormInput>'description');
+    return <FormControl>this.formGroup.get(<TaskFormInput>'description');
   }
 
   public get getTitleErrorMessage() {
+    let text = '';
     if (this.title.hasError(FormConfig.required)) {
-      return 'Please enter a title';
+      const trans = this.translate
+        .get('MODALS.TASK.ERR_TITLE_REQ')
+        .subscribe((res) => {
+          text = res;
+        });
+      trans.unsubscribe();
+      return text;
     }
     if (this.title.hasError(FormConfig.minLength)) {
-      return 'The title is too short';
+      const trans = this.translate
+        .get('MODALS.TASK.ERR_TITLE_SHORT')
+        .subscribe((res) => {
+          text = res;
+        });
+      trans.unsubscribe();
+      return text;
     }
-    return this.title.hasError(FormConfig.maxLength) ? 'The title is too long' : '';
+    if (this.title.hasError(FormConfig.maxLength)) {
+      const trans = this.translate
+        .get('MODALS.TASK.ERR_TITLE_LONG')
+        .subscribe((res) => {
+          text = res;
+        });
+      trans.unsubscribe();
+      return text;
+    } else {
+      return '';
+    }
   }
 
   public get getDescriptionErrorMessage() {
-    return this.description.hasError(FormConfig.maxLength) ? 'The description is too long' : '';
+    let text = '';
+    if (this.description.hasError(FormConfig.maxLength)) {
+      const trans = this.translate
+        .get('MODALS.TASK.ERR_DESCR_LONG')
+        .subscribe((res) => {
+          text = res;
+        });
+      trans.unsubscribe();
+      return text;
+    } else {
+      return '';
+    }
   }
 
   onCancel(): void {

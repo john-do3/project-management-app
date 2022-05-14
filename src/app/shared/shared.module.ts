@@ -36,6 +36,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     ReactiveFormsModule,
     MatMenuModule,
+    TranslateModule,
   ],
   exports: [
     DragDropModule,

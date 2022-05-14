@@ -34,5 +34,38 @@
       "LOGOUT": "Logout",
       "LANG": "Switch language"
     }
+  },
+  "MODALS": {
+    "CONFIRM": {
+      "TITLE": "Confirm action",
+      "QUESTION": "Are you sure?",
+      "OK": "Ok",
+      "CANCEL": "Cancel"
+    },
+    "BOARD": {
+      "TITLE": "Create board",
+      "PLACEHOLDER_TITLE": "Board title",
+      "ERR_REQ": "Board title is required",
+      "OK": "Create",
+      "CANCEL": "Cancel"
+    },
+    "COLUMN": {
+      "TITLE": "Create column",
+      "PLACEHOLDER_TITLE": "Column title",
+      "ERR_REQ": "Column title is required",
+      "OK": "Create",
+      "CANCEL": "Cancel"
+    },
+    "TASK": {
+      "TITLE": "Create new task",
+      "PLACEHOLDER_TITLE": "Title",
+      "PLACEHOLDER_DESCR": "Description",
+      "ERR_TITLE_REQ": "Please enter a title",
+      "ERR_TITLE_SHORT": "The title is too short",
+      "ERR_TITLE_LONG": "The title is too long",
+      "ERR_DESCR_LONG": "The description is too long",
+      "OK": "Create",
+      "CANCEL": "Cancel"
+    }
   }
 }
