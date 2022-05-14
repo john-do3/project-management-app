@@ -67,5 +67,10 @@
       "OK": "Create",
       "CANCEL": "Cancel"
     }
+  },
+  "BOARDS": {
+    "CREATE_TOOLTIP": "Create new board",
+    "DELETE_TOOLTIP": "Delete board",
+    "AVAILABLE": "Available boards:"
   }
 }
