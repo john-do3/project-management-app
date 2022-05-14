@@ -80,5 +80,9 @@
     "CREATE_TASK": "Create task",
     "SUBMIT": "Submit",
     "CANCEL": "Cancel"
+  },
+  "404": {
+    "TEXT": "Oops, sorry we can't find that page!",
+    "HOME": "Home Page"
   }
 }
