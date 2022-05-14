@@ -42,7 +42,7 @@
     <mat-toolbar>
       <button
         mat-icon-button
-        matTooltip="Add column"
+        [matTooltip]="'BOARDS.ADD_COLUMN' | translate"
         (click)="onAddColumnClick()"
       >
         <mat-icon>add_to_queue</mat-icon>

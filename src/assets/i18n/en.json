@@ -71,6 +71,13 @@
   "BOARDS": {
     "CREATE_TOOLTIP": "Create new board",
     "DELETE_TOOLTIP": "Delete board",
-    "AVAILABLE": "Available boards:"
+    "AVAILABLE": "Available boards:",
+    "ADD_COLUMN": "Add column"
+  },
+  "COLUMNS": {
+    "DELETE_TOOLTIP": "Delete column",
+    "CREATE_TASK": "Create task",
+    "SUBMIT": "Submit",
+    "CANCEL": "Cancel"
   }
 }
