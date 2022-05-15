@@ -84,5 +84,16 @@
   "404": {
     "TEXT": "Oops, sorry we can't find that page!",
     "HOME": "Home Page"
+  },
+  "EDIT": {
+    "TITLE": "Edit profile",
+    "LOGIN_REQ": "The login field is required",
+    "NAME_REQ": "The name field is required",
+    "EDIT_BTN": "Edit",
+    "PLACEHOLDERS": {
+      "LOGIN": "Please enter new login",
+      "NAME": "Please enter new user name",
+      "PASS": "Please enter new password"
+    }
   }
 }
