@@ -3,19 +3,17 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
- filter, Observable, of, Subscription, take,
+  Observable, of, Subscription,
 } from 'rxjs';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { map } from 'rxjs/operators';
 import { HeaderService } from 'src/app/core/services/header.service';
+import { TasksService } from 'src/app/core/services/tasks.service';
 import { selectTasks, selectTasksId } from '../../../redux/selectors/task.selector';
 import { IColumnState, ITaskState } from '../../../redux/state-models';
 import { selectColumnId } from '../../../redux/selectors/column.selector';
-import { TasksService } from '../../services/tasks.service';
 import {
   loadTasksAction,
-  tasksDataReceivedAction,
-  updateTaskData,
 } from '../../../redux/actions/task.actions';
 import { BoardService } from '../../../core/services/board.service';
 import { updateColumn } from '../../../redux/actions/column.actions';
@@ -26,35 +24,18 @@ import { updateColumn } from '../../../redux/actions/column.actions';
   styleUrls: ['./column.component.scss'],
 })
 export class ColumnComponent implements OnInit, OnDestroy {
-
   isTitleEditing = false;
 
   @Input() boardId!: string;
+
   @Input() column?: IColumnState;
+
   @Input() columnId!: string;
 
   @ViewChild('columnTitle')
   inputTitle!: ElementRef;
 
   private subscriptions = new Subscription();
-
-  /*public tasksArray$ = this.store.select(selectTasks);
-
-  public tasksData$ = this.store.select(selectTasks)
-    .pipe(
-      filter(([{ columnId }]) => columnId === this.columnId),
-      map(([task]) => [task.id]),
-    );
-*/
-  public tasksIdData$ = this.store.select(selectTasksId);
-
-  //private subscriptionColumnsId?: Subscription;
-  //private subscriptionTasksId?: Subscription;
-  //private subscriptionTasks?: Subscription;
-
-  public tasksIdArray: string[] = [];
-  public tasksArray: ITaskState[] = [];
-  public tasksIdArray$?: Observable<string[]>;
 
   constructor(
     private headerService: HeaderService,
@@ -64,11 +45,6 @@ export class ColumnComponent implements OnInit, OnDestroy {
   ) {
   }
 
-
-  // public get columnId() {
-  //   return this.column ? this.column.id : '';
-  // }
-
   public tasks$?: Observable<ITaskState[]>;
 
   public tasksID$: Observable<string[]> = of(['']);
@@ -76,7 +52,7 @@ export class ColumnComponent implements OnInit, OnDestroy {
   public columnsID$: Observable<string[]> = of(['']);
 
   onNewTaskClick(): void {
-    this.tasksService.newTaskClick();
+    this.tasksService.newTaskClick({ boardId: this.boardId, columnId: this.columnId });
   }
 
   onDeleteColumnClick(columnId?: string): void {
@@ -84,30 +60,21 @@ export class ColumnComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.tasksService.currentColumnId = this.columnId;
-    this.tasksService.currentBoardId = this.boardId;
     this.store.dispatch(loadTasksAction({ boardId: this.boardId, columnId: this.columnId }));
 
     this.tasks$ = this.store.select(selectTasks).pipe(
-      map(value => value.filter(val => val.boardId == this.boardId && val.columnId == this.columnId))
-    )
-
-    this.subscriptions.add(
-
-      this.tasksService.NewTaskClicked.subscribe(() => {
-        this.tasksService.openCreateTaskDialog(this.tasks$);
-      }),
-
+      map((value) => value.filter((val) => val.boardId === this.boardId && val.columnId === this.columnId)),
     );
 
-    this.tasksID$ = this.store.select(selectTasksId);
+   this.tasksID$ = this.store.select(selectTasksId);
     this.columnsID$ = this.store.select(selectColumnId);
   }
 
   public columnsIdArray = [''];
 
   drop(event: CdkDragDrop<any>): void {
-    /*if (event.previousContainer === event.container) {
+    console.log(event);
+    /* if (event.previousContainer === event.container) {
       console.log(event, event.container.data, event.previousIndex, event.currentIndex, this.tasksIdArray);
 
       const subscribe = this.tasksArray$.pipe(
@@ -164,8 +131,7 @@ export class ColumnComponent implements OnInit, OnDestroy {
         event.previousIndex,
         event.currentIndex,
       );
-    }*/
-
+    } */
   }
 
   onTitleClick(): void {

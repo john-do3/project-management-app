@@ -1,29 +1,25 @@
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side">
     <mat-toolbar>
+      <mat-card-subtitle>Available boards</mat-card-subtitle>
+      <span class="spacer"></span>
       <button
         mat-icon-button
         matTooltip="Create new board"
         (click)="onNewBoardClick()"
       >
-        <mat-icon>create_new_folder</mat-icon>
-      </button>
-
-      <button
-        mat-icon-button
-        matTooltip="Delete board"
-        (click)="onDeleteBoardClick()"
-      >
-        <mat-icon>delete</mat-icon>
+        <mat-icon>add</mat-icon>
       </button>
 
     </mat-toolbar>
 
     <div class="sidebar">
-
-      <mat-card-subtitle>Available boards:</mat-card-subtitle>
+      
       <mat-selection-list #boardsList [multiple]="false" (selectionChange)="onBoardSelected($event)">
-        <mat-list-option *ngFor="let board of boardsData$ |async" [value]="board.id" [selected]="board.id === boardId">
+        <mat-list-option *ngFor="let board of boardsData$ |async" 
+        [value]="board" 
+        [matTooltip]="board.description"
+        [selected]="board.id === boardId">
           {{ board.title }}
         </mat-list-option>
       </mat-selection-list>
@@ -32,17 +28,10 @@
 
   <div>
     <mat-toolbar>
-      <button
-        mat-icon-button
-        matTooltip="Add column"        
-        (click)="onAddColumnClick()"
-      >
-        <mat-icon>add_to_queue</mat-icon>
-      </button>
+      <mat-card-subtitle>{{this.boardTitle}} board [{{this.boardDesc}}]</mat-card-subtitle>
 
       <span class="spacer"></span>
-      Selected board id:{{this.boardId}}
-
+      <button mat-raised-button color="primary" (click)="onDeleteBoardClick()">Delete board</button>
 
     </mat-toolbar>
 

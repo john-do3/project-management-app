@@ -6,7 +6,8 @@
       }}</mat-card-title>
 
       <div *ngIf="isTitleEditing" class="editor">
-        <input #columnTitle
+        <input
+          #columnTitle
           class="titleInput"
           type="text"
           name="value"
@@ -29,15 +30,16 @@
       <div class="spacer"></div>
 
       <div *ngIf="!isTitleEditing">
-        <button mat-button [matMenuTriggerFor]="menu">...</button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="onNewTaskClick()">Create task</button>
-          <button mat-menu-item (click)="onDeleteColumnClick(column?.id)">
-            Delete column
-          </button>
-        </mat-menu>
+        <button
+        mat-icon-button
+        matTooltip="Delete column"
+        (click)="onDeleteColumnClick(column?.id)"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
       </div>
     </div>
+
     <mat-card-content
       cdkDropList
       [id]="columnId"
@@ -47,16 +49,7 @@
     >
       <app-task *ngFor="let task of tasks$ | async" [task]="task" cdkDrag>
       </app-task>
+      <button mat-raised-button color="primary" (click)="onNewTaskClick()">New task</button>
     </mat-card-content>
-  </mat-card>
+  </mat-card>  
 </div>
-
-<!--[cdkDropListData]="tasksIdArray$ | async"-->
-<!--*ngFor="let taskId of tasksIdArray$ | async"-->
-
-
-<!--[cdkDropListData]="tasksIdArray"-->
-<!--*ngFor="let taskId of tasksIdArray"-->
-
-<!--<app-task *ngFor="let taskId of tasksID$ | async" [id]="taskId" cdkDrag>-->
-<!--[cdkDropListData]="tasksID$ | async"-->

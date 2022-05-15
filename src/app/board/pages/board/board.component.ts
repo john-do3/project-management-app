@@ -5,6 +5,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { map, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { BoardService } from 'src/app/core/services/board.service';
+import { HeaderService } from 'src/app/core/services/header.service';
 import { IColumnState } from '../../../redux/state-models';
 import { selectColumns } from '../../../redux/selectors/column.selector';
 import * as ColumnActions from '../../../redux/actions/column.actions';
@@ -15,17 +16,12 @@ import * as ColumnActions from '../../../redux/actions/column.actions';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent {
-  constructor(private store: Store, private boardService: BoardService) {
+  constructor(private store: Store, private boardService: BoardService, private headerService: HeaderService) {
   }
 
-  // private columns?: IColumnState[];
-  // public columns$?: Observable<IColumnState[]>;
   columns$ = this.store.select(selectColumns);
 
   @Input() boardId!: string;
-  /* private columnsSubscription = this.columns$?.subscribe((columns) => {
-    this.columns = columns;
-  }); */
 
   public dropColumn(event: CdkDragDrop<string[]>) {
     if (event.previousIndex === event.currentIndex) return;
@@ -65,5 +61,9 @@ export class BoardComponent {
         }),
       )
       .subscribe();
+  }
+
+  onAddColumnClick(): void{
+    this.headerService.newColumnClick();
   }
 }

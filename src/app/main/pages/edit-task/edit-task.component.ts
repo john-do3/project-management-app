@@ -1,13 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+ FormBuilder, FormControl, FormGroup, Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormConfig, ICreateTaskDto, TaskFormInput } from '../../../shared/models/createTaskDto';
 import { Store } from '@ngrx/store';
+import { FormConfig, ICreateTaskDto, TaskFormInput } from '../../../shared/models/createTaskDto';
 
 @Component({
   selector: 'app-edit-task',
   templateUrl: './edit-task.component.html',
-  styleUrls: ['./edit-task.component.scss']
+  styleUrls: ['./edit-task.component.scss'],
 })
 export class EditTaskComponent implements OnInit {
   public formGroup: FormGroup;
@@ -27,7 +29,6 @@ export class EditTaskComponent implements OnInit {
   public get title(): FormControl {
     return <FormControl> this.formGroup.get(<TaskFormInput>'title');
   }
-
 
   public get description(): FormControl {
     return <FormControl> this.formGroup.get(<TaskFormInput>'description');
@@ -55,7 +56,7 @@ export class EditTaskComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onCreate(): void {
+  onEdit(): void {
     const taskData = {
       title: this.title.value,
       description: this.description.value,
@@ -66,6 +67,6 @@ export class EditTaskComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formGroup.setValue(this.data)
+    this.formGroup.setValue(this.data);
   }
 }

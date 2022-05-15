@@ -1,3 +1,9 @@
+export interface ITask {
+  boardId: string;
+  columnId: string;
+  taskId: string;
+}
+
 export interface ICreateTaskDto {
   title: string;
   order: number;

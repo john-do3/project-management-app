@@ -1,18 +1,18 @@
-<mat-card class="task">
-  <div>
-    <mat-card-title>{{title}}</mat-card-title>
-    <mat-card-content>{{description}}</mat-card-content>
-  </div>
-  <button mat-button class="task__button" [matMenuTriggerFor]="menu">...</button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="edit()">Edit task</button>
-    <button mat-menu-item (click)="destroy()">
-      Delete task
-    </button>
-  </mat-menu>
-<!--  <button-->
-<!--    class="task__button"-->
-<!--    mat-raised-button-->
-<!--    color="primary"-->
-<!--    (click)="destroy()">x</button>-->
-</mat-card>
+<div class="task">
+  <mat-card class="task">
+    <div (click)="edit()">
+      <mat-card-subtitle>{{ title }}</mat-card-subtitle>
+      <mat-card-content>{{ description }}</mat-card-content>
+    </div>
+
+    <button
+        mat-icon-button
+        matTooltip="Delete task"
+        class="task__button"
+        (click)="destroy()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+
+  </mat-card>
+</div>

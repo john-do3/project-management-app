@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as TaskActions from '../actions/task.actions';
 import { ITaskState } from '../state-models';
-import * as BoardActions from '../actions/board.actions';
 
 export interface State {
   tasks: ITaskState[],
@@ -28,11 +27,11 @@ export const taskReducer = createReducer(
     error: null,
   })),
 
-  on(TaskActions.tasksDataReceivedAction, (state, { tasks }): State => {    
+  on(TaskActions.tasksDataReceivedAction, (state, { tasks }): State => {
     const union: ITaskState[] = [];
 
     tasks.forEach((element) => {
-      if (!state.tasks.find(x => x.id === element.id)) { union.push(element) };
+      if (!state.tasks.find((x) => x.id === element.id)) { union.push(element); }
     });
 
     return {
