@@ -72,6 +72,7 @@ export class UserService {
       .subscribe(
         (response) => {
           console.log(response.token);
+
           localStorage.setItem(this.tokenKey, response.token);
           localStorage.setItem(this.loginKey, loginUserDto.login);
 
