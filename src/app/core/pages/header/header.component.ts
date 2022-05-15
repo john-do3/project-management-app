@@ -42,6 +42,9 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    localStorage.getItem('lang-toggled') === 'true'
+      ? (this.isLangSlideToggled = true)
+      : (this.isLangSlideToggled = false);
     this.isLoggedIn = this.userService.checkIsLoggedIn();
     this.userLogin = this.userService.getUserLogin();
     this.userService.userLogin$.subscribe((res) => {
@@ -64,7 +67,9 @@ export class HeaderComponent implements OnInit {
     if (this.isLangSlideToggled) {
       result = 'RU';
     }
-    this.translate.use(result.toLocaleLowerCase());
+    localStorage.setItem('lang-toggled', String(this.isLangSlideToggled));
+    localStorage.setItem('lang', result.toLowerCase());
+    this.translate.use(result.toLowerCase());
     return result;
   }
 

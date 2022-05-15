@@ -69,7 +69,7 @@ const routes: Routes = [
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
       },
-      defaultLanguage: 'en',
+      defaultLanguage: localStorage.getItem('lang') as string | 'en',
     }),
     StoreModule.forRoot(
       {
