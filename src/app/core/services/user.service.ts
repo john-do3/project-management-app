@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, Subject } from 'rxjs';
+import { catchError, Observable, Subject, tap } from 'rxjs';
 import { kanbanServiceUrl } from 'src/app/project.constants';
 import { CreateUserDto } from 'src/app/shared/models/createUserDto.model';
 import { SigninUserDto } from 'src/app/shared/models/signInUserDto';
@@ -85,6 +85,18 @@ export class UserService {
         },
       );
   }
+
+  public getUserById(userId: string) {
+    return this.http
+      .get<IUserState>(`${kanbanServiceUrl}/users/${userId}`)
+      .pipe(catchError((error) => this.httpErrorService.handleError(error)))
+  }
+
+  // public relogin(userId: string) {
+  //   this.getUserById(userId).pipe(
+  //     tap((userData: IUserState)=> this.login({login: userData.login, password: userData.name}))
+  //   )
+  // }
 
   public delete(userId: string) {
     return this.http

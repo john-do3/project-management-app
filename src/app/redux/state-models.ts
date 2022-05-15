@@ -26,7 +26,7 @@ export interface IUserState {
 }
 
 export interface ICurrentUserState {
-  TokenCreationTime: string
+  TokenCreationTime: number
 }
 
 export interface AppState {
