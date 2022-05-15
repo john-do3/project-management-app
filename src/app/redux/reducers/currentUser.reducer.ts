@@ -9,12 +9,12 @@ export interface State {
 }
 export const InitialState: State = { currentUser: null, error: null };
 
-export const currentUsrReducer = createReducer(
+export const currentUserReducer = createReducer(
   InitialState,
 
-  on(CurrentUserActions.addCurrentUserData, (state, { currentUser }): State => ({
+  on(CurrentUserActions.addCurrentUserData, (state, { currentTime }): State => ({
     ...state,
-    currentUser: currentUser,
+    currentUser:{TokenCreationTime: currentTime},
     error: null,
   })),
 

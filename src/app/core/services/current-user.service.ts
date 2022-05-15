@@ -26,41 +26,34 @@ export class CurrentUserService {
     return this.userService.getUserLogin()
   }
 
-  private tokenLifeTime = 40000;
+  private tokenMaxLifeTime = 24*60*1000 - 10000;
 
-  public get lifeTime() {
-    return this.tokenLifeTime
-  }
+  private get tokenMaxLifeTimeMs(): number {
+    return Date.now() - this.tokenMaxLifeTime;
+  };
 
-  private tokenCreationTime$ = this.store.select(selectTokenCreationTime)
-    // .pipe(
-    // take(1),
 
-  // );
+  private tokenCreationTime$ = this.store.select(selectTokenCreationTime);
+
 
   public auditToken$ = this.tokenCreationTime$.pipe(
-    catchError((error) => of(console.log(error))),
-    switchMap((v)=> {
-      console.log(v);
-      this.tokenLifeTime = 2000;
-      return this.auditInterval$(this.tokenLifeTime)
-      // interval(this.lifeTime)
-      //   .pipe(
-      //     tap(() => {
-      //       this.userService.logout()
-      //       console.log(new Date().getSeconds(), this.tokenLifeTime, this.lifeTime);
-      //     })
-      //   );
+    catchError((error) => of(Date.now())),
+    switchMap((time: number)=> {
+      console.log(time, '!!!')
+      const tokenLifeTime = time - this.tokenMaxLifeTimeMs;
+      console.log(time, tokenLifeTime)
+      // this.tokenLifeTime = time?  || 2000;
+      return this.auditInterval$(tokenLifeTime)
     })
   )
 
 
   public auditInterval$ = (value: number) =>
-    interval(value)
+    timer(value)
       .pipe(
         tap(() => {
           this.userService.logout()
-          console.log(new Date().getSeconds(), this.tokenLifeTime, this.lifeTime);
+          // console.log(new Date().getSeconds(), this.tokenLifeTime, this.lifeTime);
         })
       );
 

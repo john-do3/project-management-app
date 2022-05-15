@@ -26,6 +26,7 @@ import { UserEffects } from './redux/effects/user.effects';
 import { userReducer } from './redux/reducers/user.reducer';
 import { ColumnEffects } from './redux/effects/column.effects';
 import { WelcomePageComponent } from './core/pages/welcome-page/welcome-page.component';
+import { currentUserReducer } from './redux/reducers/currentUser.reducer';
 
 const routes: Routes = [
   {
@@ -59,6 +60,7 @@ const routes: Routes = [
         columns: columnReducer,
         tasks: taskReducer,
         users: userReducer,
+        currentUser: currentUserReducer,
       },
       {},
     ),
