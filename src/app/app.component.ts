@@ -7,7 +7,9 @@ import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
 })
 export class AppComponent implements AfterViewChecked {
   title = 'pm-app';
+
   constructor(private cdr: ChangeDetectorRef) {}
+
   ngAfterViewChecked(): void {
     this.cdr.detectChanges();
   }

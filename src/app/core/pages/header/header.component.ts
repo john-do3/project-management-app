@@ -38,13 +38,15 @@ export class HeaderComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private router: Router,
     private store: Store,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
-    localStorage.getItem('lang-toggled') === 'true'
-      ? (this.isLangSlideToggled = true)
-      : (this.isLangSlideToggled = false);
+    if (localStorage.getItem('lang-toggled') === 'true') {
+      this.isLangSlideToggled = true;
+    } else {
+      this.isLangSlideToggled = false;
+    }
     this.isLoggedIn = this.userService.checkIsLoggedIn();
     this.userLogin = this.userService.getUserLogin();
     this.userService.userLogin$.subscribe((res) => {
@@ -58,7 +60,7 @@ export class HeaderComponent implements OnInit {
         if (this.isLoggedIn) this.router.navigateByUrl(mainRoute);
         else this.router.navigateByUrl(welcomeRoute);
         this.ref.detectChanges();
-      })
+      }),
     );
   }
 
@@ -90,7 +92,7 @@ export class HeaderComponent implements OnInit {
                 this.onLogout();
                 $.unsubscribe();
               }
-            })
+            }),
           )
           .subscribe();
       }
@@ -114,7 +116,7 @@ export class HeaderComponent implements OnInit {
               }
             });
           }
-        })
+        }),
       )
       .subscribe();
     userData.unsubscribe();

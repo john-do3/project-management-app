@@ -27,7 +27,7 @@ export class EditProfileComponent {
   constructor(
     public dialogRef: MatDialogRef<EditProfileComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { name: string; login: string; password: string }
+    public data: { name: string; login: string; password: string },
   ) {}
 
   onEdit() {
@@ -57,12 +57,11 @@ export class EditProfileComponent {
 
       const hasSpecial = /[*@!#%&()^~{}]+/.test(value);
 
-      const passwordValid =
-        isEnoughtLength &&
-        hasUpperCase &&
-        hasLowerCase &&
-        hasNumeric &&
-        hasSpecial;
+      const passwordValid = isEnoughtLength
+        && hasUpperCase
+        && hasLowerCase
+        && hasNumeric
+        && hasSpecial;
 
       return !passwordValid ? { passwordStrength: true } : null;
     };

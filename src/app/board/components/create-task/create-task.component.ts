@@ -7,12 +7,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import {
   FormConfig,
   ICreateTaskDto,
   TaskFormInput,
 } from '../../../shared/models/createTaskDto';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-task',
@@ -27,7 +27,7 @@ export class CreateTaskComponent {
     public dialogRef: MatDialogRef<CreateTaskComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ICreateTaskDto,
     private formBuilder: FormBuilder,
-    private readonly store: Store
+    private readonly store: Store,
   ) {
     this.formGroup = this.formBuilder.group({
       title: [
@@ -43,11 +43,11 @@ export class CreateTaskComponent {
   }
 
   public get title(): FormControl {
-    return <FormControl>this.formGroup.get(<TaskFormInput>'title');
+    return <FormControl> this.formGroup.get(<TaskFormInput>'title');
   }
 
   public get description(): FormControl {
-    return <FormControl>this.formGroup.get(<TaskFormInput>'description');
+    return <FormControl> this.formGroup.get(<TaskFormInput>'description');
   }
 
   public get getTitleErrorMessage() {
@@ -78,9 +78,8 @@ export class CreateTaskComponent {
         });
       trans.unsubscribe();
       return text;
-    } else {
-      return '';
     }
+      return '';
   }
 
   public get getDescriptionErrorMessage() {
@@ -93,9 +92,8 @@ export class CreateTaskComponent {
         });
       trans.unsubscribe();
       return text;
-    } else {
-      return '';
     }
+      return '';
   }
 
   onCancel(): void {
