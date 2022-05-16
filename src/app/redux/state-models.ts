@@ -1,10 +1,11 @@
 export interface ITaskState {
   id: string;
   title: string;
+  done: boolean;
   order: number;
   description: string;
-  userId: string; // object?
-  boardId: string; // object?
+  userId: string;
+  boardId: string;
   columnId: string;
 }
 
@@ -18,6 +19,7 @@ export interface IColumnState {
 export interface IBoardState {
   id: string;
   title: string;
+  description: string;
   // columns?: IColumnState[]
 }
 
@@ -27,9 +29,30 @@ export interface IUserState {
   name: string;
 }
 
-export interface AppState {
+export interface AppBoardState {
   boards: IBoardState[];
+  error: any;
+}
+
+export interface AppColumnState {
   columns: IColumnState[];
+  error: any;
+}
+
+export interface AppTaskState {
   tasks: ITaskState[];
+  error: any;
+}
+
+export interface AppUserState {
   users: IUserState[];
+  error: any;
+}
+
+export interface AppState {
+  boards: AppBoardState;
+  columns: AppColumnState;
+  tasks: AppTaskState;
+  users: AppUserState;
+
 }

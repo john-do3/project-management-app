@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Edit task</h2>
+<mat-dialog-content class="login-form" [formGroup]="formGroup">
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input matInput [formControl]="title">
+    <mat-error *ngIf="title.invalid">{{getTitleErrorMessage}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <input matInput [formControl]="description">
+    <mat-error *ngIf="description.invalid">{{getDescriptionErrorMessage}}</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    class="mat-raised-button mat-primary"
+    (click)="onEdit()">
+    Submit
+  </button>
+  <div class="hspacer10"></div>
+  <button class="mat-raised-button" (click)="onCancel()">Cancel</button>
+</mat-dialog-actions>

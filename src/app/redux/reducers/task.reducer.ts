@@ -1,20 +1,55 @@
 import { createReducer, on } from '@ngrx/store';
-import * as AddTaskAction from '../actions/add-task.action';
+import * as TaskActions from '../actions/task.actions';
 import { ITaskState } from '../state-models';
 
 export interface State {
-  tasks: ITaskState[]
+  tasks: ITaskState[],
+  error: any
 }
-export const InitialState:State = { tasks: [] };
+
+export const InitialState: State = { tasks: [], error: null };
 
 export const taskReducer = createReducer(
   InitialState,
-  on(AddTaskAction.addTaskAction, (state, { task }): State => ({
+  on(TaskActions.taskActions, (state, { task }): State => ({
     ...state,
     tasks: [...state.tasks, task],
   })),
-  on(AddTaskAction.deleteTaskData, (state, { taskId }) => ({
+
+  on(TaskActions.deleteTaskData, (state, { taskId }) => ({
     tasks: [...state.tasks.filter((task) => task.id !== taskId)],
     error: null,
+  })),
+
+  on(TaskActions.taskCreatedAction, (state, { task }): State => ({
+    ...state,
+    tasks: [...state.tasks, task],
+    error: null,
+  })),
+
+  on(TaskActions.tasksDataReceivedAction, (state, { tasks }): State => {
+    const union: ITaskState[] = [];
+
+    tasks.forEach((element) => {
+      if (!state.tasks.find((x) => x.id === element.id)) { union.push(element); }
+    });
+
+    return {
+      ...state,
+      tasks: [...state.tasks, ...union],
+      error: null,
+    };
+  }),
+
+  on(TaskActions.taskUpdated, (state, { task }): State => ({
+    ...state,
+    tasks: [...state.tasks.filter((t) => t.id !== task.id), task],
+    error: null,
+  })),
+
+  on(TaskActions.apiCallFailed, (state, { error }): State => ({
+    ...state,
+    tasks: [...state.tasks],
+    error,
   })),
 );

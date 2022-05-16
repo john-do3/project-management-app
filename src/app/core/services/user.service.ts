@@ -1,12 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, Subject } from 'rxjs';
+import {
+ catchError, map, Observable, Subject,
+} from 'rxjs';
 import { kanbanServiceUrl } from 'src/app/project.constants';
 import { CreateUserDto } from 'src/app/shared/models/createUserDto.model';
 import { SigninUserDto } from 'src/app/shared/models/signInUserDto';
 import { LoginResponseDto } from 'src/app/shared/models/loginResponseDto';
 import { Store } from '@ngrx/store';
 import { loadUsersData } from 'src/app/redux/actions/user.actions';
+import { selectUsers } from 'src/app/redux/selectors/user.selector';
 import { HttpErrorService } from './httperror.service';
 import { IUserState } from '../../redux/state-models';
 
@@ -25,6 +28,8 @@ export class UserService {
   private loginKey = 'userLogin';
 
   IsLoggedIn: Subject<boolean> = new Subject<boolean>();
+
+  usersData$ = this.store.select(selectUsers);
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -117,5 +122,16 @@ export class UserService {
         this.userLogin$.next(localStorage.getItem(this.loginKey) ?? '');
         this.store.dispatch(loadUsersData());
       });
+  }
+
+  public getCurrentUserState(): Observable<IUserState | undefined> {
+    return this.usersData$
+      .pipe(
+        // take(1),
+        map((val: IUserState[]) => {
+          const user = val.find((x) => x.login === this.userLogin);
+          return user;
+        }),
+);
   }
 }
