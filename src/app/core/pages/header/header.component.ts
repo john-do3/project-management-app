@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { map, Subscription } from 'rxjs';
 import { mainRoute, welcomeRoute } from 'src/app/project.constants';
 import { selectUsers } from 'src/app/redux/selectors/user.selector';
@@ -37,9 +38,15 @@ export class HeaderComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private router: Router,
     private store: Store,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
+    if (localStorage.getItem('lang-toggled') === 'true') {
+      this.isLangSlideToggled = true;
+    } else {
+      this.isLangSlideToggled = false;
+    }
     this.isLoggedIn = this.userService.checkIsLoggedIn();
     this.userLogin = this.userService.getUserLogin();
     this.userService.userLogin$.subscribe((res) => {
@@ -62,6 +69,9 @@ export class HeaderComponent implements OnInit {
     if (this.isLangSlideToggled) {
       result = 'RU';
     }
+    localStorage.setItem('lang-toggled', String(this.isLangSlideToggled));
+    localStorage.setItem('lang', result.toLowerCase());
+    this.translate.use(result.toLowerCase());
     return result;
   }
 

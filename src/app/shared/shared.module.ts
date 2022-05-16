@@ -14,6 +14,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
+import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.component';
 
 @NgModule({
@@ -35,6 +36,7 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
     FormsModule,
     ReactiveFormsModule,
     MatMenuModule,
+    TranslateModule,
   ],
   exports: [
     DragDropModule,
@@ -53,6 +55,7 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
     ConfirmModalComponent,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
   ],
 })
 export class SharedModule {}
