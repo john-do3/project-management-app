@@ -6,13 +6,18 @@
     </div>
 
     <button
-        mat-icon-button
-        matTooltip="Delete task"
-        class="task__button"
-        (click)="destroy()"
-      >
-        <mat-icon>clear</mat-icon>
-      </button>
+      mat-icon-button
+      matTooltip="Delete task"
+      class="task__button"
+      (click)="destroy()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+
+    <div class="avatar" (click)="edit()">
+      <span class="spacer"></span>
+      <img ngxGravatar [size]="40" [md5Hash]="getUserHash(task?.userId)" matTooltip="{{getUserName(task?.userId)}}" [fallback]="'robohash'" />
+    </div>
 
   </mat-card>
 </div>

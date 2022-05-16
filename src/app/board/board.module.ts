@@ -5,7 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 import { CreateTaskComponent } from '../main/pages/create-task/create-task.component';
 import { ColumnComponent } from './components/column/column.component';
 import { BoardComponent } from './pages/board/board.component';
-import { EditTaskComponent } from '../main/pages/edit-task/edit-task.component';
+import { GravatarModule } from 'ngx-gravatar';
 
 @NgModule({
   declarations: [
@@ -13,11 +13,11 @@ import { EditTaskComponent } from '../main/pages/edit-task/edit-task.component';
     ColumnComponent,
     BoardComponent,
     CreateTaskComponent,
-    EditTaskComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
+    GravatarModule,
   ],
   exports: [
     BoardComponent,

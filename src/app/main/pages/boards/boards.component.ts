@@ -37,7 +37,6 @@ import { CreateBoardComponent } from '../create-board/create-board.component';
 import { TasksService } from '../../../core/services/tasks.service';
 import { CreateColumnComponent } from '../create-column/create-column.component';
 import { CreateTaskComponent } from '../create-task/create-task.component';
-import { EditTaskComponent } from '../edit-task/edit-task.component';
 
 @Component({
   selector: 'app-boards',
@@ -239,38 +238,31 @@ export class BoardsComponent implements OnInit, OnDestroy {
   }
 
   openCreateTaskDialog(column: IColumn): void {
-    this.userService.getCurrentUserState()
-    .pipe(
-      take(1),
-      map((userState) => {
-        if (userState) {
-          const dialogRef = this.dialog.open(CreateTaskComponent, {
-            width: '250px',
-            data: { title: '', description: '' },
-          });
+    const dialogRef = this.dialog.open(CreateTaskComponent, {
+      width: '250px',
+      data: { title: '', description: '' },
+    });
 
-          dialogRef.afterClosed().subscribe((data) => {
-            if (data) {
-              this.store.dispatch(createTaskAction({
-                boardId: column.boardId,
-                columnId: column.columnId,
-                description: data.description,
-                order: 0, // todo
-                done: false,
-                title: data.title,
-                userId: userState.id,
-              }));
-            }
-          });
-        }
-      }),
-).subscribe();
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        this.store.dispatch(createTaskAction({
+          boardId: column.boardId,
+          columnId: column.columnId,
+          description: data.description,
+          order: 0, // todo
+          done: false,
+          title: data.title,
+          userId: data.userId
+        }));
+      }
+    });
+
   }
 
   openEditTaskDialog(task: ITaskState) {
-    const dialogRef = this.dialog.open(EditTaskComponent, {
+    const dialogRef = this.dialog.open(CreateTaskComponent, {
       width: '250px',
-      data: { title: task.title, description: task.description },
+      data: { title: task.title, description: task.description, userId: task.userId },
     });
 
     dialogRef.afterClosed().subscribe((data) => {
@@ -284,7 +276,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
             order: task.order,
             done: task.done,
             title: data.title,
-            userId: task.userId,
+            userId: data.userId,
           },
         }));
       }
