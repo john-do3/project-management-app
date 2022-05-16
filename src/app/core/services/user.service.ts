@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, Subject, tap } from 'rxjs';
+import { catchError, Observable, Subject } from 'rxjs';
 import { kanbanServiceUrl } from 'src/app/project.constants';
 import { CreateUserDto } from 'src/app/shared/models/createUserDto.model';
 import { SigninUserDto } from 'src/app/shared/models/signInUserDto';
@@ -77,9 +77,8 @@ export class UserService {
           localStorage.setItem(this.tokenKey, response.token);
           localStorage.setItem(this.loginKey, loginUserDto.login);
 
-          localStorage.setItem('tokenTime', Date.now().toString()) // MY
-          this.store.dispatch(addCurrentUserData({currentTime: Date.now()}))
-          console.log(this.store)
+          localStorage.setItem('tokenTime', Date.now().toString());
+          this.store.dispatch(addCurrentUserData({ currentTime: Date.now() }));
 
           this.token = response.token;
           this.userLogin = loginUserDto.login;
@@ -90,18 +89,6 @@ export class UserService {
         },
       );
   }
-
-  public getUserById(userId: string) {
-    return this.http
-      .get<IUserState>(`${kanbanServiceUrl}/users/${userId}`)
-      .pipe(catchError((error) => this.httpErrorService.handleError(error)))
-  }
-
-  // public relogin(userId: string) {
-  //   this.getUserById(userId).pipe(
-  //     tap((userData: IUserState)=> this.login({login: userData.login, password: userData.name}))
-  //   )
-  // }
 
   public delete(userId: string) {
     return this.http

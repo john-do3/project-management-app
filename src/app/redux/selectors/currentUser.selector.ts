@@ -5,6 +5,5 @@ export const selectTasksObject = createFeatureSelector <{ currentUser: ICurrentU
 
 export const selectTokenCreationTime = createSelector(
   selectTasksObject,
-  ({currentUser}) => currentUser.TokenCreationTime,
+  ({ currentUser }) => currentUser.TokenCreationTime,
 );
-
