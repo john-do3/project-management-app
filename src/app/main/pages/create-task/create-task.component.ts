@@ -1,14 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
-  FormBuilder, FormControl, FormGroup, Validators,
+  FormControl, FormGroup, Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { FormConfig, ICreateTaskDto, TaskFormInput } from '../../../shared/models/createTaskDto';
 import { selectUsers } from 'src/app/redux/selectors/user.selector';
 import { IUserState } from 'src/app/redux/state-models';
-import { map, pipe, take } from 'rxjs';
+import { map, take } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
+import { ICreateTaskDto } from '../../../shared/models/createTaskDto';
 
 @Component({
   selector: 'app-create-task',
@@ -17,7 +17,9 @@ import { UserService } from 'src/app/core/services/user.service';
 })
 export class CreateTaskComponent {
   editMode: boolean = false;
+
   usersData$ = this.store.select(selectUsers);
+
   allUsers: IUserState[] = [];
 
   taskForm: FormGroup = new FormGroup({
@@ -30,33 +32,28 @@ export class CreateTaskComponent {
     public dialogRef: MatDialogRef<CreateTaskComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ICreateTaskDto,
     private readonly store: Store,
-    private userService: UserService
+    private userService: UserService,
   ) {
-
     this.editMode = data.title !== '';
 
-    this.usersData$.
-      pipe(
+    this.usersData$
+      .pipe(
         take(1),
         map(
           (users: IUserState[]) => {
             this.allUsers = users;
-          }
-        )
+          },
+        ),
       ).subscribe();
 
     this.userService.getCurrentUserState()
       .pipe(
         take(1),
         map((userState) => {
-
-          let userId = this.data.userId ? this.data.userId : userState?.id;
+          const userId = this.data.userId ? this.data.userId : userState?.id;
           this.taskForm.get('users')?.setValue(userId);
-
-        }
-        )
+        }),
       ).subscribe();
-
   }
 
   getTitle(): string {
@@ -79,8 +76,6 @@ export class CreateTaskComponent {
       userId: this.taskForm.get('users')?.value,
     };
 
-    if (taskData.title && taskData.description)
-      this.dialogRef.close(taskData);
-
+    if (taskData.title && taskData.description) this.dialogRef.close(taskData);
   }
 }

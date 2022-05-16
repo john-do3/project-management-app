@@ -15,8 +15,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
-import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.component';
 import { GravatarModule } from 'ngx-gravatar';
+import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [ConfirmModalComponent],
@@ -38,7 +38,7 @@ import { GravatarModule } from 'ngx-gravatar';
     ReactiveFormsModule,
     MatMenuModule,
     MatSelectModule,
-    GravatarModule
+    GravatarModule,
   ],
   exports: [
     DragDropModule,
@@ -57,7 +57,7 @@ import { GravatarModule } from 'ngx-gravatar';
     ConfirmModalComponent,
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
   ],
 })
 export class SharedModule {}

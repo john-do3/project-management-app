@@ -1,15 +1,13 @@
 import {
   Component, Input,
 } from '@angular/core';
-import { ITaskState, IUserState } from '../../../redux/state-models';
-import { TasksService } from '../../../core/services/tasks.service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ITaskUser } from 'src/app/shared/models/taskUserDto';
 import { Store } from '@ngrx/store';
 import { selectUsers } from 'src/app/redux/selectors/user.selector';
 import { map, take } from 'rxjs';
-import { IUpdateTaskDto } from 'src/app/shared/models/createTaskDto';
-
+import { TasksService } from '../../../core/services/tasks.service';
+import { ITaskState, IUserState } from '../../../redux/state-models';
 
 @Component({
   selector: 'app-task',
@@ -18,7 +16,9 @@ import { IUpdateTaskDto } from 'src/app/shared/models/createTaskDto';
 })
 export class TaskComponent {
   taskUsers: ITaskUser[] = [];
+
   usersData$ = this.store.select(selectUsers);
+
   @Input() task?: ITaskState;
 
   constructor(
@@ -28,16 +28,13 @@ export class TaskComponent {
     this.usersData$.pipe(
       take(1),
       map((users: IUserState[]) => {
-        const md5 = new Md5();
-
-        users.forEach(user => {
+        users.forEach((user) => {
           this.taskUsers.push({
-            id: user.id, name: user.name, hash: Md5.hashStr(user.id)
-          })
-        })
-
-      })
-    ).subscribe()
+            id: user.id, name: user.name, hash: Md5.hashStr(user.id),
+          });
+        });
+      }),
+    ).subscribe();
   }
 
   public get title() {
@@ -61,14 +58,14 @@ export class TaskComponent {
   }
 
   getUserHash(userId?: string): string {
-    let result = '';
-    let user = this.taskUsers.find(u => u.id == userId);
+    const result = '';
+    const user = this.taskUsers.find((u) => u.id === userId);
     return user ? user.hash : result;
   }
 
   getUserName(userId?: string): string {
-    let result = '';
-    let user = this.taskUsers.find(u => u.id == userId);
+    const result = '';
+    const user = this.taskUsers.find((u) => u.id === userId);
     return user ? user.name : result;
   }
 }

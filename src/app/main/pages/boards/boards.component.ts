@@ -252,11 +252,10 @@ export class BoardsComponent implements OnInit, OnDestroy {
           order: 0, // todo
           done: false,
           title: data.title,
-          userId: data.userId
+          userId: data.userId,
         }));
       }
     });
-
   }
 
   openEditTaskDialog(task: ITaskState) {
