@@ -1,18 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
+  FormBuilder, FormControl, FormGroup, Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
-import {
-  FormConfig,
-  ICreateTaskDto,
-  TaskFormInput,
-} from '../../../shared/models/createTaskDto';
+import { FormConfig, ICreateTaskDto, TaskFormInput } from '../../../shared/models/createTaskDto';
 
 @Component({
   selector: 'app-create-task',
@@ -23,21 +15,13 @@ export class CreateTaskComponent {
   public formGroup: FormGroup;
 
   constructor(
-    private translate: TranslateService,
     public dialogRef: MatDialogRef<CreateTaskComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ICreateTaskDto,
     private formBuilder: FormBuilder,
     private readonly store: Store,
   ) {
     this.formGroup = this.formBuilder.group({
-      title: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(20),
-        ],
-      ],
+      title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       description: ['', Validators.maxLength(255)],
     });
   }
@@ -51,49 +35,17 @@ export class CreateTaskComponent {
   }
 
   public get getTitleErrorMessage() {
-    let text = '';
     if (this.title.hasError(FormConfig.required)) {
-      const trans = this.translate
-        .get('MODALS.TASK.ERR_TITLE_REQ')
-        .subscribe((res) => {
-          text = res;
-        });
-      trans.unsubscribe();
-      return text;
+      return 'Please enter a title';
     }
     if (this.title.hasError(FormConfig.minLength)) {
-      const trans = this.translate
-        .get('MODALS.TASK.ERR_TITLE_SHORT')
-        .subscribe((res) => {
-          text = res;
-        });
-      trans.unsubscribe();
-      return text;
+      return 'The title is too short';
     }
-    if (this.title.hasError(FormConfig.maxLength)) {
-      const trans = this.translate
-        .get('MODALS.TASK.ERR_TITLE_LONG')
-        .subscribe((res) => {
-          text = res;
-        });
-      trans.unsubscribe();
-      return text;
-    }
-      return '';
+    return this.title.hasError(FormConfig.maxLength) ? 'The title is too long' : '';
   }
 
   public get getDescriptionErrorMessage() {
-    let text = '';
-    if (this.description.hasError(FormConfig.maxLength)) {
-      const trans = this.translate
-        .get('MODALS.TASK.ERR_DESCR_LONG')
-        .subscribe((res) => {
-          text = res;
-        });
-      trans.unsubscribe();
-      return text;
-    }
-      return '';
+    return this.description.hasError(FormConfig.maxLength) ? 'The description is too long' : '';
   }
 
   onCancel(): void {
