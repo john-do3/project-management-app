@@ -239,7 +239,6 @@ export class BoardsComponent implements OnInit, OnDestroy {
 
   openCreateTaskDialog(column: IColumn): void {
     const dialogRef = this.dialog.open(CreateTaskComponent, {
-      width: '250px',
       data: { title: '', description: '' },
     });
 
@@ -260,7 +259,6 @@ export class BoardsComponent implements OnInit, OnDestroy {
 
   openEditTaskDialog(task: ITaskState) {
     const dialogRef = this.dialog.open(CreateTaskComponent, {
-      width: '250px',
       data: { title: task.title, description: task.description, userId: task.userId },
     });
 

@@ -1,5 +1,6 @@
-<h2 mat-dialog-title>{{getTitle()}}</h2>
-  <mat-dialog-content class="login-form" [formGroup]="taskForm">
+<h2 mat-dialog-title>{{ getTitle() }}</h2>
+<mat-dialog-content class="login-form" [formGroup]="taskForm">
+  <div class="div-row">
     <mat-form-field>
       <mat-label>Title</mat-label>
       <input matInput formControlName="title" />
@@ -13,18 +14,8 @@
         The title is too long
       </mat-error>
     </mat-form-field>
+    <div class="spacer"></div>
     <mat-form-field>
-      <mat-label>Description</mat-label>
-      <input matInput formControlName="description" />
-      <mat-error *ngIf="taskForm.get('description')?.hasError('required')">
-        Please enter a description
-      </mat-error>
-      <mat-error *ngIf="taskForm.get('description')?.hasError('maxlength')">
-        The description is too long
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
       <mat-label>Task owner</mat-label>
       <mat-select formControlName="users">
         <mat-option *ngFor="let user of allUsers" [value]="user.id">
@@ -32,12 +23,26 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-  </mat-dialog-content>
+  </div>
+
+  <editor
+    apiKey="9ga8ho5g446t2zwlmnjg4h5fc8eav4o1vtnslgadlo3cs7pb"
+    formControlName="description"
+    [init]="{
+      icons: 'material',
+      skin: 'borderless',
+      plugins: 'wordcount',
+      menubar: false,
+      max_height: 250
+    }"
+  ></editor>
+    <mat-error *ngIf="taskForm.get('description')?.touched && taskForm.get('description')?.hasError('required')">
+        Please enter a description
+      </mat-error>
+</mat-dialog-content>
 
 <mat-dialog-actions>
-  <button
-    class="mat-raised-button mat-primary"
-    (click)="onCreate()">
+  <button class="mat-raised-button mat-primary" (click)="onCreate()">
     Submit
   </button>
   <div class="hspacer10"></div>

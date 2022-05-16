@@ -45,7 +45,10 @@ export class TaskComponent {
     return this.task?.description || '';
   }
 
-  public destroy() {
+  public destroy(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (this.task) {
       this.tasksService.DeleteTaskClicked.next(this.task);
     }
