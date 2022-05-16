@@ -7,6 +7,14 @@
       Board title is required
     </mat-error>
   </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Board description" formControlName="boardDescription" />
+    <mat-error *ngIf="createDialog.get('boardDescription')?.hasError('required')">
+      Board description is required
+    </mat-error>
+  </mat-form-field>
+
 </mat-dialog-content>
 
 <mat-dialog-actions>

@@ -25,6 +25,7 @@ import { BoardEffects } from './redux/effects/board.effects';
 import { UserEffects } from './redux/effects/user.effects';
 import { userReducer } from './redux/reducers/user.reducer';
 import { ColumnEffects } from './redux/effects/column.effects';
+import { TaskEffects } from './redux/effects/task.effects';
 import { WelcomePageComponent } from './core/pages/welcome-page/welcome-page.component';
 import { currentUserReducer } from './redux/reducers/currentUser.reducer';
 
@@ -65,7 +66,7 @@ const routes: Routes = [
       {},
     ),
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([BoardEffects, UserEffects, ColumnEffects]),
+    EffectsModule.forFeature([BoardEffects, UserEffects, ColumnEffects, TaskEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,

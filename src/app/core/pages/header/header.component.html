@@ -1,4 +1,7 @@
 <mat-toolbar color="primary">
+  <button mat-icon-button (click)="onMenuClick()" matTooltip="Boards menu">
+    <mat-icon>menu</mat-icon>
+  </button>
   <span>PM App</span>
   <ng-container *ngIf="isLoggedIn">
     <div class="hspacer15"></div>
