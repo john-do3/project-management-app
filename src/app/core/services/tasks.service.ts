@@ -61,6 +61,7 @@ export class TasksService {
     console.log(task);
     return this.http.put<ITaskState>(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`, task, this.httpOptions)
       .pipe(
+        tap((v)=>console.log(v)),
         catchError((error) => this.httpErrorService.handleError(error)),
       );
   }

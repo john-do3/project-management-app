@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as TaskActions from '../actions/task.actions';
 import { ITaskState } from '../state-models';
+import { tasksDataUpdatedAction } from '../actions/task.actions';
 
 export interface State {
   tasks: ITaskState[],
@@ -44,6 +45,12 @@ export const taskReducer = createReducer(
   on(TaskActions.taskUpdated, (state, { task }): State => ({
     ...state,
     tasks: [...state.tasks.filter((t) => t.id !== task.id), task],
+    error: null,
+  })),
+
+  on(TaskActions.tasksDataUpdatedAction, (state, { tasks }): State => ({
+    ...state,
+    tasks: [...state.tasks.filter((t) => t.columnId !== tasks[0].columnId), ...tasks],
     error: null,
   })),
 

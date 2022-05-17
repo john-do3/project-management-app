@@ -58,6 +58,12 @@ export const taskCreatedAction = createAction(
   props<{ task: ITaskState }>(),
 );
 
+export const tasksDataUpdatedAction = createAction(
+  '[Board] All tasks data updated',
+  props<{ tasks: ReadonlyArray<ITaskState> }>(),
+);
+
+
 export const apiCallFailed = createAction(
   '[Board] Tasks api call failed',
   props<{ error: Error }>(),
