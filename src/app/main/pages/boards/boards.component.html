@@ -26,8 +26,8 @@
     </div>
   </mat-drawer>
 
-  <div>
-    <mat-toolbar *ngIf="!!boardId" >
+  <div *ngIf="!!boardId">
+    <mat-toolbar>
       <mat-card-subtitle>{{this.boardTitle}} board [{{this.boardDesc}}]</mat-card-subtitle>
 
       <span class="spacer"></span>
@@ -35,7 +35,7 @@
 
     </mat-toolbar>
 
-  <app-board *ngIf="!!boardId" [boardId]="boardId"></app-board>
+  <app-board [boardId]="boardId"></app-board>
   </div>
 
 </mat-drawer-container>
