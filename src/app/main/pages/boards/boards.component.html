@@ -14,10 +14,10 @@
     </mat-toolbar>
 
     <div class="sidebar">
-      
+
       <mat-selection-list #boardsList [multiple]="false" (selectionChange)="onBoardSelected($event)">
-        <mat-list-option *ngFor="let board of boardsData$ |async" 
-        [value]="board" 
+        <mat-list-option *ngFor="let board of boardsData$ |async"
+        [value]="board"
         [matTooltip]="board.description"
         [selected]="board.id === boardId">
           {{ board.title }}
@@ -26,7 +26,7 @@
     </div>
   </mat-drawer>
 
-  <div>
+  <div *ngIf="!!boardId">
     <mat-toolbar>
       <mat-card-subtitle>{{this.boardTitle}} board [{{this.boardDesc}}]</mat-card-subtitle>
 

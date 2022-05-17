@@ -13,20 +13,22 @@ export interface IColumnState {
   id: string;
   title: string;
   order: number;
-  // tasks?: ITaskState[];
 }
 
 export interface IBoardState {
   id: string;
   title: string;
   description: string;
-  // columns?: IColumnState[]
 }
 
 export interface IUserState {
   id: string;
   login: string;
   name: string;
+}
+
+export interface ICurrentUserState {
+  TokenCreationTime: number
 }
 
 export interface AppBoardState {
@@ -54,5 +56,5 @@ export interface AppState {
   columns: AppColumnState;
   tasks: AppTaskState;
   users: AppUserState;
-
+  currentUser: ICurrentUserState;
 }
