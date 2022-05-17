@@ -7,10 +7,13 @@ import { HeaderService } from 'src/app/core/services/header.service';
 import { TasksService } from 'src/app/core/services/tasks.service';
 import { selectTasks } from '../../../redux/selectors/task.selector';
 import { IColumnState, ITaskState } from '../../../redux/state-models';
-import { selectColumnId } from '../../../redux/selectors/column.selector';
+import { selectColumnId, selectColumns } from '../../../redux/selectors/column.selector';
 import * as TaskActions from '../../../redux/actions/task.actions';
 import { BoardService } from '../../../core/services/board.service';
 import { updateColumn } from '../../../redux/actions/column.actions';
+interface ITaskUpdatedData extends ITaskState {
+  prevColumnId: string;
+}
 
 @Component({
   selector: 'app-column',
@@ -49,8 +52,15 @@ export class ColumnComponent implements OnInit, OnDestroy {
       return [...taskArray].map((task) => task.id);
     }));
 
+  public columns$ = this.store.select(selectColumns);
 
-  public columnsID$: Observable<string[]> = of(['']);
+  public columnsId$: Observable<string[]> = this.columns$.pipe(
+    map(([...columns])=>columns.map((column)=>column.id))
+  )
+
+
+  // public columnsID$ = this.store.select(selectColumnId);
+  // public columnsID$: Observable<string[]> = of(['']);
 
   onNewTaskClick(): void {
     this.tasksService.newTaskClick({boardId: this.boardId, columnId: this.columnId});
@@ -62,53 +72,68 @@ export class ColumnComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(TaskActions.loadTasksAction({boardId: this.boardId, columnId: this.columnId}));
-
+this.subscriptions.add(this.columnsId$.subscribe((columsIdArray)=> this.columnsIdArray = columsIdArray))
     // this.tasks$ = this.store.select(selectTasks).pipe(
     //   map((value) => value.filter((val) => val.boardId === this.boardId && val.columnId === this.columnId)),
     // );
 
     // this.tasksID$ = this.store.select(selectTasksId);
-    this.columnsID$ = this.store.select(selectColumnId);
+    // this.columnsID$ = this.store.select(selectColumnId);
+
+
   }
+
 
   public columnsIdArray = [''];
 
-  drop(event: CdkDragDrop<any>): void {
-    console.log(event);
+  public updateTasks(data: ITaskState[], columnId: string) {
+    const arr = <ITaskUpdatedData[]>(data).map((task: ITaskState, i:number) => {
+if (!data) return undefined;
+      const taskObject: ITaskUpdatedData = {
+        id: task.id,
+        title: task.title,
+        done: task.done,
+        order: i,
+        description: task.description,
+        boardId: task.boardId,
+        columnId: columnId,
+        prevColumnId: task.columnId,
+        userId: task.userId,
+      };
+      return taskObject;
+    }).filter((task)=> task!== undefined);
+
+    this.store.dispatch(TaskActions.tasksDataUpdatedAction({tasks: arr}));
+    arr.forEach((task)=>this.tasksService.updateTask(task.boardId,task.prevColumnId,task.id,{
+      boardId: task.boardId,
+      columnId: columnId,
+      description: task.description,
+      done: task.done,
+      order: task.order,
+      title: task.title,
+      userId: task.userId,
+    }).subscribe())
+  }
+
+  public drop(event: CdkDragDrop<any>): void {
+
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      const arr = <ITaskState[]>(event.container.data).map((task: ITaskState, i:number) => {
-
-        const taskObject: ITaskState = {
-          id: task.id,
-          title: task.title,
-          done: task.done,
-          order: i,
-          description: task.description,
-          boardId: task.boardId,
-          columnId: task.columnId,
-          userId: task.userId,
-        };
-        return taskObject;
-      });
-
-      this.store.dispatch(TaskActions.tasksDataUpdatedAction({tasks: arr}));
-      arr.forEach((task)=>this.tasksService.updateTask(this.boardId,event.container.id,task.id,{
-        boardId: task.boardId,
-        columnId: task.columnId,
-        description: task.description,
-        done: task.done,
-        order: task.order,
-        title: task.title,
-        userId: task.userId,
-      }).subscribe())
+      this.updateTasks(event.container.data, event.container.id)
     } else {
+
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex,
       );
+      console.log( event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,)
+      this.updateTasks(event.container.data, event.container.id);
+      this.updateTasks(event.previousContainer.data, event.previousContainer.id)
     }
   }
 
