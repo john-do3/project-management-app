@@ -12,6 +12,8 @@ import { loadUsersData } from 'src/app/redux/actions/user.actions';
 import { selectUsers } from 'src/app/redux/selectors/user.selector';
 import { HttpErrorService } from './httperror.service';
 import { IUserState } from '../../redux/state-models';
+import { addCurrentUserData } from '../../redux/actions/currentUser.actions';
+import { ITokenBody } from '../../shared/models/tokenModel';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +50,12 @@ export class UserService {
     this.IsLoggedIn.next(!!this.token);
   }
 
+  private encodeToken(token: string) {
+    const tokenBody = token.split(/\./)[1];
+    const tokenBodyDecoded: ITokenBody = JSON.parse(window.atob(tokenBody));
+    return tokenBodyDecoded.iat * 1000;
+  }
+
   checkIsLoggedIn(): boolean {
     return !!this.token;
   }
@@ -77,10 +85,15 @@ export class UserService {
       .subscribe(
         (response) => {
           console.log(response.token);
+
           localStorage.setItem(this.tokenKey, response.token);
           localStorage.setItem(this.loginKey, loginUserDto.login);
 
+          localStorage.setItem('tokenTime', Date.now().toString());
           this.token = response.token;
+
+          this.store.dispatch(addCurrentUserData({ currentTime: this.encodeToken(response.token) }));
+
           this.userLogin = loginUserDto.login;
           this.IsLoggedIn.next(true);
         },
@@ -102,6 +115,7 @@ export class UserService {
   public logout(): void {
     this.userLogin = '';
     this.token = '';
+    localStorage.removeItem('tokenTime');
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.loginKey);
     this.IsLoggedIn.next(false);
