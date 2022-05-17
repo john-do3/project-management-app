@@ -26,8 +26,6 @@ export class HeaderComponent implements OnInit {
 
   userLogin!: string;
 
-  usersData$ = this.store.select(selectUsers);
-
   private subscriptions = new Subscription();
 
   constructor(
@@ -39,26 +37,20 @@ export class HeaderComponent implements OnInit {
     private dialog: MatDialog,
     private ref: ChangeDetectorRef,
     private router: Router,
-    private store: Store,
   ) {}
 
   private tokenTimeSubscription = new Subscription();
 
   ngOnInit(): void {
-    // this.tokenTimeSubscription.add(this.currentUserService.auditInterval$.subscribe)
-    // this.currentUserService.addTokenCreationTime()
     const tokenTime = localStorage.getItem('tokenTime');
     if (tokenTime){
       this.currentUserService.addTokenCreationTime(+tokenTime);
-      // this.store.dispatch(addCurrentUserData({ currentTime: +tokenTime }));
     }
 
     this.isLoggedIn = this.userService.checkIsLoggedIn();
     this.userLogin = this.userService.getUserLogin();
     this.userService.userLogin$.subscribe((res) => {
       this.userLogin = res;
-      // this.tasksService.userLogin = this.userLogin
-      // console.log(this.userLogin);
     });
 
     this.tokenTimeSubscription.add(this.currentUserService.auditToken$.subscribe());
