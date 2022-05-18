@@ -30,11 +30,6 @@ export class EditProfileComponent {
     public data: { name: string; login: string; password: string },
   ) {}
 
-  onSubmit() {
-    // TODO DELETE
-    console.log('submit');
-  }
-
   onEdit() {
     this.data = this.editForm.getRawValue();
     this.dialogRef.close(this.data);

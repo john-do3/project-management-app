@@ -21,7 +21,7 @@
         "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:ngrx/recommended"
       ],
-      "rules": {
+      "rules": {        
         "linebreak-style": 0,
         "@typescript-eslint/space-before-blocks": "off",
         "@angular-eslint/directive-selector": [

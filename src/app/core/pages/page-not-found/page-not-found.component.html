@@ -1,6 +1,8 @@
 <div class="wrap-404">
   <h3 class="title-404">404</h3>
-  <span class="text-404">Oops, sorry we can't find that page!</span>
+  <span class="text-404">{{ "404.TEXT" | translate }}</span>
   <br />
-  <button routerLink="/" mat-raised-button color="primary">Home Page</button>
+  <button routerLink="/" mat-raised-button color="primary">
+    {{ "404.HOME" | translate }}
+  </button>
 </div>

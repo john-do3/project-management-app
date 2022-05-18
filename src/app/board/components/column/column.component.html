@@ -17,29 +17,32 @@
           (keydown.Escape)="cancelTitle()"
         />
         {{ columnTitle.focus() }}
-        <button (click)="saveTitle()">Submit</button>
+        <button (click)="saveTitle()">
+          {{ "COLUMNS.SUBMIT" | translate }}
+        </button>
         <button
           (click)="cancelTitle()"
           (keydown.Enter)="cancelTitle()"
           tabindex="0"
         >
-          Cancel
+          {{ "COLUMNS.CANCEL" | translate }}
         </button>
       </div>
 
       <div class="spacer"></div>
 
       <div *ngIf="!isTitleEditing">
-        <button
-        mat-icon-button
-        matTooltip="Delete column"
-        (click)="onDeleteColumnClick(column?.id)"
-      >
-        <mat-icon>clear</mat-icon>
-      </button>
+        <button mat-button [matMenuTriggerFor]="menu">...</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onNewTaskClick()">
+            {{ "COLUMNS.CREATE_TASK" | translate }}
+          </button>
+          <button mat-menu-item (click)="onDeleteColumnClick(column?.id)">
+            {{ "COLUMNS.DELETE_TOOLTIP" | translate }}
+          </button>
+        </mat-menu>
       </div>
     </div>
-
     <mat-card-content
       cdkDropList
       [cdkDropListData]="tasks$ | async"
@@ -51,7 +54,6 @@
     >
       <app-task *ngFor="let task of tasks$ | async" [task]="task" [cdkDragData]="task" cdkDrag>
       </app-task>
-      <button mat-raised-button color="primary" (click)="onNewTaskClick()">New task</button>
     </mat-card-content>
   </mat-card>
 </div>

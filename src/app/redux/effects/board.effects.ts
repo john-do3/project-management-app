@@ -26,7 +26,7 @@ export class BoardEffects {
     createBoard = createEffect(() => this.actions$.pipe(
         ofType(BoardActions.createBoardData),
         switchMap((action) => this.boardService
-            .createBoard({ title: action.title, description: action.description })
+            .createBoard({ title: action.title })
             .pipe(
                 map((createBoardResponse) => BoardActions.boardCreated({ board: createBoardResponse })),
                 catchError(async (error) => BoardActions.apiCallFailed(error)),

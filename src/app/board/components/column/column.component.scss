@@ -5,7 +5,8 @@
 }
 
 .columnHeader {
-    display: flex;    
+    display: flex;
+    margin: 10px;
 }
 
 .titleInput {
@@ -15,7 +16,6 @@
 mat-card {
     min-width: 250px;
     margin: 2em auto;
-    text-align: left;
+    text-align: center;
     background-color: #F2F2F2;
 }
-

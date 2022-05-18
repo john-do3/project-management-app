@@ -18,8 +18,6 @@ export class BoardService {
 
     UpdateColumnTitleClicked: Subject<string> = new Subject<string>();
 
-    SideNavMenuClicked: Subject<boolean> = new Subject<boolean>();
-
     httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',

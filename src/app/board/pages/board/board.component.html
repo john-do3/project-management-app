@@ -4,8 +4,5 @@
   cdkDropList
   cdkDropListOrientation="horizontal"
   (cdkDropListDropped)="dropColumn($event)">
-  <app-column *ngFor="let column of columns$ | async" [boardId]="boardId" [column]="column" [columnId]="column.id" cdkDrag></app-column>
-  <div class="add-button">
-  <button mat-raised-button color="primary" (click)="onAddColumnClick()">Add new column</button>
-  </div>
+  <app-column *ngFor="let column of columns$ | async" [boardId]="boardId" [column]="column" cdkDrag></app-column>
 </div>
