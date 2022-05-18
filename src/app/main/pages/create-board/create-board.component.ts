@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
-  FormControl, FormGroup, Validators,
+ FormControl, FormGroup, Validators,
 } from '@angular/forms';
 import { CreateBoardDto } from 'src/app/shared/models/createBoardDto';
 
@@ -13,13 +13,12 @@ import { CreateBoardDto } from 'src/app/shared/models/createBoardDto';
 export class CreateBoardComponent implements OnInit {
   createDialog: FormGroup = new FormGroup({
     boardTitle: new FormControl('', [Validators.required]),
-    boardDescription: new FormControl('', [Validators.required]),
   });
 
   constructor(
     public dialogRef: MatDialogRef<CreateBoardComponent>,
     @Inject(MAT_DIALOG_DATA) public data: CreateBoardDto,
-  ) {
+) {
 
   }
 
@@ -31,17 +30,10 @@ export class CreateBoardComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onCreate(): void {
-    const title = this.createDialog.get('boardTitle');
-    const description = this.createDialog.get('boardDescription');
-    title?.markAsTouched();
-    description?.markAsTouched();
+  onCreate(): void{
+    this.createDialog.get('boardTitle')?.markAsTouched();
 
-    const taskData = {
-      title: title?.value,
-      description: description?.value,
-    };
-
-    if (taskData.title && taskData.description) this.dialogRef.close(taskData);
+    const title = this.createDialog.get('boardTitle')?.value;
+    if (title) this.dialogRef.close(title);
   }
 }

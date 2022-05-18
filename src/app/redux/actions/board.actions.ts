@@ -32,7 +32,7 @@ export const boardDeleted = createAction(
 
 export const createBoardData = createAction(
   '[Main Page] Create board data',
-  props<{ title: string, description: string }>(),
+  props<{ title: string }>(),
 );
 
 export const boardCreated = createAction(

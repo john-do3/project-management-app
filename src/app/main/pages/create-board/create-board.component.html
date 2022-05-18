@@ -1,29 +1,24 @@
-<h2 mat-dialog-title>Create board</h2>
+<h2 mat-dialog-title>{{ "MODALS.BOARD.TITLE" | translate }}</h2>
 
 <mat-dialog-content [formGroup]="createDialog">
   <mat-form-field>
-    <input matInput placeholder="Board title" formControlName="boardTitle" />
+    <input
+      matInput
+      [placeholder]="'MODALS.BOARD.PLACEHOLDER_TITLE' | translate"
+      formControlName="boardTitle"
+    />
     <mat-error *ngIf="createDialog.get('boardTitle')?.hasError('required')">
-      Board title is required
+      {{ "MODALS.BOARD.ERR_REQ" | translate }}
     </mat-error>
   </mat-form-field>
-
-  <mat-form-field>
-    <input matInput placeholder="Board description" formControlName="boardDescription" />
-    <mat-error *ngIf="createDialog.get('boardDescription')?.hasError('required')">
-      Board description is required
-    </mat-error>
-  </mat-form-field>
-
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button
-    class="mat-raised-button mat-primary"
-    (click)="onCreate()"    
-  >
-    Create
+  <button class="mat-raised-button mat-primary" (click)="onCreate()">
+    {{ "MODALS.BOARD.OK" | translate }}
   </button>
   <div class="hspacer10"></div>
-  <button class="mat-raised-button" (click)="onCancel()">Cancel</button>
+  <button class="mat-raised-button" (click)="onCancel()">
+    {{ "MODALS.BOARD.CANCEL" | translate }}
+  </button>
 </mat-dialog-actions>

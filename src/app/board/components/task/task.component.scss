@@ -1,5 +1,3 @@
-@import "../../../common.scss";
-
 :host {
   display: block;
   width: 250px;
@@ -12,16 +10,4 @@
 }
 .cdk-drag-placeholder {
   opacity: 0;
-}
-
-.task {
-  margin-bottom: 10px;
-}
-
-.mat-card {
-  text-align: left;
-}
-
-.avatar{
-  display: flex;
 }
