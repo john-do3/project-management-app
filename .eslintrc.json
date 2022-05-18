@@ -40,7 +40,7 @@
             "style": "kebab-case"
           }
         ],
-//        "no-console": "off",
+        "no-console": "off",
         "max-len": [
           "error",
           {
