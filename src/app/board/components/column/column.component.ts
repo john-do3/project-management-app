@@ -11,6 +11,7 @@ import { selectColumnId, selectColumns } from '../../../redux/selectors/column.s
 import * as TaskActions from '../../../redux/actions/task.actions';
 import { BoardService } from '../../../core/services/board.service';
 import { updateColumn } from '../../../redux/actions/column.actions';
+
 interface ITaskUpdatedData extends ITaskState {
   prevColumnId: string;
 }
@@ -55,8 +56,8 @@ export class ColumnComponent implements OnInit, OnDestroy {
   public columns$ = this.store.select(selectColumns);
 
   public columnsId$: Observable<string[]> = this.columns$.pipe(
-    map(([...columns])=>columns.map((column)=>column.id))
-  )
+    map(([...columns]) => columns.map((column) => column.id))
+  );
 
 
   // public columnsID$ = this.store.select(selectColumnId);
@@ -71,8 +72,11 @@ export class ColumnComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(TaskActions.loadTasksAction({boardId: this.boardId, columnId: this.columnId}));
-this.subscriptions.add(this.columnsId$.subscribe((columsIdArray)=> this.columnsIdArray = columsIdArray))
+    this.store.dispatch(TaskActions.loadTasksAction({
+      boardId: this.boardId,
+      columnId: this.columnId
+    }));
+    this.subscriptions.add(this.columnsId$.subscribe((columsIdArray) => this.columnsIdArray = columsIdArray));
     // this.tasks$ = this.store.select(selectTasks).pipe(
     //   map((value) => value.filter((val) => val.boardId === this.boardId && val.columnId === this.columnId)),
     // );
@@ -87,8 +91,7 @@ this.subscriptions.add(this.columnsId$.subscribe((columsIdArray)=> this.columnsI
   public columnsIdArray = [''];
 
   public updateTasks(data: ITaskState[], columnId: string) {
-    const arr = <ITaskUpdatedData[]>(data).map((task: ITaskState, i:number) => {
-if (!data) return undefined;
+    const arr = <ITaskUpdatedData[]>(data).map((task: ITaskState, i: number) => {
       const taskObject: ITaskUpdatedData = {
         id: task.id,
         title: task.title,
@@ -101,10 +104,10 @@ if (!data) return undefined;
         userId: task.userId,
       };
       return taskObject;
-    }).filter((task)=> task!== undefined);
+    })
 
     this.store.dispatch(TaskActions.tasksDataUpdatedAction({tasks: arr}));
-    arr.forEach((task)=>this.tasksService.updateTask(task.boardId,task.prevColumnId,task.id,{
+    arr.forEach((task) => this.tasksService.updateTask(task.boardId, task.prevColumnId, task.id, {
       boardId: task.boardId,
       columnId: columnId,
       description: task.description,
@@ -112,14 +115,14 @@ if (!data) return undefined;
       order: task.order,
       title: task.title,
       userId: task.userId,
-    }).subscribe())
+    }).subscribe());
   }
 
   public drop(event: CdkDragDrop<any>): void {
 
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      this.updateTasks(event.container.data, event.container.id)
+      this.updateTasks(event.container.data, event.container.id);
     } else {
 
       transferArrayItem(
@@ -128,12 +131,18 @@ if (!data) return undefined;
         event.previousIndex,
         event.currentIndex,
       );
-      console.log( event.previousContainer.data,
+      console.log(event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex,)
+        event.currentIndex, event.item.data);
       this.updateTasks(event.container.data, event.container.id);
-      this.updateTasks(event.previousContainer.data, event.previousContainer.id)
+
+      if (event.previousContainer.data.length >0 ) {
+        this.updateTasks(event.previousContainer.data, event.previousContainer.id);
+      } else {
+        const deletedTask: ITaskState = event.item.data as ITaskState;
+        this.store.dispatch(TaskActions.deleteTaskFromColumn({columnId: deletedTask.columnId!}))
+      }
     }
   }
 

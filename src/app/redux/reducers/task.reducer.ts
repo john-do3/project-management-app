@@ -22,6 +22,11 @@ export const taskReducer = createReducer(
     error: null,
   })),
 
+  on(TaskActions.deleteTaskFromColumn, (state, { columnId }) => ({
+    tasks: [...state.tasks.filter((task) => task.columnId !== columnId)],
+    error: null,
+  })),
+
   on(TaskActions.taskCreatedAction, (state, { task }): State => ({
     ...state,
     tasks: [...state.tasks, task],
@@ -50,9 +55,15 @@ export const taskReducer = createReducer(
   })),
 
   on(TaskActions.tasksDataUpdatedAction, (state, { tasks }): State => ({
-    ...state,
-    tasks: [...state.tasks.filter((t) => t.columnId !== tasks[0].columnId), ...tasks],
-    error: null,
+      ...state,
+      tasks: [...state.tasks
+        .filter((t) => !!t)
+        .filter((t) => {
+          console.log(tasks);
+          return t.columnId !== tasks[0].columnId;
+        }), ...tasks],
+      error: null,
+
   })),
 
   on(TaskActions.apiCallFailed, (state, { error }): State => ({

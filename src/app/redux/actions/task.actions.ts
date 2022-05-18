@@ -47,6 +47,11 @@ export const deleteTaskAction = createAction(
   props<{ boardId: string, columnId: string, taskId: string }>(),
 );
 
+export const deleteTaskFromColumn = createAction(
+  '[Column] Delete task from column',
+  props< {columnId: string}>()
+);
+
 export const createTaskAction = createAction(
   '[Board] Create task',
   props<{ boardId: string, columnId: string, title: string, done: boolean,
