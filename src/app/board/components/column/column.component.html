@@ -45,16 +45,18 @@
     </div>
     <mat-card-content
       cdkDropList
+      [cdkDropListData]="tasks$ | async"
       [id]="columnId"
-      [cdkDropListData]="tasksIdArray"
       [cdkDropListConnectedTo]="columnsIdArray"
+
+
       (cdkDropListDropped)="drop($event)"
     >
-      <app-task *ngFor="let taskId of tasksIdArray" [id]="taskId" cdkDrag>
+      <app-task *ngFor="let task of tasks$ | async" [task]="task" [cdkDragData]="task" cdkDrag>
       </app-task>
     </mat-card-content>
   </mat-card>
 </div>
-
-<!--[cdkDropListData]="tasksIdArray$ | async"-->
-<!--*ngFor="let taskId of tasksIdArray$ | async"-->
+<!--[id]="columnId"-->
+<!--[cdkDropListData]="tasksID$ | async"-->
+<!--[cdkDropListConnectedTo]="columnsIdArray"-->

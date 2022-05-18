@@ -36,7 +36,6 @@ export class BoardComponent {
         map((cols: IColumnState[]) => {
           if (cols) {
             const array = [...cols];
-
             moveItemInArray(array, event.previousIndex, event.currentIndex);
             let iOrder = 1;
             let maxOrder = 0;

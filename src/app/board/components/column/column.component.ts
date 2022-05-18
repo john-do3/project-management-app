@@ -1,21 +1,22 @@
 import {
-  Component, ElementRef, Input, OnInit, ViewChild,
+  Component, ElementRef, Input, OnDestroy, OnInit, ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  filter, Observable, of, Subscription,
-} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { map } from 'rxjs/operators';
 import { HeaderService } from 'src/app/core/services/header.service';
-import { BoardService } from 'src/app/core/services/board.service';
-import {
-  updateColumn,
-} from 'src/app/redux/actions/column.actions';
-import { selectTasks, selectTasksId } from '../../../redux/selectors/task.selector';
+import { TasksService } from 'src/app/core/services/tasks.service';
+import { selectTasks } from '../../../redux/selectors/task.selector';
 import { IColumnState, ITaskState } from '../../../redux/state-models';
-import { selectColumnId } from '../../../redux/selectors/column.selector';
-import { TasksService } from '../../services/tasks.service';
+import { selectColumns } from '../../../redux/selectors/column.selector';
+import * as TaskActions from '../../../redux/actions/task.actions';
+import { BoardService } from '../../../core/services/board.service';
+import { updateColumn } from '../../../redux/actions/column.actions';
+
+interface ITaskUpdatedData extends ITaskState {
+  prevColumnId: string;
+}
 
 @Component({
   selector: 'app-column',
@@ -57,15 +58,20 @@ export class ColumnComponent implements OnInit {
   ) {
   }
 
-  public get columnId() {
-    return this.column ? this.column.id : '';
-  }
+  // public tasks$: Observable<ITaskState[]> = of (['']);
+  public tasks$ = this.store.select(selectTasks).pipe(
+    map((value) => value.filter((val) => val.boardId === this.boardId && val.columnId === this.columnId)),
+  );
 
-  public tasks$?: Observable<ITaskState[]>;
+  public tasksID$ = this.tasks$.pipe(
+    map(([...taskArray]) => [...taskArray].map((task) => task.id)),
+  );
 
-  public tasksID$: Observable<string[]> = of(['']);
+  public columns$ = this.store.select(selectColumns);
 
-  public columnsID$: Observable<string[]> | null = of(['']);
+  public columnsId$: Observable<string[]> = this.columns$.pipe(
+    map(([...columns]) => columns.map((column) => column.id)),
+  );
 
   onNewTaskClick(): void {
     this.tasksService.newTaskClick();
@@ -76,57 +82,49 @@ export class ColumnComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscriptions.add(
-
-      this.tasksService.NewTaskClicked.subscribe(() => {
-        this.tasksService.openCreateTaskDialog();
-      }),
-    );
-
-    this.tasks$ = this.store.select(selectTasks);
-    this.tasksID$ = this.store.select(selectTasksId);
-    this.columnsID$ = this.store.select(selectColumnId);
-
-    this.tasksIdArray$ = this.store.select(selectTasks).pipe(
-      filter(([{ columnId }]) => {
-        console.log(columnId, this.columnId, this.columnsIdArray);
-        return columnId === this.columnId;
-      }),
-      map(([{ id }]) => [id]),
-
-      // map((array: ITaskState[])=> array. )
-    );
-    /* this.tasksIdArray$?.subscribe((v)=> console.log(v))
-
-    this.subscriptionTasks = this.store.select(selectTasks)
-      .subscribe((val) => {
-        console.log(this.columnId, val
-          .filter((task) => task.columnId === this.columnId));
-        return this.tasksIdArray = val
-          .filter((task) => task.columnId === this.columnId)
-          .map((taskObj) => taskObj.id);
-      });
-     this.subscriptionTasksId = this.store.select(selectTasksId).subscribe((val) => this.tasksIdArray = val)
-    this.subscriptionColumnsId = this.store.select(selectColumnId).subscribe((val) => this.columnsIdArray = val);
-    */
+    this.store.dispatch(TaskActions.loadTasksAction({
+      boardId: this.boardId,
+      columnId: this.columnId,
+    }));
+    this.subscriptions.add(this.columnsId$.subscribe((columnsIdArray) => {
+      this.columnsIdArray = columnsIdArray;
+    }));
   }
 
   public columnsIdArray = [''];
 
-  drop(event: CdkDragDrop<any>): void {
+  public updateTasks(data: ITaskState[], columnId: string) {
+    const arr = <ITaskUpdatedData[]>(data).map((task: ITaskState, i: number) => {
+      const taskObject: ITaskUpdatedData = {
+        id: task.id,
+        title: task.title,
+        done: task.done,
+        order: i,
+        description: task.description,
+        boardId: task.boardId,
+        columnId,
+        prevColumnId: task.columnId,
+        userId: task.userId,
+      };
+      return taskObject;
+    });
+
+    this.store.dispatch(TaskActions.tasksDataUpdatedAction({ tasks: arr }));
+    arr.forEach((task) => this.tasksService.updateTask(task.boardId, task.prevColumnId, task.id, {
+      boardId: task.boardId,
+      columnId,
+      description: task.description,
+      done: task.done,
+      order: task.order,
+      title: task.title,
+      userId: task.userId,
+    }).subscribe());
+  }
+
+  public drop(event: CdkDragDrop<any>): void {
     if (event.previousContainer === event.container) {
-      console.log(event, event.container.data, event.previousIndex, event.currentIndex, this.tasksIdArray);
-      // this.store.dispatch(updateTaskData({
-      //   taskId: event.container.data[event.previousIndex],
-      //   columnId: event.container.id,
-      //   order: event.currentIndex,
-      // }));
-      // this.store.dispatch(updateTaskData({
-      //   taskId: event.container.data[event.currentIndex],
-      //   columnId: event.container.id,
-      //   order: event.previousIndex,
-      // }));
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.updateTasks(event.container.data, event.container.id);
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -134,6 +132,15 @@ export class ColumnComponent implements OnInit {
         event.previousIndex,
         event.currentIndex,
       );
+
+      this.updateTasks(event.container.data, event.container.id);
+
+      if (event.previousContainer.data.length > 0) {
+        this.updateTasks(event.previousContainer.data, event.previousContainer.id);
+      } else {
+        const deletedTask: ITaskState = event.item.data as ITaskState;
+        this.store.dispatch(TaskActions.deleteTaskFromColumn({ columnId: deletedTask.columnId! }));
+      }
     }
   }
 
