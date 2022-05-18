@@ -1,57 +1,41 @@
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side">
     <mat-toolbar>
+      <mat-card-subtitle>Available boards</mat-card-subtitle>
+      <span class="spacer"></span>
       <button
         mat-icon-button
-        [matTooltip]="'BOARDS.CREATE_TOOLTIP' | translate"
+        matTooltip="Create new board"
         (click)="onNewBoardClick()"
       >
-        <mat-icon>create_new_folder</mat-icon>
+        <mat-icon>add</mat-icon>
       </button>
 
-      <button
-        mat-icon-button
-        [matTooltip]="'BOARDS.DELETE_TOOLTIP' | translate"
-        (click)="onDeleteBoardClick()"
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
     </mat-toolbar>
 
     <div class="sidebar">
-      <mat-card-subtitle>{{
-        "BOARDS.AVAILABLE" | translate
-      }}</mat-card-subtitle>
-      <mat-selection-list
-        #boardsList
-        [multiple]="false"
-        (selectionChange)="onBoardSelected($event)"
-      >
-        <mat-list-option
-          *ngFor="let board of boardsData$ | async"
-          [value]="board.id"
-          [selected]="board.id === boardId"
-        >
+
+      <mat-selection-list #boardsList [multiple]="false" (selectionChange)="onBoardSelected($event)">
+        <mat-list-option *ngFor="let board of boardsData$ |async"
+        [value]="board"
+        [matTooltip]="board.description"
+        [selected]="board.id === boardId">
           {{ board.title }}
         </mat-list-option>
       </mat-selection-list>
     </div>
   </mat-drawer>
 
-  <div>
+  <div *ngIf="!!boardId">
     <mat-toolbar>
-      <button
-        mat-icon-button
-        [matTooltip]="'BOARDS.ADD_COLUMN' | translate"
-        (click)="onAddColumnClick()"
-      >
-        <mat-icon>add_to_queue</mat-icon>
-      </button>
+      <mat-card-subtitle>{{this.boardTitle}} [{{this.boardDesc}}]</mat-card-subtitle>
 
       <span class="spacer"></span>
-      {{ "BOARDS.SELECTED_BOARD" | translate }}{{ this.boardId }}
+      <button mat-raised-button color="primary" (click)="onDeleteBoardClick()">Delete board</button>
+
     </mat-toolbar>
 
-    <app-board [boardId]="boardId"></app-board>
+  <app-board [boardId]="boardId"></app-board>
   </div>
+
 </mat-drawer-container>

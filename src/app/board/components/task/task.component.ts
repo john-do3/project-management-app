@@ -1,28 +1,41 @@
 import {
- Component, Input, OnDestroy, OnInit,
+  Component, Input,
 } from '@angular/core';
+import { Md5 } from 'ts-md5/dist/md5';
+import { ITaskUser } from 'src/app/shared/models/taskUserDto';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { ITaskState } from '../../../redux/state-models';
-import { selectTasks } from '../../../redux/selectors/task.selector';
-import { deleteTaskData } from '../../../redux/actions/add-task.action';
+import { selectUsers } from 'src/app/redux/selectors/user.selector';
+import { map, take } from 'rxjs';
+import { TasksService } from '../../../core/services/tasks.service';
+import { ITaskState, IUserState } from '../../../redux/state-models';
 
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss'],
 })
-export class TaskComponent implements OnInit, OnDestroy {
-  private tasks$?: Observable<ITaskState[]>;
+export class TaskComponent {
+  taskUsers: ITaskUser[] = [];
 
-  private taskSubscription?: Subscription;
+  usersData$ = this.store.select(selectUsers);
 
-  private task?: ITaskState;
+  @Input() task?: ITaskState;
 
-  constructor(private store: Store) {
+  constructor(
+    private readonly store: Store,
+    private tasksService: TasksService,
+  ) {
+    this.usersData$.pipe(
+      take(1),
+      map((users: IUserState[]) => {
+        users.forEach((user) => {
+          this.taskUsers.push({
+            id: user.id, name: user.name, hash: Md5.hashStr(user.id),
+          });
+        });
+      }),
+    ).subscribe();
   }
-
-  @Input() id?: string;
 
   public get title() {
     return this.task?.title || '';
@@ -32,19 +45,30 @@ export class TaskComponent implements OnInit, OnDestroy {
     return this.task?.description || '';
   }
 
-  public destroy() {
-    if (this.id){
-      this.store.dispatch(deleteTaskData({ taskId: this.id }));
+  public destroy(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.task) {
+      this.tasksService.DeleteTaskClicked.next(this.task);
     }
   }
 
-  public ngOnInit(): void {
-    this.tasks$ = this.store.select(selectTasks);
-    this.taskSubscription = this.tasks$
-      .subscribe((tasksArray) => { this.task = tasksArray.find((task) => task.id === this.id); });
+  public edit() {
+    if (this.task) {
+      this.tasksService.EditTaskClicked.next(this.task);
+    }
   }
 
-  public ngOnDestroy() {
-    this.taskSubscription?.unsubscribe();
+  getUserHash(userId?: string): string {
+    const result = '';
+    const user = this.taskUsers.find((u) => u.id === userId);
+    return user ? user.hash : result;
+  }
+
+  getUserName(userId?: string): string {
+    const result = '';
+    const user = this.taskUsers.find((u) => u.id === userId);
+    return user ? user.name : result;
   }
 }
