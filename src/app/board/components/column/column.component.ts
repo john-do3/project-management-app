@@ -23,36 +23,23 @@ interface ITaskUpdatedData extends ITaskState {
   templateUrl: './column.component.html',
   styleUrls: ['./column.component.scss'],
 })
-export class ColumnComponent implements OnInit {
-  // private subscription?: Subscription;
-  //
-  // private tasksIdArray: string[] = [];
+export class ColumnComponent implements OnInit, OnDestroy {
   isTitleEditing = false;
 
   @Input() boardId!: string;
 
   @Input() column?: IColumnState;
 
+  @Input() columnId!: string;
+
   @ViewChild('columnTitle')
   inputTitle!: ElementRef;
 
   private subscriptions = new Subscription();
 
-  private subscriptionColumnsId?: Subscription;
-
-  private subscriptionTasksId?: Subscription;
-
-  public tasksIdArray: string[] = [];
-
-  private subscriptionTasks?: Subscription;
-
-  public tasksArray: ITaskState[] = [];
-
-  public tasksIdArray$?: Observable<string[]>;
-
   constructor(
     private headerService: HeaderService,
-    private store: Store,
+    private readonly store: Store,
     private tasksService: TasksService,
     private boardService: BoardService,
   ) {
@@ -74,7 +61,7 @@ export class ColumnComponent implements OnInit {
   );
 
   onNewTaskClick(): void {
-    this.tasksService.newTaskClick();
+    this.tasksService.newTaskClick({ boardId: this.boardId, columnId: this.columnId });
   }
 
   onDeleteColumnClick(columnId?: string): void {
@@ -162,5 +149,9 @@ export class ColumnComponent implements OnInit {
 
   cancelTitle(): void {
     this.isTitleEditing = false;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

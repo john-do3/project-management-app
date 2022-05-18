@@ -3,17 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  HttpClient,
-  HttpClientModule,
-  HTTP_INTERCEPTORS,
-} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { PageNotFoundComponent } from './core/pages/page-not-found/page-not-found.component';
@@ -31,11 +25,9 @@ import { BoardEffects } from './redux/effects/board.effects';
 import { UserEffects } from './redux/effects/user.effects';
 import { userReducer } from './redux/reducers/user.reducer';
 import { ColumnEffects } from './redux/effects/column.effects';
+import { TaskEffects } from './redux/effects/task.effects';
 import { WelcomePageComponent } from './core/pages/welcome-page/welcome-page.component';
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
+import { currentUserReducer } from './redux/reducers/currentUser.reducer';
 
 const routes: Routes = [
   {
@@ -63,25 +55,18 @@ const routes: Routes = [
     SharedModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-      defaultLanguage: localStorage.getItem('lang') as string | 'en',
-    }),
     StoreModule.forRoot(
       {
         boards: boardReducer,
         columns: columnReducer,
         tasks: taskReducer,
         users: userReducer,
+        currentUser: currentUserReducer,
       },
       {},
     ),
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([BoardEffects, UserEffects, ColumnEffects]),
+    EffectsModule.forFeature([BoardEffects, UserEffects, ColumnEffects, TaskEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
