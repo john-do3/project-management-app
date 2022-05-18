@@ -33,6 +33,7 @@ export const taskReducer = createReducer(
 
     tasks.forEach((element) => {
       if (!state.tasks.find((x) => x.id === element.id)) { union.push(element); }
+      union.sort((task1, task2)=> task1.order - task2.order)
     });
 
     return {

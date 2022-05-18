@@ -58,10 +58,10 @@ export class TasksService {
   }
 
   public updateTask(boardId: string, columnId: string, taskId: string, task: IUpdateTaskDto): Observable<ITaskState> {
-    console.log(task);
+    console.log(columnId, 'columnId', task.columnId);
     return this.http.put<ITaskState>(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`, task, this.httpOptions)
       .pipe(
-        tap((v)=>console.log(v)),
+        tap((v)=>console.log(v, 'task after http')),
         catchError((error) => this.httpErrorService.handleError(error)),
       );
   }
