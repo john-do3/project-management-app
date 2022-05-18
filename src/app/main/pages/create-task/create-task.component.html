@@ -36,9 +36,14 @@
       max_height: 250
     }"
   ></editor>
-    <mat-error *ngIf="taskForm.get('description')?.touched && taskForm.get('description')?.hasError('required')">
-        Please enter a description
-      </mat-error>
+  <mat-error
+    *ngIf="
+      taskForm.get('description')?.touched &&
+      taskForm.get('description')?.hasError('required')
+    "
+  >
+    Please enter a description
+  </mat-error>
 </mat-dialog-content>
 
 <mat-dialog-actions>

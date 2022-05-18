@@ -9,6 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 import { CreateColumnComponent } from './pages/create-column/create-column.component';
 import { BoardModule } from '../board/board.module';
 import { CreateTaskComponent } from './pages/create-task/create-task.component';
+import { TranslateService } from '@ngx-translate/core';
 
 const routes: Routes = [
   { path: '', redirectTo: 'boards', pathMatch: 'full' },
@@ -33,4 +34,4 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
 })
-export class MainModule { }
+export class MainModule {}
