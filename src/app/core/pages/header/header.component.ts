@@ -1,10 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { map, Subscription, take } from 'rxjs';
 import { mainRoute, welcomeRoute } from 'src/app/project.constants';
-import { selectUsers } from 'src/app/redux/selectors/user.selector';
 import { CreateUserDto } from 'src/app/shared/models/createUserDto.model';
 import { ConfirmModalComponent } from 'src/app/shared/pages/confirm-modal/confirm-modal.component';
 import { BoardService } from '../../services/board.service';

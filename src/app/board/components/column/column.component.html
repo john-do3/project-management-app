@@ -42,14 +42,19 @@
 
     <mat-card-content
       cdkDropList
+      [cdkDropListData]="tasks$ | async"
       [id]="columnId"
-      [cdkDropListData]="tasksID$ | async"
       [cdkDropListConnectedTo]="columnsIdArray"
+
+
       (cdkDropListDropped)="drop($event)"
     >
-      <app-task *ngFor="let task of tasks$ | async" [task]="task" cdkDrag>
+      <app-task *ngFor="let task of tasks$ | async" [task]="task" [cdkDragData]="task" cdkDrag>
       </app-task>
       <button mat-raised-button color="primary" (click)="onNewTaskClick()">New task</button>
     </mat-card-content>
-  </mat-card>  
+  </mat-card>
 </div>
+<!--[id]="columnId"-->
+<!--[cdkDropListData]="tasksID$ | async"-->
+<!--[cdkDropListConnectedTo]="columnsIdArray"-->

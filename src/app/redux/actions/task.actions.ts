@@ -47,6 +47,11 @@ export const deleteTaskAction = createAction(
   props<{ boardId: string, columnId: string, taskId: string }>(),
 );
 
+export const deleteTaskFromColumn = createAction(
+  '[Column] Delete task from column',
+  props< { columnId: string }>(),
+);
+
 export const createTaskAction = createAction(
   '[Board] Create task',
   props<{ boardId: string, columnId: string, title: string, done: boolean,
@@ -56,6 +61,11 @@ export const createTaskAction = createAction(
 export const taskCreatedAction = createAction(
   '[Board] Task created',
   props<{ task: ITaskState }>(),
+);
+
+export const tasksDataUpdatedAction = createAction(
+  '[Board] All tasks data updated',
+  props<{ tasks: ReadonlyArray<ITaskState> }>(),
 );
 
 export const apiCallFailed = createAction(

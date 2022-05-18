@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { of, tap } from 'rxjs';
+import { of } from 'rxjs';
 import {
- map, catchError, switchMap, mergeMap,
+  map, catchError, switchMap, mergeMap,
 } from 'rxjs/operators';
 import { TasksService } from '../../core/services/tasks.service';
 import * as TaskActions from '../actions/task.actions';
@@ -28,12 +28,13 @@ export class TaskEffects {
   createTask$ = createEffect(() => this.actions$.pipe(
     ofType(TaskActions.createTaskAction),
     switchMap((action) => this.tasksService.createTask(action.boardId, action.columnId, {
-       title: action.title, done: action.done, description: action.description, order: action.order, userId: action.userId,
-      })
+      title: action.title,
+      done: action.done,
+      description: action.description,
+      order: action.order,
+      userId: action.userId,
+    })
       .pipe(
-        tap((v) => {
-          console.log(v);
-        }),
         map((createTaskResponse) => TaskActions.taskCreatedAction({ task: createTaskResponse })),
         catchError(async (error) => TaskActions.apiCallFailed(error)),
       )),

@@ -7,6 +7,7 @@ export interface ITaskState {
   userId: string;
   boardId: string;
   columnId: string;
+  prevColumnId?: string;
 }
 
 export interface IColumnState {

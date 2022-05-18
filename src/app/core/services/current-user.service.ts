@@ -20,7 +20,7 @@ export class CurrentUserService {
     ) {
   }
 
-  private tokenMaxLifeTime = 24 * 60 * 1000 - 10000;
+  private tokenMaxLifeTime = 24 * 3600 * 1000 - 10000;
 
   private get tokenMaxLifeTimeMs(): number {
     return Date.now() - this.tokenMaxLifeTime;

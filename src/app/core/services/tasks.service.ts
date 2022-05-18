@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
-  catchError, Observable, Subject, tap,
+  catchError, Observable, Subject,
 } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -42,10 +42,8 @@ export class TasksService {
   }
 
   public createTask(boardId: string, columnId: string, newTask: ICreateTaskDto): Observable<ITaskState> {
-    console.log(newTask);
     return this.http.post<ITaskState>(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks`, newTask, this.httpOptions)
       .pipe(
-        tap((v) => console.log(v)),
         catchError((error) => this.httpErrorService.handleError(error)),
       );
   }
@@ -58,7 +56,6 @@ export class TasksService {
   }
 
   public updateTask(boardId: string, columnId: string, taskId: string, task: IUpdateTaskDto): Observable<ITaskState> {
-    console.log(task);
     return this.http.put<ITaskState>(`${kanbanServiceUrl}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`, task, this.httpOptions)
       .pipe(
         catchError((error) => this.httpErrorService.handleError(error)),
@@ -75,8 +72,4 @@ export class TasksService {
   newTaskClick(column: IColumn): void {
     this.NewTaskClicked.next(column);
   }
-
-  /* EditTaskClick():void {
-    this.EditTaskClicked.next(true);
-  } */
 }
