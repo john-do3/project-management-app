@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as TaskActions from '../actions/task.actions';
 import { ITaskState } from '../state-models';
-import { tasksDataUpdatedAction } from '../actions/task.actions';
 
 export interface State {
   tasks: ITaskState[],
@@ -38,7 +37,7 @@ export const taskReducer = createReducer(
 
     tasks.forEach((element) => {
       if (!state.tasks.find((x) => x.id === element.id)) { union.push(element); }
-      union.sort((task1, task2)=> task1.order - task2.order)
+      union.sort((task1, task2) => task1.order - task2.order);
     });
 
     return {
@@ -57,11 +56,7 @@ export const taskReducer = createReducer(
   on(TaskActions.tasksDataUpdatedAction, (state, { tasks }): State => ({
       ...state,
       tasks: [...state.tasks
-        .filter((t) => !!t)
-        .filter((t) => {
-          console.log(tasks);
-          return t.columnId !== tasks[0].columnId;
-        }), ...tasks],
+        .filter((t) => t.columnId !== tasks[0].columnId), ...tasks],
       error: null,
 
   })),

@@ -49,7 +49,7 @@ export const deleteTaskAction = createAction(
 
 export const deleteTaskFromColumn = createAction(
   '[Column] Delete task from column',
-  props< {columnId: string}>()
+  props< { columnId: string }>(),
 );
 
 export const createTaskAction = createAction(
@@ -67,7 +67,6 @@ export const tasksDataUpdatedAction = createAction(
   '[Board] All tasks data updated',
   props<{ tasks: ReadonlyArray<ITaskState> }>(),
 );
-
 
 export const apiCallFailed = createAction(
   '[Board] Tasks api call failed',
