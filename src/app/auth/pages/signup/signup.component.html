@@ -1,20 +1,20 @@
 <mat-card>
   <mat-card-content>
     <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-      <h2>Sign up</h2>
+      <h2>{{ "AUTH.SIGNUP.TITLE" | translate }}</h2>
       <mat-error *ngIf="!signUpForm.valid">
-        Please fill all the fields below
+        {{ "AUTH.ERRORS.EMPTY_FIELDS" | translate }}
       </mat-error>
 
       <mat-form-field>
         <input
           matInput
-          placeholder="Please enter a user name"
+          [placeholder]="'AUTH.PLACEHOLDERS.NAME' | translate"
           name="name"
           formControlName="name"
         />
         <mat-error *ngIf="signUpForm.get('name')?.hasError('required')">
-          The name field is required
+          {{ "AUTH.ERRORS.NAME_REQ" | translate }}
         </mat-error>
       </mat-form-field>
 
@@ -23,12 +23,12 @@
       <mat-form-field>
         <input
           matInput
-          placeholder="Please enter a login"
+          [placeholder]="'AUTH.PLACEHOLDERS.LOGIN' | translate"
           name="login"
           formControlName="login"
         />
         <mat-error *ngIf="signUpForm.get('login')?.hasError('required')">
-          The login field is required
+          {{ "AUTH.ERRORS.LOGIN_REQ" | translate }}
         </mat-error>
       </mat-form-field>
 
@@ -38,31 +38,28 @@
         <input
           matInput
           type="password"
-          placeholder="Please enter a password"
+          [placeholder]="'AUTH.PLACEHOLDERS.PASS' | translate"
           name="password"
           formControlName="password"
         />
         <mat-error *ngIf="signUpForm.get('password')?.hasError('required')">
-          The password is required
+          {{ "AUTH.ERRORS.PASS_REQ" | translate }}
         </mat-error>
         <mat-error
           *ngIf="signUpForm.get('password')?.hasError('passwordStrength')"
+          [innerHTML]="'AUTH.ERRORS.PASS_VALID' | translate"
         >
-          Your password isn't strong enough: at least 8 characters<br />
-          a mixture of both uppercase and lowercase letters<br />
-          a mixture of letters and numbers<br />
-          inclusion of at least one special character, e.g., ! @ # ? ]<br />
         </mat-error>
       </mat-form-field>
 
       <div class="vspacer40"></div>
 
       <button mat-raised-button color="primary" [disabled]="!signUpForm.valid">
-        Sign up
+        {{ "AUTH.SIGNUP.SIGNUP_BTN" | translate }}
       </button>
     </form>
   </mat-card-content>
   <button mat-button color="primary" (click)="onLogin()">
-    Already have an account
+    {{ "AUTH.SIGNUP.LOGIN_LINK" | translate }}
   </button>
 </mat-card>

@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { GravatarModule } from 'ngx-gravatar';
+import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.component';
 
 @NgModule({
@@ -39,6 +40,7 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
     MatMenuModule,
     MatSelectModule,
     GravatarModule,
+    TranslateModule,
   ],
   exports: [
     DragDropModule,
@@ -58,6 +60,7 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
+    TranslateModule,
   ],
 })
 export class SharedModule {}
