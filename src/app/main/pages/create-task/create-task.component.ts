@@ -1,10 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
-  FormBuilder, FormControl, FormGroup, Validators,
+  FormControl, FormGroup, Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { FormConfig, ICreateTaskDto, TaskFormInput } from '../../../shared/models/createTaskDto';
+import { selectUsers } from 'src/app/redux/selectors/user.selector';
+import { IUserState } from 'src/app/redux/state-models';
+import { map, take } from 'rxjs';
+import { UserService } from 'src/app/core/services/user.service';
+import { ICreateTaskDto } from '../../../shared/models/createTaskDto';
 
 @Component({
   selector: 'app-create-task',
@@ -12,44 +16,48 @@ import { FormConfig, ICreateTaskDto, TaskFormInput } from '../../../shared/model
   styleUrls: ['./create-task.component.scss'],
 })
 export class CreateTaskComponent {
-  public formGroup: FormGroup;
+  editMode: boolean = false;
+
+  usersData$ = this.store.select(selectUsers);
+
+  allUsers: IUserState[] = [];
+
+  taskForm: FormGroup = new FormGroup({
+    title: new FormControl(this.data.title, [Validators.required]),
+    description: new FormControl(this.data.description, [Validators.required]),
+    users: new FormControl(this.data.userId, [Validators.required]),
+  });
 
   constructor(
     public dialogRef: MatDialogRef<CreateTaskComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ICreateTaskDto,
-    private formBuilder: FormBuilder,
     private readonly store: Store,
+    private userService: UserService,
   ) {
-    this.formGroup = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
-      description: ['', [Validators.required, Validators.maxLength(255)]],
-    });
+    this.editMode = data.title !== '';
+
+    this.usersData$
+      .pipe(
+        take(1),
+        map(
+          (users: IUserState[]) => {
+            this.allUsers = users;
+          },
+        ),
+      ).subscribe();
+
+    this.userService.getCurrentUserState()
+      .pipe(
+        take(1),
+        map((userState) => {
+          const userId = this.data.userId ? this.data.userId : userState?.id;
+          this.taskForm.get('users')?.setValue(userId);
+        }),
+      ).subscribe();
   }
 
-  public get title(): FormControl {
-    return <FormControl> this.formGroup.get(<TaskFormInput>'title');
-  }
-
-  public get description(): FormControl {
-    return <FormControl> this.formGroup.get(<TaskFormInput>'description');
-  }
-
-  public get getTitleErrorMessage() {
-    if (this.title.hasError(FormConfig.required)) {
-      return 'Please enter a title';
-    }
-    if (this.title.hasError(FormConfig.minLength)) {
-      return 'The title is too short';
-    }
-    return this.title.hasError(FormConfig.maxLength) ? 'The title is too long' : '';
-  }
-
-  public get getDescriptionErrorMessage() {
-    if (this.description.hasError(FormConfig.required)) {
-      return 'Please enter a description';
-    }
-
-    return this.description.hasError(FormConfig.maxLength) ? 'The description is too long' : '';
+  getTitle(): string {
+    return this.editMode ? 'Edit task' : 'Create new task';
   }
 
   onCancel(): void {
@@ -57,12 +65,17 @@ export class CreateTaskComponent {
   }
 
   onCreate(): void {
+    const title = this.taskForm.get('title');
+    const description = this.taskForm.get('description');
+    title?.markAsTouched();
+    description?.markAsTouched();
+
     const taskData = {
-      title: this.title.value,
-      description: this.description.value,
+      title: this.taskForm.get('title')?.value,
+      description: this.taskForm.get('description')?.value,
+      userId: this.taskForm.get('users')?.value,
     };
-    if (this.formGroup.status === 'VALID') {
-      this.dialogRef.close(taskData);
-    }
+
+    if (taskData.title && taskData.description) this.dialogRef.close(taskData);
   }
 }

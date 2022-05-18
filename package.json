@@ -24,10 +24,13 @@
     "@ngrx/effects": "^13.1.0",
     "@ngrx/store": "^13.1.0",
     "@ngrx/store-devtools": "^13.1.0",
+    "@tinymce/tinymce-angular": "^6.0.1",
     "eslint-config-airbnb-typescript": "^16.1.4",
     "moment": "^2.29.1",
+    "ngx-gravatar": "^13.0.0",
     "ngx-toastr": "^14.3.0",
     "rxjs": "~7.5.0",
+    "ts-md5": "^1.2.11",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
