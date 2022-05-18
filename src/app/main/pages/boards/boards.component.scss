@@ -1,29 +1,33 @@
 @import "../../../common.scss";
 
-.example-container {    
-    height: 80vh;
-    border: 1px solid rgba(0, 0, 0, 0.5);
+.example-container {
+  height: calc(100vh - 127px);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  @media (max-width: 599px) {
+    height: calc(100vh - 112px);
+  }
 }
 
 .example-sidenav-content {
-    display: flex;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
-.example-sidenav {    
-    min-width: 250px;
+.example-sidenav {
+  min-width: 250px;
 }
 
-.sidebar{
-    padding: 20px;
+.sidebar {
+  padding: 20px;
 }
 
-.main{
-    padding: 20px;
+.main {
+  padding: 20px;
 }
 
-.mat-card-subtitle{
-margin-bottom: 0px;
+.mat-card-subtitle {
+  margin-bottom: 0px;
 }
