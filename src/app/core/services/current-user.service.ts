@@ -32,7 +32,6 @@ export class CurrentUserService {
     catchError(() => of(Date.now())),
     switchMap((time: number) => {
       const tokenLifeTime = time - this.tokenMaxLifeTimeMs;
-      console.log('tokenLifeTime', tokenLifeTime);
       return this.auditInterval$(tokenLifeTime);
     }),
   );

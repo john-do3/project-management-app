@@ -36,8 +36,7 @@ export class SignupComponent {
         password: this.signUpForm.get('password')?.value,
       })
       .subscribe(
-        (newUser) => {
-          console.log(newUser.login);
+        () => {
           this.router.navigateByUrl(loginRoute);
         },
         () => {

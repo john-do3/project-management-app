@@ -41,9 +41,6 @@ export class BoardComponent {
               if (this.boardId) {
                 const newOrder = maxOrder + iOrder;
 
-                console.log(`Column ${column.title} order is changed from ${column.order} to ${newOrder
-                  }`);
-
                 iOrder += 1;
                 array[index] = { ...array[index], order: newOrder };
               }

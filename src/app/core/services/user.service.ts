@@ -86,8 +86,6 @@ export class UserService {
       .pipe(catchError((error) => this.httpErrorService.handleError(error)))
       .subscribe(
         (response) => {
-          console.log(response.token);
-
           localStorage.setItem(this.tokenKey, response.token);
           localStorage.setItem(this.loginKey, loginUserDto.login);
 
