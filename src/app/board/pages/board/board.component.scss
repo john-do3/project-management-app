@@ -1,10 +1,11 @@
 :host {
   display: block;
   height: calc(100vh - 3 * 64px);
-  overflow-y: hidden;
   @media (max-width: 599px) {
     height: calc(100vh - 3 * 56px);
   }
+  overflow-y: hidden;
+
   .columns {
     display: flex;
     flex-flow: row nowrap;
