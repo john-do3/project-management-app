@@ -29,6 +29,7 @@
   },
   "HEADER": {
     "TOOLTIPS": {
+      "MENU": "Boards menu",
       "EDIT": "Edit profile for",
       "DELETE": "Delete",
       "LOGOUT": "Logout",
