@@ -6,8 +6,8 @@ import { selectUsers } from 'src/app/redux/selectors/user.selector';
 import { IUserState } from 'src/app/redux/state-models';
 import { map, take } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
-import { ICreateTaskDto } from '../../../shared/models/createTaskDto';
 import { TranslateService } from '@ngx-translate/core';
+import { ICreateTaskDto } from '../../../shared/models/createTaskDto';
 
 @Component({
   selector: 'app-create-task',
@@ -32,7 +32,7 @@ export class CreateTaskComponent {
     @Inject(MAT_DIALOG_DATA) public data: ICreateTaskDto,
     private readonly store: Store,
     private userService: UserService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {
     this.editMode = data.title !== '';
 
@@ -41,7 +41,7 @@ export class CreateTaskComponent {
         take(1),
         map((users: IUserState[]) => {
           this.allUsers = users;
-        })
+        }),
       )
       .subscribe();
 
@@ -52,7 +52,7 @@ export class CreateTaskComponent {
         map((userState) => {
           const userId = this.data.userId ? this.data.userId : userState?.id;
           this.taskForm.get('users')?.setValue(userId);
-        })
+        }),
       )
       .subscribe();
   }

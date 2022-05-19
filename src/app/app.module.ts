@@ -81,7 +81,7 @@ const routes: Routes = [
         users: userReducer,
         currentUser: currentUserReducer,
       },
-      {}
+      {},
     ),
     EffectsModule.forRoot([]),
     EffectsModule.forFeature([

@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
     private dialog: MatDialog,
     private ref: ChangeDetectorRef,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {}
 
   private tokenTimeSubscription = new Subscription();
@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit {
     });
 
     this.tokenTimeSubscription.add(
-      this.currentUserService.auditToken$.subscribe()
+      this.currentUserService.auditToken$.subscribe(),
     );
     if (!this.isLoggedIn) {
       this.tokenTimeSubscription.unsubscribe();
@@ -73,7 +73,7 @@ export class HeaderComponent implements OnInit {
           if (this.tokenTimeSubscription.closed) {
             this.tokenTimeSubscription = new Subscription();
             this.tokenTimeSubscription.add(
-              this.currentUserService.auditToken$.subscribe()
+              this.currentUserService.auditToken$.subscribe(),
             );
           }
           this.router.navigateByUrl(mainRoute);
@@ -82,7 +82,7 @@ export class HeaderComponent implements OnInit {
           this.tokenTimeSubscription.unsubscribe();
         }
         this.ref.detectChanges();
-      })
+      }),
     );
   }
 
@@ -114,7 +114,7 @@ export class HeaderComponent implements OnInit {
                 this.userService.delete(userState.id);
                 this.onLogout();
               }
-            })
+            }),
           )
           .subscribe();
       }
@@ -139,7 +139,7 @@ export class HeaderComponent implements OnInit {
               }
             });
           }
-        })
+        }),
       )
       .subscribe();
   }
