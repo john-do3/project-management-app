@@ -17,9 +17,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { GravatarModule } from 'ngx-gravatar';
 import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.component';
+import { StyleChangeDirective } from './directives/style-change.directive';
 
 @NgModule({
-  declarations: [ConfirmModalComponent],
+  declarations: [ConfirmModalComponent, StyleChangeDirective],
   imports: [
     CommonModule,
     DragDropModule,
