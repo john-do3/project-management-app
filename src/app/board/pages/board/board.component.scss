@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  height: calc(100vh - 3 * 64px);
+  @media (max-width: 599px) {
+    height: calc(100vh - 3 * 56px);
+  }
+  overflow-y: hidden;
+
+  .columns {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-left: 10px;
+  }
+}
+
+mat-card {
+  min-width: 250px;
+  margin: 2em auto;
+  text-align: center;
+  background-color: #F2F2F2;
+}
+
+.add-button {
+  margin-top: 2em;
+  height: 100px;
+}

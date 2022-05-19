@@ -1,0 +1,62 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.hspacer5 {
+  width: 5px;
+}
+
+.hspacer10 {
+  width: 10px;
+}
+
+.hspacer15 {
+  width: 15px;
+}
+
+.hspacer50 {
+  width: 50px;
+}
+
+.vspacer5 {
+  height: 5px;
+}
+
+.vspacer15 {
+  height: 15px;
+}
+
+.vspacer40 {
+  height: 40px;
+}
+
+.background-img {
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.box-shadow {
+  box-shadow: 4px 3px 3px -1px rgba(34, 60, 80, 0.2);
+  border-radius: 5px;
+}
+
+.div-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.cnt-row-centered {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.middle-row {
+  max-width: 1150px;
+  overflow: hidden;
+  margin: auto !important;
+}
+
+.hiddenCls {
+  display: none;
+}

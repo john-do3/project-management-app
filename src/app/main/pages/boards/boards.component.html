@@ -1,0 +1,52 @@
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <mat-toolbar>
+      <mat-card-subtitle>{{
+        "BOARDS.AVAILABLE" | translate
+      }}</mat-card-subtitle>
+      <span class="spacer"></span>
+      <button
+        mat-icon-button
+        [matTooltip]="'BOARDS.CREATE_TOOLTIP' | translate"
+        (click)="onNewBoardClick()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <div class="sidebar">
+      <mat-selection-list
+        #boardsList
+        [multiple]="false"
+        (selectionChange)="onBoardSelected($event)"
+      >
+        <mat-list-option
+          *ngFor="let board of boardsData$ | async"
+          [value]="board"
+          [matTooltip]="board.description"
+          [selected]="board.id === boardId"
+        >
+          {{ board.title }}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+  </mat-drawer>
+
+  <div>
+    <mat-toolbar>
+      <mat-card-subtitle *ngIf="boardId"
+        >{{ this.boardTitle }} [{{
+          this.boardDesc
+        }}]</mat-card-subtitle
+      >
+
+      <span class="spacer"></span>
+      <button *ngIf="boardId" mat-raised-button color="primary" (click)="onDeleteBoardClick()">
+        {{ "BOARDS.DELETE_TOOLTIP" | translate }}
+      </button>
+    </mat-toolbar>
+
+    <app-board [boardId]="boardId"></app-board>
+  </div>
+  
+</mat-drawer-container>
