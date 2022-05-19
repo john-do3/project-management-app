@@ -10,32 +10,40 @@
       >
         <mat-icon>add</mat-icon>
       </button>
-
     </mat-toolbar>
 
     <div class="sidebar">
-
-      <mat-selection-list #boardsList [multiple]="false" (selectionChange)="onBoardSelected($event)">
-        <mat-list-option *ngFor="let board of boardsData$ |async"
-        [value]="board"
-        [matTooltip]="board.description"
-        [selected]="board.id === boardId">
+      <mat-selection-list
+        #boardsList
+        [multiple]="false"
+        (selectionChange)="onBoardSelected($event)"
+      >
+        <mat-list-option
+          *ngFor="let board of boardsData$ | async"
+          [value]="board"
+          [matTooltip]="board.description"
+          [selected]="board.id === boardId"
+        >
           {{ board.title }}
         </mat-list-option>
       </mat-selection-list>
     </div>
   </mat-drawer>
 
-  <div *ngIf="!!boardId">
-    <mat-toolbar>
-      <mat-card-subtitle>{{this.boardTitle}} [{{this.boardDesc | slice:0:14}}..]</mat-card-subtitle>
+  <div>
+    <mat-toolbar *ngIf="!!boardId">
+      <mat-card-subtitle
+        >{{ this.boardTitle }} [{{
+          this.boardDesc | slice: 0:14
+        }}..]</mat-card-subtitle
+      >
 
       <span class="spacer"></span>
-      <button mat-raised-button color="primary" (click)="onDeleteBoardClick()">Delete board</button>
-
+      <button mat-raised-button color="primary" (click)="onDeleteBoardClick()">
+        Delete board
+      </button>
     </mat-toolbar>
 
-  <app-board [boardId]="boardId"></app-board>
+    <app-board [boardId]="boardId"></app-board>
   </div>
-
 </mat-drawer-container>
