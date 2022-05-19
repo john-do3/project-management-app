@@ -1,9 +1,6 @@
-<mat-toolbar color="primary">
-  <button
-    mat-icon-button
-    (click)="onMenuClick()"
-    [matTooltip]="'HEADER.TOOLTIPS.MENU' | translate"
-  >
+<mat-toolbar color="primary" [appStyleChange]="isScrolled">
+  <button mat-icon-button (click)="onMenuClick()" [matTooltip]="'HEADER.TOOLTIPS.MENU' | translate">
+
     <mat-icon>menu</mat-icon>
   </button>
   <span>PM App</span>

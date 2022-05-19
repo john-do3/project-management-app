@@ -18,9 +18,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { GravatarModule } from 'ngx-gravatar';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.component';
+import { StyleChangeDirective } from './directives/style-change.directive';
 
 @NgModule({
-  declarations: [ConfirmModalComponent],
+  declarations: [ConfirmModalComponent, StyleChangeDirective],
   imports: [
     CommonModule,
     DragDropModule,
@@ -61,6 +62,7 @@ import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.compo
     ReactiveFormsModule,
     MatSelectModule,
     TranslateModule,
+    StyleChangeDirective,
   ],
 })
 export class SharedModule {}

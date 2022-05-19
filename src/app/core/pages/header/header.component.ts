@@ -19,6 +19,8 @@ import { TasksService } from '../../services/tasks.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  public isScrolled = false;
+
   isLoggedIn: boolean = false;
 
   isLangSlideToggled = false;

@@ -32,10 +32,12 @@
     </div>
   </mat-drawer>
 
-  <div *ngIf="!!boardId">
-    <mat-toolbar>
+  <div>
+    <mat-toolbar *ngIf="!!boardId">
       <mat-card-subtitle
-        >{{ this.boardTitle }} [{{ this.boardDesc }}]</mat-card-subtitle
+        >{{ this.boardTitle }} [{{
+          this.boardDesc | slice: 0:14
+        }}..]</mat-card-subtitle
       >
 
       <span class="spacer"></span>
