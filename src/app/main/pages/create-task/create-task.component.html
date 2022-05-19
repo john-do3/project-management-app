@@ -2,21 +2,21 @@
 <mat-dialog-content class="login-form" [formGroup]="taskForm">
   <div class="div-row">
     <mat-form-field>
-      <mat-label>Title</mat-label>
+      <mat-label>{{ "MODALS.TASK.PLACEHOLDER_TITLE" | translate }}</mat-label>
       <input matInput formControlName="title" />
       <mat-error *ngIf="taskForm.get('title')?.hasError('required')">
-        Please enter a title
+        {{ "MODALS.TASK.ERR_TITLE_REQ" | translate }}
       </mat-error>
       <mat-error *ngIf="taskForm.get('title')?.hasError('minlength')">
-        The title is too short
+        {{ "MODALS.TASK.ERR_TITLE_SHORT" | translate }}
       </mat-error>
       <mat-error *ngIf="taskForm.get('title')?.hasError('maxlength')">
-        The title is too long
+        {{ "MODALS.TASK.ERR_TITLE_LONG" | translate }}
       </mat-error>
     </mat-form-field>
     <div class="spacer"></div>
     <mat-form-field>
-      <mat-label>Task owner</mat-label>
+      <mat-label>{{ "MODALS.TASK.OWNER" | translate }}</mat-label>
       <mat-select formControlName="users">
         <mat-option *ngFor="let user of allUsers" [value]="user.id">
           {{ user.name }}
@@ -42,14 +42,16 @@
       taskForm.get('description')?.hasError('required')
     "
   >
-    Please enter a description
+    {{ "MODALS.TASK.ERR_DESCR_REQ" | translate }}
   </mat-error>
 </mat-dialog-content>
 
 <mat-dialog-actions>
   <button class="mat-raised-button mat-primary" (click)="onCreate()">
-    Submit
+    {{ "COLUMNS.SUBMIT" | translate }}
   </button>
   <div class="hspacer10"></div>
-  <button class="mat-raised-button" (click)="onCancel()">Cancel</button>
+  <button class="mat-raised-button" (click)="onCancel()">
+    {{ "COLUMNS.CANCEL" | translate }}
+  </button>
 </mat-dialog-actions>

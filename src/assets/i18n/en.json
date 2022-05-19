@@ -45,7 +45,9 @@
     "BOARD": {
       "TITLE": "Create board",
       "PLACEHOLDER_TITLE": "Board title",
+      "PLACEHOLDER_DESCR": "Board description",
       "ERR_REQ": "Board title is required",
+      "ERR_REQ_DESCR": "Board description is required",
       "OK": "Create",
       "CANCEL": "Cancel"
     },
@@ -58,12 +60,15 @@
     },
     "TASK": {
       "TITLE": "Create new task",
+      "EDIT_TITLE": "Edit task",
       "PLACEHOLDER_TITLE": "Title",
       "PLACEHOLDER_DESCR": "Description",
+      "ERR_DESCR_REQ": "Please enter a description",
       "ERR_TITLE_REQ": "Please enter a title",
       "ERR_TITLE_SHORT": "The title is too short",
       "ERR_TITLE_LONG": "The title is too long",
       "ERR_DESCR_LONG": "The description is too long",
+      "OWNER": "Task owner",
       "OK": "Create",
       "CANCEL": "Cancel"
     }
@@ -80,6 +85,9 @@
     "CREATE_TASK": "Create task",
     "SUBMIT": "Submit",
     "CANCEL": "Cancel"
+  },
+  "TASK": {
+    "DELETE": "Delete task"
   },
   "404": {
     "TEXT": "Oops, sorry we can't find that page!",

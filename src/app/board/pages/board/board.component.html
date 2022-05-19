@@ -3,9 +3,18 @@
   class="columns"
   cdkDropList
   cdkDropListOrientation="horizontal"
-  (cdkDropListDropped)="dropColumn($event)">
-  <app-column *ngFor="let column of columns$ | async" [boardId]="boardId" [column]="column" [columnId]="column.id" cdkDrag></app-column>
+  (cdkDropListDropped)="dropColumn($event)"
+>
+  <app-column
+    *ngFor="let column of columns$ | async"
+    [boardId]="boardId"
+    [column]="column"
+    [columnId]="column.id"
+    cdkDrag
+  ></app-column>
   <div class="add-button">
-  <button mat-raised-button color="primary" (click)="onAddColumnClick()">Add new column</button>
+    <button mat-raised-button color="primary" (click)="onAddColumnClick()">
+      {{ "BOARDS.ADD_COLUMN" | translate }}
+    </button>
   </div>
 </div>

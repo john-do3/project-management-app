@@ -15,13 +15,13 @@
   <mat-form-field>
     <input
       matInput
-      placeholder="Board description"
+      [placeholder]="'MODALS.BOARD.PLACEHOLDER_DESCR' | translate"
       formControlName="boardDescription"
     />
     <mat-error
       *ngIf="createDialog.get('boardDescription')?.hasError('required')"
     >
-      Board description is required
+      {{ "MODALS.BOARD.ERR_REQ_DESCR" | translate }}
     </mat-error>
   </mat-form-field>
 </mat-dialog-content>
