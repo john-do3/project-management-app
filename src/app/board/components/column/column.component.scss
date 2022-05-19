@@ -22,7 +22,7 @@ mat-card {
   .mat-card-content {
     max-height: calc(100vh - 318px);
     height: fit-content;
-    overflow-y: scroll;
+    overflow-y: auto;
     margin-right: -10px;
     @media (max-width: 599px) {
       max-height: calc(100vh - 298px);
