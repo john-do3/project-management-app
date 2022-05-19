@@ -1,21 +1,29 @@
-import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
-enum color {
+import {
+ Directive, ElementRef, Input, OnChanges, Renderer2,
+} from '@angular/core';
+
+enum ElementColor {
   default = '',
-  onScroll= 'red',
+  onScroll = 'red',
 }
 
 @Directive({
-  selector: '[appStyleChange]'
+  selector: '[appStyleChange]',
 })
-export class StyleChangeDirective {
-  @Input('appStyleChange') isValid?: boolean
+export class StyleChangeDirective implements OnChanges {
+  @Input('appStyleChange') isValid?: boolean;
 
-  private elementBackgroundColor: color = color.default;
+  private elementBackgroundColor: ElementColor = ElementColor.default;
 
-  constructor(private elementRef: ElementRef, private renderer2: Renderer2) {}
+  constructor(private elementRef: ElementRef, private renderer2: Renderer2) {
+  }
+
+  ngOnChanges(): void {
+    this.changeBackgroundColor(this.isValid);
+  }
 
   private changeBackgroundColor(isValid?: boolean) {
-    this.elementBackgroundColor = isValid ? color.onScroll : color.default;
+    this.elementBackgroundColor = isValid ? ElementColor.onScroll : ElementColor.default;
     this.renderer2.setStyle(this.elementRef.nativeElement, 'background-color', this.elementBackgroundColor);
   }
 }

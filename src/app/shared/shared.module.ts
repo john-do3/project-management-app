@@ -59,6 +59,7 @@ import { StyleChangeDirective } from './directives/style-change.directive';
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
+    StyleChangeDirective,
   ],
 })
 export class SharedModule {}
