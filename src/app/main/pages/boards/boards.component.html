@@ -1,11 +1,13 @@
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side">
     <mat-toolbar>
-      <mat-card-subtitle>Available boards</mat-card-subtitle>
+      <mat-card-subtitle>{{
+        "BOARDS.AVAILABLE" | translate
+      }}</mat-card-subtitle>
       <span class="spacer"></span>
       <button
         mat-icon-button
-        matTooltip="Create new board"
+        [matTooltip]="'BOARDS.CREATE_TOOLTIP' | translate"
         (click)="onNewBoardClick()"
       >
         <mat-icon>add</mat-icon>
@@ -40,7 +42,7 @@
 
       <span class="spacer"></span>
       <button mat-raised-button color="primary" (click)="onDeleteBoardClick()">
-        Delete board
+        {{ "BOARDS.DELETE_TOOLTIP" | translate }}
       </button>
     </mat-toolbar>
 

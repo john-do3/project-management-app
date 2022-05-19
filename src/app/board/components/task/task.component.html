@@ -5,7 +5,7 @@
 
     <button
       mat-icon-button
-      matTooltip="Delete task"
+      [matTooltip]="'TASK.DELETE' | translate"
       class="task__button"
       (click)="destroy($event)"
     >

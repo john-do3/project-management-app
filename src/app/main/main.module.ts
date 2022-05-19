@@ -33,4 +33,4 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
 })
-export class MainModule { }
+export class MainModule {}

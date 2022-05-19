@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { GravatarModule } from 'ngx-gravatar';
+import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModalComponent } from './pages/confirm-modal/confirm-modal.component';
 import { StyleChangeDirective } from './directives/style-change.directive';
 
@@ -40,6 +41,7 @@ import { StyleChangeDirective } from './directives/style-change.directive';
     MatMenuModule,
     MatSelectModule,
     GravatarModule,
+    TranslateModule,
   ],
   exports: [
     DragDropModule,
@@ -59,6 +61,7 @@ import { StyleChangeDirective } from './directives/style-change.directive';
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
+    TranslateModule,
     StyleChangeDirective,
   ],
 })
