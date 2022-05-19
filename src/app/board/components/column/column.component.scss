@@ -1,22 +1,24 @@
 @import "../../../common.scss";
-
+:host {
+  height: fit-content;
+}
 .column {
-    margin:10px;
+  margin: 10px;
 }
 
 .columnHeader {
-    display: flex;
+  display: flex;
 }
 
 .titleInput {
-    width: 100px;
+  width: 100px;
 }
 
 mat-card {
-    min-width: 250px;
-    margin: 2em auto;
-    text-align: left;
-    background-color: #F2F2F2;
+  min-width: 250px;
+  margin: 2em auto;
+  text-align: left;
+  background-color: #f2f2f2;
   .mat-card-content {
     max-height: calc(100vh - 318px);
     height: fit-content;
@@ -27,4 +29,3 @@ mat-card {
     }
   }
 }
-
