@@ -12,7 +12,7 @@
     cdkDrag
   ></app-column>
   <div class="add-button">
-    <button mat-raised-button color="primary" (click)="onAddColumnClick()">
+    <button *ngIf="boardId" mat-raised-button color="primary" (click)="onAddColumnClick()">
       {{ "BOARDS.ADD_COLUMN" | translate }}
     </button>
   </div>

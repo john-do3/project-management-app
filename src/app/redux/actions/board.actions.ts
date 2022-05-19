@@ -44,3 +44,7 @@ export const apiCallFailed = createAction(
   '[Main Page] Boards api call failed',
   props<{ error: any }>(),
 );
+
+export const boardsReset = createAction(
+  '[Main Page] Board data reset',
+);

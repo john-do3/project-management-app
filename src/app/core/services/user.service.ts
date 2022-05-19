@@ -10,6 +10,8 @@ import { LoginResponseDto } from 'src/app/shared/models/loginResponseDto';
 import { Store } from '@ngrx/store';
 import { loadUsersData } from 'src/app/redux/actions/user.actions';
 import { selectUsers } from 'src/app/redux/selectors/user.selector';
+import { boardsReset } from 'src/app/redux/actions/board.actions';
+import { columnsReset } from 'src/app/redux/actions/column.actions';
 import { HttpErrorService } from './httperror.service';
 import { IUserState } from '../../redux/state-models';
 import { addCurrentUserData } from '../../redux/actions/currentUser.actions';
@@ -119,6 +121,8 @@ export class UserService {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.loginKey);
     this.IsLoggedIn.next(false);
+    this.store.dispatch(boardsReset());
+    this.store.dispatch(columnsReset());
   }
 
   public loadUsers(): Observable<ReadonlyArray<IUserState>> {

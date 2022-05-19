@@ -56,3 +56,7 @@ export const apiCallFailed = createAction(
   '[Main Page] Columns api call failed',
   props<{ error: any }>(),
 );
+
+export const columnsReset = createAction(
+  '[Main Page] Columns data reset',
+);

@@ -35,4 +35,10 @@ export const boardReducer = createReducer(
     error,
   })),
 
+  on(BoardActions.boardsReset, (state): State => ({
+    ...state,
+    boards: [],
+    error: null,
+  })),
+
 );

@@ -69,10 +69,12 @@ export class ColumnComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(TaskActions.loadTasksAction({
-      boardId: this.boardId,
-      columnId: this.columnId,
-    }));
+    if (this.boardId && this.columnId) {
+this.store.dispatch(TaskActions.loadTasksAction({
+        boardId: this.boardId,
+        columnId: this.columnId,
+      }));
+}
     this.subscriptions.add(this.columnsId$.subscribe((columnsIdArray) => {
       this.columnsIdArray = columnsIdArray;
     }));

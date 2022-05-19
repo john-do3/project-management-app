@@ -14,7 +14,7 @@ import { loadBoardsData } from 'src/app/redux/actions/board.actions';
 import { loadUsersData } from 'src/app/redux/actions/user.actions';
 import { selectBoards } from 'src/app/redux/selectors/board.selector';
 import {
- AppState, IBoardState, IColumnState, ITaskState,
+  AppState, IBoardState, IColumnState, ITaskState,
 } from 'src/app/redux/state-models';
 import { boardsRoute } from 'src/app/project.constants';
 import { ConfirmModalComponent } from 'src/app/shared/pages/confirm-modal/confirm-modal.component';
@@ -232,9 +232,10 @@ export class BoardsComponent implements OnInit, OnDestroy {
     this.boardId = event.options[0].value.id;
     this.boardTitle = event.options[0].value.title;
 
-    this.store.dispatch(loadColumnsData({ boardId: this.boardId }));
-
-    this.router.navigateByUrl(`${boardsRoute}/${this.boardId}`);
+    if (this.boardId) {
+      this.store.dispatch(loadColumnsData({ boardId: this.boardId }));
+      this.router.navigateByUrl(`${boardsRoute}/${this.boardId}`);
+    }
   }
 
   openCreateTaskDialog(column: IColumn): void {

@@ -56,4 +56,9 @@ export const columnReducer = createReducer(
     error,
   })),
 
+  on(ColumnActions.columnsReset, (state): State => ({
+    ...state,
+    columns: [],
+    error: null,
+  })),
 );
