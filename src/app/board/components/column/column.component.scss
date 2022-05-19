@@ -5,7 +5,7 @@
 }
 
 .columnHeader {
-    display: flex;    
+    display: flex;
 }
 
 .titleInput {
@@ -17,5 +17,14 @@ mat-card {
     margin: 2em auto;
     text-align: left;
     background-color: #F2F2F2;
+  .mat-card-content {
+    max-height: calc(100vh - 318px);
+    height: fit-content;
+    overflow-y: scroll;
+    margin-right: -10px;
+    @media (max-width: 599px) {
+      max-height: calc(100vh - 298px);
+    }
+  }
 }
 

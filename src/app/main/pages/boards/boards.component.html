@@ -28,7 +28,7 @@
 
   <div *ngIf="!!boardId">
     <mat-toolbar>
-      <mat-card-subtitle>{{this.boardTitle}} [{{this.boardDesc}}]</mat-card-subtitle>
+      <mat-card-subtitle>{{this.boardTitle}} [{{this.boardDesc | slice:0:14}}..]</mat-card-subtitle>
 
       <span class="spacer"></span>
       <button mat-raised-button color="primary" (click)="onDeleteBoardClick()">Delete board</button>
