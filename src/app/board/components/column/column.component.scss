@@ -1,0 +1,31 @@
+@import "../../../common.scss";
+:host {
+  height: fit-content;
+}
+.column {
+  margin: 10px;
+}
+
+.columnHeader {
+  display: flex;
+}
+
+.titleInput {
+  width: 100px;
+}
+
+mat-card {
+  min-width: 250px;
+  margin: 2em auto;
+  text-align: left;
+  background-color: #f2f2f2;
+  .mat-card-content {
+    max-height: calc(100vh - 318px);
+    height: fit-content;
+    overflow-y: auto;
+    margin-right: -10px;
+    @media (max-width: 599px) {
+      max-height: calc(100vh - 298px);
+    }
+  }
+}

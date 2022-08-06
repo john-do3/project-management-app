@@ -1,0 +1,26 @@
+<div class="task" (click)="edit()">
+  <mat-card class="task">
+    <mat-card-subtitle>{{ title }}</mat-card-subtitle>
+    <!--mat-card-content>{{ description }}</mat-card-content-->
+
+    <button
+      mat-icon-button
+      [matTooltip]="'TASK.DELETE' | translate"
+      class="task__button"
+      (click)="destroy($event)"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+
+    <div class="avatar">
+      <span class="spacer"></span>
+      <img
+        ngxGravatar
+        [size]="40"
+        [md5Hash]="getUserHash(task?.userId)"
+        matTooltip="{{ getUserName(task?.userId) }}"
+        [fallback]="'robohash'"
+      />
+    </div>
+  </mat-card>
+</div>

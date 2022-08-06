@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>{{ "MODALS.COLUMN.TITLE" | translate }}</h2>
+
+<mat-dialog-content [formGroup]="createDialog">
+  <mat-form-field>
+    <input
+      matInput
+      [placeholder]="'MODALS.COLUMN.PLACEHOLDER_TITLE' | translate"
+      formControlName="columnTitle"
+    />
+    <mat-error *ngIf="createDialog.get('columnTitle')?.hasError('required')">
+      {{ "MODALS.COLUMN.ERR_REQ" | translate }}
+    </mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="mat-raised-button mat-primary" (click)="onCreate()">
+    {{ "MODALS.COLUMN.OK" | translate }}
+  </button>
+  <div class="hspacer10"></div>
+  <button class="mat-raised-button" (click)="onCancel()">
+    {{ "MODALS.COLUMN.CANCEL" | translate }}
+  </button>
+</mat-dialog-actions>

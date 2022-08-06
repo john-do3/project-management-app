@@ -1,0 +1,43 @@
+<mat-toolbar color="primary" [appStyleChange]="isScrolled">
+  <button mat-icon-button (click)="onMenuClick()" [matTooltip]="'HEADER.TOOLTIPS.MENU' | translate">
+
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>PM App</span>
+  <ng-container *ngIf="isLoggedIn">
+    <div class="hspacer15"></div>
+  </ng-container>
+  <span class="spacer"></span>
+  <ng-container *ngIf="isLoggedIn">
+    <button
+      mat-icon-button
+      (click)="onEditProfile()"
+      matTooltip="{{ 'HEADER.TOOLTIPS.EDIT' | translate }} [{{ userLogin }}]"
+    >
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      matTooltip="{{ 'HEADER.TOOLTIPS.DELETE' | translate }} [{{ userLogin }}]"
+      (click)="onDeleteUser()"
+    >
+      <mat-icon>delete_outline</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      matTooltip="{{ 'HEADER.TOOLTIPS.LOGOUT' | translate }}"
+      (click)="onLogout()"
+    >
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+    <div class="hspacer10"></div>
+  </ng-container>
+  <mat-slide-toggle
+    class="example-margin"
+    matTooltip="{{ 'HEADER.TOOLTIPS.LANG' | translate }}"
+    [(ngModel)]="isLangSlideToggled"
+  >
+    {{ GetLangName() }}
+  </mat-slide-toggle>
+  <div class="hspacer10"></div>
+</mat-toolbar>

@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>{{ getTitle() }}</h2>
+<mat-dialog-content class="login-form" [formGroup]="taskForm">
+  <div class="div-row">
+    <mat-form-field>
+      <mat-label>{{ "MODALS.TASK.PLACEHOLDER_TITLE" | translate }}</mat-label>
+      <input matInput formControlName="title" />
+      <mat-error *ngIf="taskForm.get('title')?.hasError('required')">
+        {{ "MODALS.TASK.ERR_TITLE_REQ" | translate }}
+      </mat-error>
+      <mat-error *ngIf="taskForm.get('title')?.hasError('minlength')">
+        {{ "MODALS.TASK.ERR_TITLE_SHORT" | translate }}
+      </mat-error>
+      <mat-error *ngIf="taskForm.get('title')?.hasError('maxlength')">
+        {{ "MODALS.TASK.ERR_TITLE_LONG" | translate }}
+      </mat-error>
+    </mat-form-field>
+    <div class="spacer"></div>
+    <mat-form-field>
+      <mat-label>{{ "MODALS.TASK.OWNER" | translate }}</mat-label>
+      <mat-select formControlName="users">
+        <mat-option *ngFor="let user of allUsers" [value]="user.id">
+          {{ user.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <editor
+    apiKey="9ga8ho5g446t2zwlmnjg4h5fc8eav4o1vtnslgadlo3cs7pb"
+    formControlName="description"
+    [init]="{
+      icons: 'material',
+      skin: 'borderless',
+      plugins: 'wordcount',
+      menubar: false,
+      max_height: 250
+    }"
+  ></editor>
+  <mat-error
+    *ngIf="
+      taskForm.get('description')?.touched &&
+      taskForm.get('description')?.hasError('required')
+    "
+  >
+    {{ "MODALS.TASK.ERR_DESCR_REQ" | translate }}
+  </mat-error>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="mat-raised-button mat-primary" (click)="onCreate()">
+    {{ "COLUMNS.SUBMIT" | translate }}
+  </button>
+  <div class="hspacer10"></div>
+  <button class="mat-raised-button" (click)="onCancel()">
+    {{ "COLUMNS.CANCEL" | translate }}
+  </button>
+</mat-dialog-actions>
